@@ -40,7 +40,14 @@
 	 		<roles>
 	 			<role>leader</role>
 	 		</roles>
-	 
+	 	</developer>
+	 	<developer>
+	 		<id>oscdoraba</id>
+	 		<name>Oscar Dorado Abadías</name>
+	 		<email>oscdoraba@alum.us.es</email>
+	 		<roles>
+	 			<role>Developer</role>
+	 		</roles>
 	 	</developer>
 	</developers>
  
