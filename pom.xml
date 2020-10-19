@@ -49,6 +49,16 @@
 	 			<role>Developer</role>
 	 		</roles>
 	 	</developer>
+	 	
+	 	<developer>
+	 		<id>felconmar</id>
+	 		<name>Félix Conde Marrón</name>
+	 		<email>felconmar@alum.us.es</email>
+	 		<roles>
+	 			<role>member</role>
+	 		</roles>
+	 	</developer>
+	 	
 	</developers>
  
     <dependencies>
