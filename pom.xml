@@ -32,6 +32,16 @@
 
     </properties>
 
+<developers>
+	 	<developer>
+	 		<id>marmarave</id>
+	 		<name>Mariano Martin Avecilla</name>
+	 		<email>marmarave@alum.us.es</email>
+	 		<roles>
+	 			<role>Developer</role>
+	 		</roles>
+	 	</developer>
+	</developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
