@@ -32,6 +32,7 @@
 
     </properties>
 
+
 <developers>
 	 	<developer>
 	 		<id>marmarave</id>
@@ -41,7 +42,28 @@
 	 			<role>Developer</role>
 	 		</roles>
 	 	</developer>
+	
+
+	
+	 	<developer>
+	 		<id>pabcalper</id>
+	 		<name>Pablosky</name>
+	 		<email>pabcalper@alum.us.es</email>
+	 		<roles>
+	 			<role>leader</role>
+	 		</roles>
+	 	</developer>
+	 	<developer>
+	 		<id>oscdoraba</id>
+	 		<name>Oscar Dorado Abadías</name>
+	 		<email>oscdoraba@alum.us.es</email>
+	 		<roles>
+	 			<role>Developer</role>
+	 		</roles>
+	 	</developer>
 	</developers>
+ 
+
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
         <dependency>
