@@ -16,6 +16,9 @@ INSERT INTO authorities(id,username,authority) VALUES (8,'oscdoraba','owner');
 -- felconmar, named felconmar with password 0wn3r
 INSERT INTO users(username,password,enabled) VALUES ('felconmar','0wn3r',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (9,'felconmar','owner');
+-- davgangar1, named davgangar1 with password davgangar1
+INSERT INTO users(username,password,enabled) VALUES ('davgangar1','davgangar1',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (10,'davgangar1','owner');
 
 
 INSERT INTO vets VALUES (1, 'James', 'Carter');
@@ -55,6 +58,7 @@ INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Wa
 INSERT INTO owners VALUES (11, 'Oscar', 'Dorado', '2335 Brooklyn Street', 'Tennessee', '6085559087', 'oscdoraba');
 INSERT INTO owners VALUES (12, 'Pabcalper', 'Calle', 'Dirección desconocida', 'Sevilla', '6301785873', 'pabcalper');
 INSERT INTO owners VALUES (13, 'Felix', 'Conde', 'Reina Mercedes', 'Sevilla', '636123456', 'felconmar');
+INSERT INTO owners VALUES (14, 'David', 'Ganan', 'Anonima', 'Sevilla', '656874579', 'davgangar1');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
