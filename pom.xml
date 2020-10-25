@@ -33,6 +33,15 @@
     </properties>
 
 	<developers>
+    
+    <developer>
+	 		<id>davgangar1</id>
+	 		<name>David</name>
+	 		<email>davgangar1@alum.us.es</email>
+	 		<roles>
+	 			<role>member</role>
+	 		</roles>
+	 	</developer>
 	 	<developer>
 	 		<id>pabcalper</id>
 	 		<name>Pablosky</name>
