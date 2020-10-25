@@ -25,22 +25,22 @@ public class WelcomeController {
 		  Person person6 = new Person();
 		  
 		  person1.setFirstName("Óscar");
-		  person1.setLastName("Dorado");
+		  person1.setLastName(" Dorado");
 		  
 		  person2.setFirstName("David");
-		  person2.setLastName("García");
+		  person2.setLastName(" Gañán");
 		  
 		  person3.setFirstName("Pablo");
-		  person3.setLastName("Calle");
+		  person3.setLastName(" Calle");
 		  
 		  person4.setFirstName("Félix");
-		  person4.setLastName("Conde");
+		  person4.setLastName(" Conde");
 		  
 		  person5.setFirstName("Mariano");
-		  person5.setLastName("Martín");
+		  person5.setLastName(" Martín");
 		  
 		  person6.setFirstName("Carlos Manuel");
-		  person6.setLastName("Cabellos");
+		  person6.setLastName(" Cabellos");
 		  
 		  persons.add(person1);
 		  persons.add(person2);
@@ -50,8 +50,8 @@ public class WelcomeController {
 		  persons.add(person6);
 		  
 		  model.put("persons", persons);
-		  model.put("title", "Untitled" );
-		  model.put("group", "Grupo 10");
+		  model.put("title", "Team Master" );
+		  model.put("group", "G2-10");
 
 	    return "welcome";
 	  }
