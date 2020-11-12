@@ -19,7 +19,9 @@ INSERT INTO authorities(id,username,authority) VALUES (9,'felconmar','owner');
 -- davgangar1, named davgangar1 with password davgangar1
 INSERT INTO users(username,password,enabled) VALUES ('davgangar1','davgangar1',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (10,'davgangar1','owner');
-
+-- Pablosky, named pablosky with password pabloEscritor7
+INSERT INTO users(username,password,enabled) VALUES ('pablosky','pabloEscritor7',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
 
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
