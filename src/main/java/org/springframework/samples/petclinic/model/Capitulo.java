@@ -3,23 +3,26 @@ package org.springframework.samples.petclinic.model;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Positive;
 
-import org.hibernate.validator.constraints.Length;
 
 @Entity
-public class Historia extends BaseEntity{
+public class Capitulo extends BaseEntity{
+
+	@NotEmpty
+	@Positive
+	private Integer indice;
 	
 	@NotEmpty
 	private String titulo;
 	
-	@Length(min=120)
 	@NotEmpty
-	private String descripcion;
+	private String texto;
 	
-	private String dedicatoria;
-	
+	@NotEmpty
+	private Boolean estaPublicado;
 	
 	@ManyToOne(optional=false)
-	private Autor autor;
-
+	private Historia historia;
+	
 }
