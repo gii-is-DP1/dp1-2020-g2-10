@@ -23,6 +23,14 @@ INSERT INTO authorities(id,username,authority) VALUES (10,'davgangar1','owner');
 INSERT INTO users(username,password,enabled) VALUES ('pablosky','pabloEscritor7',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
 
+-- moderador1, named moderador1 with password moderador1
+INSERT INTO users(username,password,enabled) VALUES ('moderador1','moderador1',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderador');
+-- editorial1, named editorial1 with password editorial1
+INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
+INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editorial');
+
+
 INSERT INTO vets VALUES (1, 'James', 'Carter');
 INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -61,6 +69,10 @@ INSERT INTO owners VALUES (11, 'Oscar', 'Dorado', '2335 Brooklyn Street', 'Tenne
 INSERT INTO owners VALUES (12, 'Pabcalper', 'Calle', 'Dirección desconocida', 'Sevilla', '6301785873', 'pabcalper');
 INSERT INTO owners VALUES (13, 'Felix', 'Conde', 'Reina Mercedes', 'Sevilla', '636123456', 'felconmar');
 INSERT INTO owners VALUES (14, 'David', 'Ganan', 'Anonima', 'Sevilla', '656874579', 'davgangar1');
+
+INSERT INTO moderadores VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
+
+INSERT INTO editoriales VALUES (1, 'Editorial Magistral', 'editorial1');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);

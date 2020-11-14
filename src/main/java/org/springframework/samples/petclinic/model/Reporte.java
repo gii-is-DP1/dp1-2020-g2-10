@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Reporte extends BaseEntity{
@@ -21,8 +22,8 @@ public class Reporte extends BaseEntity{
 	
 	@NotEmpty
 	private String texto;
-	
-	@NotEmpty
-	private Capitulo capitulo;
-	
+//COMENTADO PORQUE SI SE DEJA PUESTO PETA (falta la relacion)	
+//	@NotNull
+//	private Capitulo capitulo;
+//	
 }
