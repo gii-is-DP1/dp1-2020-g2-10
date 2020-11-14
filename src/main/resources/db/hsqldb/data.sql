@@ -84,5 +84,23 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (16, 'Pelusa', '201
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (1, 7, '2013-01-01', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02', 'rabies shot');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
-INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+INSERT INTO visits(id,pet_i	d,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
+
+--Habría que descomentarlo cuando se hiziera la entidad de editorial y se corrigiera y añadiera el joinColum en la entidad Historia
+
+--INSERT INTO reseñas(id,autor_id,historia_id,titulo,puntuación,text,fechapublicacion) VALUES(1,2,3,'Reseña 1', '5', 'Comentario 1', '2020-09-01')
+--INSERT INTO reseñas(id,autor_id,historia_id,titulo,puntuación,text,fechapublicacion) VALUES(2,4,5,'Reseña 2', '3', 'Comentario 2', '2020-11-14')
+--INSERT INTO reseñas(id,autor_id,historia_id,titulo,puntuación,text,fechapublicacion) VALUES(2,6,7,'Reseña 3', '4', 'Comentario 3', '2018-10-01')
+--
+--INSERT INTO contratos(id,autor_id,editorial_id,fechaOferta,encabezado,texto,remuneracion,fechaRespuesta,estadoContrato,fechaInicio,fechaFin,esExclusivo) 
+--VALUES(1,1,2, 'Encabezado 1','Texto 1', '75/2', '2020-09-01', estadoContrato.ACEPTADO, '2021-10-01','2022-10-01', TRUE)
+--INSERT INTO contratos(id,autor_id,editorial_id,fechaOferta,encabezado,texto,remuneracion,fechaRespuesta,estadoContrato,fechaInicio,fechaFin,esExclusivo) 
+--VALUES(2,2,3, 'Encabezado 2','Texto 2', '37/3', '2019-11-07', estadoContrato.RECHAZADO, '2023-10-01','2024-10-01', FALSE)
+--INSERT INTO contratos(id,autor_id,editorial_id,fechaOferta,encabezado,texto,remuneracion,fechaRespuesta,estadoContrato,fechaInicio,fechaFin,esExclusivo) 
+--VALUES(3,4,5, 'Encabezado 3','Texto 3', '100/2', '2020-06-09', estadoContrato.PENDIENTE, '2021-12-10','2022-11-01', TRUE)
+--
+--INSERT INTO contribuciones(id,autor_id,historia_id,tipoContribucion) VALUES(1,2,2,EDITOR)
+--INSERT INTO contribuciones(id,autor_id,historia_id,tipoContribucion) VALUES(2,3,3,COAUTOR)
+--INSERT INTO contribuciones(id,autor_id,historia_id,tipoContribucion) VALUES(3,4,5,ASESOR)
+
 
