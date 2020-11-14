@@ -29,10 +29,10 @@ public class Historia extends BaseEntity{
 	
 	@NotNull
 	private Genero genero;
-	
-	@NotNull
-	@UniqueElements
-	private Collection<Etiqueta> etiquetas;
+//	COMENTADO PORQUE SI SE DEJA PUESTO PETA
+//	@NotNull
+//	@UniqueElements
+//	private Collection<Etiqueta> etiquetas;
 	
 	@NotNull
 	private EstadoHistoria estado;
