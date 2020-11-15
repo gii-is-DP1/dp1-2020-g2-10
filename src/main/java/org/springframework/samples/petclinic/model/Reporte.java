@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Reporte extends BaseEntity{
@@ -22,9 +23,9 @@ public class Reporte extends BaseEntity{
 	
 	@NotEmpty
 	private String texto;
-	
+
 	@NotEmpty
 	@ManyToOne(optional=true)
 	private Capitulo capitulo;
-	
+
 }
