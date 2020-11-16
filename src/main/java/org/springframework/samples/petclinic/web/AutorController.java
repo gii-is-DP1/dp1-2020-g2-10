@@ -40,6 +40,7 @@
 // * @author Michael Isvy
 // */
 //@Controller
+//@RequestMapping()
 //public class AutorController {
 //
 //	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
