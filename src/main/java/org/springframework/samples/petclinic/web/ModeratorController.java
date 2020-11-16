@@ -1,3 +1,4 @@
+package org.springframework.samples.petclinic.web;
 //package org.springframework.samples.petclinic.web;
 //
 //import java.util.Collection;
@@ -25,7 +26,7 @@
 // * @author Michael Isvy
 // */
 //@Controller
-//public class EditorialController {
+//public class ModeradorController {
 //
 //	private static final String VIEWS_OWNER_CREATE_OR_UPDATE_FORM = "owners/createOrUpdateOwnerForm";
 //

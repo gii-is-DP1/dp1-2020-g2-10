@@ -19,12 +19,12 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Autor;
-import org.springframework.samples.petclinic.model.Editorial;
-import org.springframework.samples.petclinic.model.Moderador;
-import org.springframework.samples.petclinic.repository.AutorRepository;
-import org.springframework.samples.petclinic.repository.EditorialRepository;
-import org.springframework.samples.petclinic.repository.ModeradorRepository;
+import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.model.Company;
+import org.springframework.samples.petclinic.model.Moderator;
+import org.springframework.samples.petclinic.repository.AuthorRepository;
+import org.springframework.samples.petclinic.repository.CompanyRepository;
+import org.springframework.samples.petclinic.repository.ModeratorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,9 +36,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class EditorialService {
+public class CompanyService {
 
-	private EditorialRepository editorialRepository;	
+	private CompanyRepository companyRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -47,28 +47,28 @@ public class EditorialService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public EditorialService(EditorialRepository editorialRepository) {
-		this.editorialRepository = editorialRepository;
+	public CompanyService(CompanyRepository companyRepository) {
+		this.companyRepository = companyRepository;
 	}	
 
 	@Transactional(readOnly = true)
-	public Editorial findEditorialById(int id) throws DataAccessException {
-		return editorialRepository.findById(id);
+	public Company findCompanyById(int id) throws DataAccessException {
+		return companyRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Editorial> findEditorialByLastName(String name) throws DataAccessException {
-		return editorialRepository.findByName(name);
+	public Collection<Company> findCompanyByLastName(String name) throws DataAccessException {
+		return companyRepository.findByName(name);
 	}
 
 	@Transactional
-	public void saveEditorial(Editorial editorial) throws DataAccessException {
-		//creating Editorial
-		editorialRepository.save(editorial);		
+	public void saveCompany(Company company) throws DataAccessException {
+		//creating company
+		companyRepository.save(company);		
 		//creating user
-		userService.saveUser(editorial.getUser());
+		userService.saveUser(company.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(editorial.getUser().getUsername(), "editorial");
+		authoritiesService.saveAuthorities(company.getUser().getUsername(), "company");
 	}		
 
 }
