@@ -6,26 +6,29 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
-public class Reporte extends BaseEntity{
+@EqualsAndHashCode(callSuper=false)
+public @Data class Report extends BaseEntity{
 
 	@NotEmpty
-	private TipoReporte tipoReporte;
+	private ReportType reportType;
 	
 	@NotEmpty
-	private EstadoReporte estadoReporte;
+	private ReportStatus reportStatus;
 	
 	@NotEmpty
 	@FutureOrPresent
-	private LocalDate fecha;
+	private LocalDate date;
 	
 	@NotEmpty
-	private String texto;
-
+	private String text;
+	
 	@NotEmpty
 	@ManyToOne(optional=true)
-	private Capitulo capitulo;
-
+	private Chapter chapter;
+	
 }
