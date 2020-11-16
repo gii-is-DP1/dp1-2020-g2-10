@@ -19,8 +19,10 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Autor;
-import org.springframework.samples.petclinic.repository.AutorRepository;
+import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.model.Moderator;
+import org.springframework.samples.petclinic.repository.AuthorRepository;
+import org.springframework.samples.petclinic.repository.ModeratorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +34,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class AutorService {
+public class ModeratorService {
 
-	private AutorRepository autorRepository;	
+	private ModeratorRepository moderatorRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -43,28 +45,28 @@ public class AutorService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public AutorService(AutorRepository autorRepository) {
-		this.autorRepository = autorRepository;
+	public ModeratorService(ModeratorRepository ModeratorRepository) {
+		this.moderatorRepository = ModeratorRepository;
 	}	
 
 	@Transactional(readOnly = true)
-	public Autor findAutorById(int id) throws DataAccessException {
-		return autorRepository.findById(id);
+	public Moderator findModeratorById(int id) throws DataAccessException {
+		return moderatorRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Autor> findAutorByLastName(String lastName) throws DataAccessException {
-		return autorRepository.findByLastName(lastName);
+	public Collection<Moderator> findModeratorByLastName(String lastName) throws DataAccessException {
+		return moderatorRepository.findByLastName(lastName);
 	}
 
 	@Transactional
-	public void saveAutor(Autor autor) throws DataAccessException {
-		//creating Autor
-		autorRepository.save(autor);		
+	public void saveModerator(Moderator moderator) throws DataAccessException {
+		//creating Moderator
+		moderatorRepository.save(moderator);		
 		//creating user
-		userService.saveUser(autor.getUser());
+		userService.saveUser(moderator.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(autor.getUser().getUsername(), "autor");
+		authoritiesService.saveAuthorities(moderator.getUser().getUsername(), "moderator");
 	}		
 
 }

@@ -47,6 +47,6 @@ public class Historia extends BaseEntity{
 	
 	// Relaciones
 	@ManyToOne(optional=false)
-	private Autor autor;
+	private Author autor;
 
 }
