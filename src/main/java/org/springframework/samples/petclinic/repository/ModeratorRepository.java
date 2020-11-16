@@ -22,10 +22,9 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.model.Editorial;
-import org.springframework.samples.petclinic.model.Moderador;
-import org.springframework.samples.petclinic.model.Autor;
-import org.springframework.samples.petclinic.repository.EditorialRepository;
+import org.springframework.samples.petclinic.model.Moderator;
+import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.repository.ModeratorRepository;
 
 /**
  * Spring Data JPA AutorRepository interface
@@ -33,15 +32,15 @@ import org.springframework.samples.petclinic.repository.EditorialRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface EditorialRepository extends Repository<Editorial, Integer> {
+public interface ModeratorRepository extends Repository<Moderator, Integer> {
 
 
-	void save(Editorial editorial) throws DataAccessException;
+	void save(Moderator moderator) throws DataAccessException;
 
-	@Query("SELECT DISTINCT editorial FROM Editorial editorial WHERE editorial.name LIKE :name%")
-	public Collection<Editorial> findByName(@Param("name") String name);
+	@Query("SELECT DISTINCT moderator FROM Moderator moderator WHERE moderator.lastName LIKE :lastName%")
+	public Collection<Moderator> findByLastName(@Param("lastName") String lastName);
 
-	@Query("SELECT editorial FROM Editorial editorial WHERE editorial.id =:id")
-	public Editorial findById(@Param("id") int id);
+	@Query("SELECT moderator FROM Moderator moderator WHERE moderator.id =:id")
+	public Moderator findById(@Param("id") int id);
 
 }

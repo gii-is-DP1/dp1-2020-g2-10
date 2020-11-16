@@ -3,9 +3,9 @@ package org.springframework.samples.petclinic.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.model.Autor;
+import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Capitulo;
-import org.springframework.samples.petclinic.service.AutorService;
+import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.CapituloService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,11 +20,11 @@ public class CapituloController {
 	
 	private final CapituloService capituloService;
 	// private final HistoriaService historiaService;
-	private final AutorService autorService;
+	private final AuthorService autorService;
 	private static final String VISTA_EDICION_CAPITULO= "capitulo/editarCapitulo";
 	
 	@Autowired
-	public CapituloController(CapituloService capituloService, /*HistoriaService historiaService,*/ AutorService autorService) {
+	public CapituloController(CapituloService capituloService, /*HistoriaService historiaService,*/ AuthorService autorService) {
 
 		this.capituloService = capituloService;
 		// this.historiaService = historiaService;
@@ -36,7 +36,7 @@ public class CapituloController {
 	
 	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
 	@GetMapping("/capitulo/new")
-	public String añadirCapitulo(Autor autor, ModelMap modelMap) {
+	public String añadirCapitulo(Author autor, ModelMap modelMap) {
 		
 		Capitulo cap = new Capitulo();
 		modelMap.addAttribute("capitulo", cap);
@@ -47,7 +47,7 @@ public class CapituloController {
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/capitulo/new")
-	public String procesarNuevoCapitulo(Autor autor, @Valid Capitulo cap, BindingResult result, ModelMap modelMap) {
+	public String procesarNuevoCapitulo(Author autor, @Valid Capitulo cap, BindingResult result, ModelMap modelMap) {
 		
 		String view = "capitulo/listadoCapitulos";
 		

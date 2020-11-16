@@ -70,9 +70,9 @@ INSERT INTO owners VALUES (12, 'Pabcalper', 'Calle', 'Dirección desconocida', '
 INSERT INTO owners VALUES (13, 'Felix', 'Conde', 'Reina Mercedes', 'Sevilla', '636123456', 'felconmar');
 INSERT INTO owners VALUES (14, 'David', 'Ganan', 'Anonima', 'Sevilla', '656874579', 'davgangar1');
 
-INSERT INTO moderadores VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
+INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
 
-INSERT INTO editoriales VALUES (1, 'Editorial Magistral', 'editorial1');
+INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
 
 
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);

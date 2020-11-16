@@ -37,23 +37,23 @@ import org.springframework.core.style.ToStringCreator;
 
 
 @Entity
-@Table(name = "autores")
-public class Autor extends Person {
+@Table(name = "authors")
+public class Author extends Person {
 
-	@Column(name = "biografia")
-	private String biografia;
+	@Column(name = "biography")
+	private String biography;
 
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	public String getBiografia() {
-		return biografia;
+	public String getBiography() {
+		return biography;
 	}
 
-	public void setBiografia(String biografia) {
-		this.biografia = biografia;
+	public void setBiografia(String biography) {
+		this.biography = biography;
 	}
 
 	
@@ -74,6 +74,6 @@ public class Autor extends Person {
 		return new ToStringCreator(this)
 
 				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
-				.append("firstName", this.getFirstName()).append("biografia", this.biografia).toString();
+				.append("firstName", this.getFirstName()).append("biografia", this.biography).toString();
 	}
 }

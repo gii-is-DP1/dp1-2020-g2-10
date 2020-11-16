@@ -19,10 +19,8 @@ import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Autor;
-import org.springframework.samples.petclinic.model.Moderador;
-import org.springframework.samples.petclinic.repository.AutorRepository;
-import org.springframework.samples.petclinic.repository.ModeradorRepository;
+import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,9 +32,9 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class ModeradorService {
+public class AuthorService {
 
-	private ModeradorRepository moderadorRepository;	
+	private AuthorRepository authorRepository;	
 	
 	@Autowired
 	private UserService userService;
@@ -45,28 +43,28 @@ public class ModeradorService {
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public ModeradorService(ModeradorRepository moderadorRepository) {
-		this.moderadorRepository = moderadorRepository;
+	public AuthorService(AuthorRepository authorRepository) {
+		this.authorRepository = authorRepository;
 	}	
 
 	@Transactional(readOnly = true)
-	public Moderador findModeradorById(int id) throws DataAccessException {
-		return moderadorRepository.findById(id);
+	public Author findAuthorById(int id) throws DataAccessException {
+		return authorRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public Collection<Moderador> findModeradorByLastName(String lastName) throws DataAccessException {
-		return moderadorRepository.findByLastName(lastName);
+	public Collection<Author> findAuthorByLastName(String lastName) throws DataAccessException {
+		return authorRepository.findByLastName(lastName);
 	}
 
 	@Transactional
-	public void saveModerador(Moderador moderador) throws DataAccessException {
-		//creating Moderador
-		moderadorRepository.save(moderador);		
+	public void saveAuthor(Author author) throws DataAccessException {
+		//creating author
+		authorRepository.save(author);		
 		//creating user
-		userService.saveUser(moderador.getUser());
+		userService.saveUser(author.getUser());
 		//creating authorities
-		authoritiesService.saveAuthorities(moderador.getUser().getUsername(), "moderador");
+		authoritiesService.saveAuthorities(author.getUser().getUsername(), "author");
 	}		
 
 }

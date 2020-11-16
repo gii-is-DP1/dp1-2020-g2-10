@@ -37,8 +37,8 @@ import org.springframework.core.style.ToStringCreator;
 
 
 @Entity
-@Table(name = "editoriales")
-public class Editorial extends NamedEntity {
+@Table(name = "companies")
+public class Company extends NamedEntity {
 
 	
 	
