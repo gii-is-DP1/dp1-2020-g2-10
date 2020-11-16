@@ -1,6 +1,6 @@
 package org.springframework.samples.petclinic.model;
 
-public enum tipoContribucion {
+public enum ContractStatus {
 
-COAUTOR, EDITOR, ASESOR;
+PENDING, REJECT, ACCEPTED;
 }
