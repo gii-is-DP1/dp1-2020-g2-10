@@ -5,24 +5,28 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 @Entity
-public class Capitulo extends BaseEntity{
+@EqualsAndHashCode(callSuper = false)
+public @Data class Chapter extends BaseEntity{
 
 	@NotEmpty
 	@Positive
-	private Integer indice;
+	private Integer index;
 	
 	@NotEmpty
-	private String titulo;
+	private String title;
 	
 	@NotEmpty
-	private String texto;
+	private String text;
 	
 	@NotEmpty
-	private Boolean estaPublicado;
+	private Boolean isPublished;
 	
 	@ManyToOne(optional=false)
-	private Historia historia;
+	private Story story;
 	
 }
