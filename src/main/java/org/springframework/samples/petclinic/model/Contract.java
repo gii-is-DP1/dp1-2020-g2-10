@@ -23,7 +23,7 @@ public class Contract extends BaseEntity {
 	
 @NotNull
 @PastOrPresent
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 private Date offerDate;
 	
 @NotBlank
@@ -37,19 +37,19 @@ private String text;
 private Double remuneration;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 private Date answerDate;
 
 @NotNull
 private ContractStatus contractStatus;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 @Future
 private Date startDate;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 @Future
 private Date endDate;
 
@@ -66,8 +66,8 @@ private Boolean isExclusive;
 // Relaciones
 
 @ManyToOne(optional=false)
-@JoinColumn(name = "autor_id")
-private Autor author;
+@JoinColumn(name = "author_id")
+private Author author;
 
 //Getters and setters
 
@@ -123,7 +123,7 @@ public Boolean getEsExclusivo() {
 	return isExclusive;
 }
 
-public Autor getAuthor() {
+public Author getAuthor() {
 	return author;
 }
 
