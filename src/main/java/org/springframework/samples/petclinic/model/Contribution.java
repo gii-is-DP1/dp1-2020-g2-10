@@ -18,7 +18,7 @@ private ContributionType contributionType;
 // Relaciones
 
 @ManyToOne(optional=false)
-@JoinColumn(name = "story_id")
+//@JoinColumn(name = "story_id")
 private Story story;
 
 @ManyToOne(optional=false)
