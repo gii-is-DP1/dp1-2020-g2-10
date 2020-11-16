@@ -14,7 +14,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Table(name = "rewiews")
+@Table(name = "reviews")
 public class Review extends BaseEntity {
 
 // Atributos
@@ -31,18 +31,18 @@ private String text;
 
 @NotNull
 @PastOrPresent
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
 private Date publicationDate;
 
 // Relaciones
 
 @ManyToOne(optional=false)
 //@JoinColumn(name = "author_id")
-private Autor author;
+private Author author;
 
 @ManyToOne(optional=false)
 //@JoinColumn(name = "story_id")
-private Historia story;
+private Story story;
 
 //Getters ands setters
 
@@ -70,11 +70,11 @@ public Date getPublicationDate() {
 	return publicationDate;
 }
 
-public Autor getAuthor() {
+public Author getAuthor() {
 	return author;
 }
 
-public Historia getHistory() {
+public Story getStory() {
 	return story;
 }
 
@@ -82,7 +82,7 @@ public Historia getHistory() {
 @Override
 public String toString() {
 	return "Review [title=" + title + ", punctuation=" + rating + ", text=" + text + ", publicationDate="
-			+ publicationDate + ", author=" + author + ", history=" + story + "]";
+			+ publicationDate + ", author=" + author + ", story=" + story + "]";
 }
 
 

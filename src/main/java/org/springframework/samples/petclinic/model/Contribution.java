@@ -19,11 +19,11 @@ private ContributionType contributionType;
 
 @ManyToOne(optional=false)
 @JoinColumn(name = "story_id")
-private Historia story;
+private Story story;
 
 @ManyToOne(optional=false)
 //@JoinColumn(name = "author_id")
-private Autor author;
+private Author author;
 
 //Getters and setters
 
@@ -35,15 +35,15 @@ public void setContributionType(ContributionType contributionType) {
 	this.contributionType = contributionType;
 }
 
-public Historia getStory() {
+public Story getStory() {
 	return story;
 }
 
-public void setStory(Historia story) {
+public void setStory(Story story) {
 	this.story = story;
 }
 
-public Autor getAuthor() {
+public Author getAuthor() {
 	return author;
 }
 

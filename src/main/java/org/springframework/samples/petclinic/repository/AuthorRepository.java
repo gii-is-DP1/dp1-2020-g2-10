@@ -37,7 +37,7 @@ public interface AuthorRepository extends Repository<Author, Integer> {
 	void save(Author author) throws DataAccessException;
 
 	
-	@Query("SELECT DISTINCT author FROM Author autor WHERE author.lastName LIKE :lastName%")
+	@Query("SELECT DISTINCT author FROM Author author WHERE author.lastName LIKE :lastName%")
 	public Collection<Author> findByLastName(@Param("lastName") String lastName);
 
 
