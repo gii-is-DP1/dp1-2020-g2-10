@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/authores/{authorId}/historias/{historiaId}")
+@RequestMapping("/authors/{authorId}/story/{storyId}")
 public class ChapterController {
 	
 	private final ChapterService chapterService;
-	// private final HistoriaService historiaService;
+	// private final StoryService storyService;
 	private final AuthorService authorService;
-	private static final String VISTA_EDICION_chapter= "chapter/editarchapter";
+	private static final String VISTA_EDICION_CHAPTER= "chapter/editChapter";
 	
 	@Autowired
-	public ChapterController(ChapterService chapterService, /*HistoriaService historiaService,*/ AuthorService authorService) {
+	public ChapterController(ChapterService chapterService, /*StoryService storyService,*/ AuthorService authorService) {
 
 		this.chapterService = chapterService;
-		// this.historiaService = historiaService;
+		// this.storyService = storyService;
 		this.authorService = authorService;
 	}
 	
@@ -36,27 +36,27 @@ public class ChapterController {
 	
 	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
 	@GetMapping("/chapter/new")
-	public String añadirchapter(Author author, ModelMap modelMap) {
+	public String initAddChapter(Author author, ModelMap modelMap) {
 		
 		Chapter chapter = new Chapter();
 		modelMap.addAttribute("chapter", chapter);
 		
-		return VISTA_EDICION_chapter;
+		return VISTA_EDICION_CHAPTER;
 		
 	}
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/chapter/new")
-	public String procesarNuevochapter(Author author, @Valid Chapter cap, BindingResult result, ModelMap modelMap) {
+	public String processNewChapter(@Valid Chapter cap, BindingResult result, ModelMap modelMap) {
 		
-		String view = "chapter/listadochapters";
+		String view = "chapter/listChapters";
 		
 		// Si al validarlo, encontramos errores:
 		
 		if(result.hasErrors()) {
 			
 			modelMap.addAttribute("chapter", cap);
-			return VISTA_EDICION_chapter;
+			return VISTA_EDICION_CHAPTER;
 		}
 		
 		// Si al validarlo, no hallamos ningún error:
@@ -64,7 +64,7 @@ public class ChapterController {
 		else { 
 			
 			chapterService.saveChapter(cap);
-			modelMap.addAttribute("mensajeExito", "¡El capítulo se ha añadido con éxito!");
+			modelMap.addAttribute("messageSuccess", "¡El capítulo se ha añadido con éxito!");
 		
 		}
 		
