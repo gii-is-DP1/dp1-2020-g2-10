@@ -98,6 +98,8 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
+INSERT INTO stories(id,author_id,title,description,genre,storyStatus,isAdult,updatedDate) VALUES (1, 19, 'Historia','Ejemplo','Poesía','Destacada','+18 Explicit','2020/10/13 14:07');
+
 --Habría que descomentarlo cuando se creen los ejemplos de story, company y algunos más de author
 
 -- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
