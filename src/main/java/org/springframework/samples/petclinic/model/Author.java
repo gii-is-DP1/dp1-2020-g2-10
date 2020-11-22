@@ -48,6 +48,9 @@ public class Author extends Person {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+	private Set<Story> stories;
+	
 	public String getBiography() {
 		return biography;
 	}
@@ -56,7 +59,12 @@ public class Author extends Person {
 		this.biography = biography;
 	}
 
-	
+	private Set<Story> getStoriesInternal() {
+		if (this.stories == null) {
+			this.stories = new HashSet<>();
+		}
+		return this.stories;
+	}
 
 	public User getUser() {
 		return user;
@@ -66,9 +74,15 @@ public class Author extends Person {
 		this.user = user;
 	}
 
+	public void addStory(Story story) {
+		getStoriesInternal().add(story);
+		story.setAuthor(this);
+	}
 	
 
 	
+	
+
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)

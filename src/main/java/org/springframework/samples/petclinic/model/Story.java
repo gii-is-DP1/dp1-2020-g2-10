@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -10,11 +9,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
-public class Story extends BaseEntity{
+@EqualsAndHashCode(callSuper=false)
+public @Data class Story extends BaseEntity{
 	
 	@NotEmpty
 	private String title;
