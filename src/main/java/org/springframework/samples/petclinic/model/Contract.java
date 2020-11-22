@@ -23,7 +23,7 @@ public class Contract extends BaseEntity {
 	
 @NotNull
 @PastOrPresent
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 private Date offerDate;
 	
 @NotBlank
@@ -37,37 +37,34 @@ private String text;
 private Double remuneration;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 private Date answerDate;
 
 @NotNull
 private ContractStatus contractStatus;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Future
 private Date startDate;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Future
 private Date endDate;
 
 @NotEmpty
 private Boolean isExclusive;
 
-//Se tiene que añadir cuando esté creada la entidad COMPANY
-
-//@ManyToOne(optional=false)
-////@JoinColumn(name = "company_id")
-//private Company company;
-
-
 // Relaciones
 
 @ManyToOne(optional=false)
 @JoinColumn(name = "author_id")
 private Author author;
+
+@ManyToOne(optional=false)
+//@JoinColumn(name = "company_id")
+private Company company;
 
 //Getters and setters
 
@@ -132,8 +129,8 @@ public Author getAuthor() {
 @Override
 public String toString() {
 	return "Contract [offerDate=" + offerDate + ", header=" + header + ", text=" + text + ", remuneration="
-			+ remuneration + ", answerDate=" + answerDate + ", ContractState=" + contractStatus + ", startDate="
-			+ startDate + ", endDate=" + endDate + ", esExclusivo=" + isExclusive + ", author=" + author + "]";
+			+ remuneration + ", answerDate=" + answerDate + ", ContractStatus=" + contractStatus + ", startDate="
+			+ startDate + ", endDate=" + endDate + ", isExclusive=" + isExclusive + ", author=" + author + "]";
 }
 
 

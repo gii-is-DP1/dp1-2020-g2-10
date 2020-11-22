@@ -98,24 +98,24 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
---Habría que descomentarlo cuando se junte todas las entidades.
+--Habría que descomentarlo cuando se creen los ejemplos de story, company y algunos más de author
 
 -- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
--- VALUES(1,2,3,'Rating 1', '5', 'Comment 1', '2020-09-01 11:11')
+-- VALUES(1,19,3,'Title 1', '5', 'Comment 1','2020-09-01 11:11')
 -- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
--- VALUES(2,4,5,'Rating 2', '3', 'Comment 2', '2020-11-14 11:11')
+-- VALUES(2,4,5,'Title 2', '3', 'Comment 2', '2020-11-14 10:13')
 -- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
--- VALUES(2,6,7,'Rating 3', '4', 'Comment 3', '2018-10-01 11:11')
+-- VALUES(2,6,7,'Title 3', '4', 'Comment 3', '2018-10-01 01:06')
 --
--- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractState,startDate,endDate,isExclusive) 
--- VALUES(1,1,2, 'Header 1','Text 1', '75/2', '2020-09-01 11:11', contractStatus.ACEPTED, '2021-10-01 11:11','2022-10-01 11:11', TRUE)
--- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractState,startDate,endDate,isExclusive) 
--- VALUES(2,2,3, 'Header 2','Text 2', '37/3', '2019-11-07 11:11', contractStatus.REJECTED, '2023-10-01 11:11','2024-10-01 11:11', FALSE)
--- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contactState,startDate,endDate,isExclusive) 
--- VALUES(3,4,5, 'Header 3','Text 3', '100/2', '2020-06-09 11:11', contractStatus.PENDING, '2021-12-10 11:11','2022-11-01 11:11', TRUE)
+-- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractStatus,startDate,endDate,isExclusive) 
+-- VALUES(1,19,1,'2019-07-05 11:11', 'Header 1','Text 1', '75/2', '2020-09-01 11:11', contractStatus.ACEPTED, '2021-10-01 11:11','2022-10-01 11:11', TRUE)
+-- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractStatus,startDate,endDate,isExclusive) 
+-- VALUES(2,2,2,'2016-10-13 11:11'. 'Header 2','Text 2', '37/3', '2019-11-07 11:11', contractStatus.REJECTED, '2023-10-01 11:11','2024-10-01 11:11', FALSE)
+-- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractStatus,startDate,endDate,isExclusive) 
+-- VALUES(3,4,3,'2015-07-09 11:11', 'Header 3','Text 3', '100/2', '2020-06-09 11:11', contractStatus.PENDING, '2021-12-10 11:11','2022-11-01 11:11', TRUE)
 --
--- INSERT INTO contributions(id,author_id,story_id,contributionStatus) VALUES(1,2,2,EDITOR)
--- INSERT INTO contributions(id,author_id,story_id,contributionStatus) VALUES(2,3,3,COAUTHOR)
--- INSERT INTO contributions(id,author_id,story_id,contributionStatus) VALUES(3,4,5,CONSULTANT)
+-- INSERT INTO contributions(id,author_id,story_id,contributionType) VALUES(1,19,2,EDITOR)
+-- INSERT INTO contributions(id,author_id,story_id,contributionType) VALUES(2,3,3,COAUTHOR)
+-- INSERT INTO contributions(id,author_id,story_id,contributionType) VALUES(3,4,5,CONSULTANT)
 
 

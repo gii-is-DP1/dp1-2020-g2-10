@@ -31,7 +31,7 @@ private String text;
 
 @NotNull
 @PastOrPresent
-@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 private Date publicationDate;
 
 // Relaciones
@@ -81,7 +81,7 @@ public Story getStory() {
 // Método ToString
 @Override
 public String toString() {
-	return "Review [title=" + title + ", punctuation=" + rating + ", text=" + text + ", publicationDate="
+	return "Review [title=" + title + ", rating=" + rating + ", text=" + text + ", publicationDate="
 			+ publicationDate + ", author=" + author + ", story=" + story + "]";
 }
 
