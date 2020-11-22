@@ -15,8 +15,13 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "contracts")
+@Getter
+@Setter
 public class Contract extends BaseEntity {
 
 // Atributos
@@ -66,63 +71,6 @@ private Author author;
 //@JoinColumn(name = "company_id")
 private Company company;
 
-//Getters and setters
-
-public String getHeader() {
-	return header;
-}
-
-public void setHeader(String header) {
-	this.header = header;
-}
-
-public String getText() {
-	return text;
-}
-
-public void setText(String text) {
-	this.text = text;
-}
-
-public Double getRemuneration() {
-	return remuneration;
-}
-
-public void setRemuneration(Double remuneration) {
-	this.remuneration = remuneration;
-}
-
-public ContractStatus getContractStatus() {
-	return contractStatus;
-}
-
-public void setContractStatus(ContractStatus contractStatus) {
-	this.contractStatus = contractStatus;
-}
-
-public Date getOfferDate() {
-	return offerDate;
-}
-
-public Date getAnswerDate() {
-	return answerDate;
-}
-
-public Date getStartDate() {
-	return startDate;
-}
-
-public Date getEndDate() {
-	return endDate;
-}
-
-public Boolean getEsExclusivo() {
-	return isExclusive;
-}
-
-public Author getAuthor() {
-	return author;
-}
 
 //Método ToString
 

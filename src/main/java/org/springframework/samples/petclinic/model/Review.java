@@ -13,8 +13,13 @@ import javax.validation.constraints.PastOrPresent;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "reviews")
+@Getter
+@Setter
 public class Review extends BaseEntity {
 
 // Atributos
@@ -44,39 +49,6 @@ private Author author;
 //@JoinColumn(name = "story_id")
 private Story story;
 
-//Getters ands setters
-
-public Integer getRating() {
-	return rating;
-}
-
-public void setPunctuation(Integer rating) {
-	this.rating = rating;
-}
-
-public String getText() {
-	return text;
-}
-
-public void setText(String text) {
-	this.text = text;
-}
-
-public String getTitle() {
-	return title;
-}
-
-public Date getPublicationDate() {
-	return publicationDate;
-}
-
-public Author getAuthor() {
-	return author;
-}
-
-public Story getStory() {
-	return story;
-}
 
 // Método ToString
 @Override
