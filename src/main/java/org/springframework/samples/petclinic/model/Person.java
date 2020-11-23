@@ -15,9 +15,19 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+
+import org.hibernate.validator.constraints.URL;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.Data;
 
 /**
  * Simple JavaBean domain object representing an person.
@@ -25,30 +35,31 @@ import javax.validation.constraints.NotEmpty;
  * @author Ken Krebs
  */
 @MappedSuperclass
-public class Person extends BaseEntity {
+public @Data class Person extends BaseEntity {
 
+	@NotEmpty
+	@Column(unique = true)
+	protected String dni;
+	
 	@Column(name = "first_name")
 	@NotEmpty
 	protected String firstName;
 
 	@Column(name = "last_name")
 	@NotEmpty
-	protected String lastName;
+	protected String lastName;	
 
-	public String getFirstName() {
-		return this.firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getLastName() {
-		return this.lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
+	@NotEmpty
+	@Email
+	protected String email;
+	
+	@NotNull
+	@Past
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "birth_date")
+	protected Date birthDate;
+	
+	@URL
+	@Column(name = "url_picture")
+	protected String urlPicture;
 }

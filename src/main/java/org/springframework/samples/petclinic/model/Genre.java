@@ -5,6 +5,6 @@ public enum Genre {
 	TALE,
 	NOVEL,
 	CHRONICLE,
-	CHILDISH_STORY,
+	CHILDREN_STORY,
 	POETRY
 }
