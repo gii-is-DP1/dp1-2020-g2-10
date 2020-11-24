@@ -37,52 +37,19 @@ import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+
 
 
 @Entity
 @Table(name = "authors")
-@EqualsAndHashCode(callSuper=false)
 public @Data class Author extends Person {
 
-	@Column(name = "biography")
 	private String biography;
 
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-	private Collection<Story> stories;
-	
-	public String getBiography() {
-		return biography;
-	}
-
-	public void setBiografia(String biography) {
-		this.biography = biography;
-	}
-
-//	private Set<Story> getStoriesInternal() {
-//		if (this.stories == null) {
-//			this.stories = new HashSet<>();
-//		}
-//		return this.stories;
-//	}
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	public void addStory(Story story) {
-		getStories().add(story);
-		story.setAuthor(this);
-	}
 	
 	@Override
 	public String toString() {

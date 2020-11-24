@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 
@@ -12,6 +13,7 @@ import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode(callSuper=false)
+@Table(name = "reports")
 public @Data class Report extends BaseEntity{
 
 	@NotEmpty

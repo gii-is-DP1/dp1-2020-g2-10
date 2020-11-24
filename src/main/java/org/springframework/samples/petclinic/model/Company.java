@@ -35,27 +35,18 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 
+import lombok.Data;
+
 
 @Entity
 @Table(name = "companies")
-public class Company extends NamedEntity {
+public @Data class Company extends NamedEntity {
 
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
-	
 
 	
 	@Override
