@@ -39,7 +39,7 @@ public class StoryController {
 	@GetMapping(value = "/stories/new")
 	public String initCreationForm(Author author, ModelMap model) {
 		Story story= new Story();
-		author.addStory(story);
+		//author.addStory(story);
 		model.put("story", story);
 		
 //		Aqui la idea es meterle al modelo los generos.
@@ -60,7 +60,7 @@ public class StoryController {
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-                    author.addStory(story);
+                    //author.addStory(story);
 					this.storyService.saveStory(story);
                     return "redirect:/authors/{authorId}";
 		}
