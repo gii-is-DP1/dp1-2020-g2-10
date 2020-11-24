@@ -231,7 +231,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 
 
 	-- Company1 ----------------------------------------------------------------------
-	INSERT INTO companies(username,password,enabled) VALUES ('company1','company1',TRUE);
+	INSERT INTO users(username,password,enabled) VALUES ('company1','company1',TRUE);
 	INSERT INTO authorities(username, authority) VALUES ('company1','company');
 	
 		-- // TODO: Incluir todos los atributos de Company correctamente, tal como viene en el diagrama UML
