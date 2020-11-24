@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import lombok.Data;
@@ -32,6 +33,7 @@ public @Data class Chapter extends BaseEntity{
 	@Column(columnDefinition = "TEXT")
 	private String body;
 	
+<
 	@NotEmpty
 	@Column(name = "is_published")
 	private Boolean isPublished;

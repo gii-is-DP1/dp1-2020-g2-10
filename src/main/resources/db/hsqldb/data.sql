@@ -31,6 +31,7 @@ INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',T
 INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editorial');
 
 
+
 -- INSERT INTO vets VALUES (1, 'James', 'Carter');
 -- INSERT INTO vets VALUES (2, 'Helen', 'Leary');
 -- INSERT INTO vets VALUES (3, 'Linda', 'Douglas');
@@ -240,6 +241,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 				-- Contract1 with Author1 - Ganadero1 --------------------
 
 -- 7. Reports -----------------------------------------------------------------------------
+
 
 --Habría que descomentarlo cuando se creen los ejemplos de story, company y algunos más de author
 

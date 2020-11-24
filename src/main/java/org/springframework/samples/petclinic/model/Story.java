@@ -1,6 +1,5 @@
 package org.springframework.samples.petclinic.model;
 
-import java.util.Collection;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -14,6 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
 import org.hibernate.validator.constraints.Length;
+
 import org.hibernate.validator.constraints.URL;
 import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
