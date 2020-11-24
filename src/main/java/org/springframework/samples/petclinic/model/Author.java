@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.model;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -35,10 +36,14 @@ import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 @Entity
 @Table(name = "authors")
-public class Author extends Person {
+@EqualsAndHashCode(callSuper=false)
+public @Data class Author extends Person {
 
 	@Column(name = "biography")
 	private String biography;
@@ -49,7 +54,7 @@ public class Author extends Person {
 	private User user;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-	private Set<Story> stories;
+	private Collection<Story> stories;
 	
 	public String getBiography() {
 		return biography;
@@ -59,12 +64,12 @@ public class Author extends Person {
 		this.biography = biography;
 	}
 
-	private Set<Story> getStoriesInternal() {
-		if (this.stories == null) {
-			this.stories = new HashSet<>();
-		}
-		return this.stories;
-	}
+//	private Set<Story> getStoriesInternal() {
+//		if (this.stories == null) {
+//			this.stories = new HashSet<>();
+//		}
+//		return this.stories;
+//	}
 
 	public User getUser() {
 		return user;
@@ -75,14 +80,10 @@ public class Author extends Person {
 	}
 
 	public void addStory(Story story) {
-		getStoriesInternal().add(story);
+		getStories().add(story);
 		story.setAuthor(this);
 	}
 	
-
-	
-	
-
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)

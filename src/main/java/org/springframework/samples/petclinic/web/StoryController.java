@@ -47,9 +47,9 @@ public class StoryController {
 //		realmente no veo el problema, lo malo es que habria que escribirlos otra vez y que habria que indicar
 //		el valor enumerado al que se refiere cada opcion.
 //		
-//	    model.addObject("genres", Genre.values());
+	    model.put("genres", Genre.values());
 //		Lo mismo con storyStatus
-//		model.addObject("storyStatus", StoryStatus.values());
+		model.put("storyStatus", StoryStatus.values());
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 	}
 
@@ -60,13 +60,8 @@ public class StoryController {
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-                    try{
-                    	author.addStory(story);
-                    	this.storyService.saveStory(story);
-                    }catch(DuplicatedStoryNameException ex){ //lo he copiado del PetController pero da error
-                        result.rejectValue("name", "duplicate", "already exists");
-                        return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
-                    }
+                    author.addStory(story);
+					this.storyService.saveStory(story);
                     return "redirect:/authors/{authorId}";
 		}
 	}
