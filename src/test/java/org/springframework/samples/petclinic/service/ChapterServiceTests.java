@@ -40,7 +40,7 @@ class ChapterServiceTests {
         
 	@Test
 	@Transactional
-	void shouldUpdateDiagnosis() {
+	void shouldUpdateChapter() {
 		// Cambiamos el titulo de chapter, y comprobamos que se ha efectuado correctamente el cambio
 		Chapter chapter = this.chapterService.findChapterById(1);
 		String oldTitle = chapter.getTitle();
