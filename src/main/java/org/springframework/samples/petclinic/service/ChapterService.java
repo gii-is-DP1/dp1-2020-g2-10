@@ -19,7 +19,11 @@ public class ChapterService {
 		this.chapterRepository = chapterRepository;
 	}	
 
-	
+	@Transactional
+	public Chapter findChapterById(Integer chapterId) throws DataAccessException {
+		Chapter chapter = chapterRepository.findById(chapterId).get();
+		return chapter;
+	}
 
 	@Transactional
 	public void saveChapter(Chapter chapter) throws DataAccessException {
@@ -27,6 +31,10 @@ public class ChapterService {
 		// Creamos el capítulo
 		chapterRepository.save(chapter);		
 		
+	}
+	
+	public Collection<Chapter> findChapterByStoryId(int storyId){
+		return chapterRepository.findChapterByStoryId(storyId);
 	}		
 
 }
