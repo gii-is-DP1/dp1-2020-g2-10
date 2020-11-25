@@ -41,7 +41,7 @@ class ChapterServiceTests {
 	@Test
 	@Transactional
 	void shouldUpdateDiagnosis() {
-		// Cambiamos el titulo de diagnosis, y comprobamos que se ha efectuado correctamente el cambio
+		// Cambiamos el titulo de chapter, y comprobamos que se ha efectuado correctamente el cambio
 		Chapter chapter = this.chapterService.findChapterById(1);
 		String oldTitle = chapter.getTitle();
 		String newTitle = oldTitle + " un cambio cualquiera";
@@ -50,7 +50,6 @@ class ChapterServiceTests {
 		
 		this.chapterService.saveChapter(chapter);
 
-		// retrieving new name from database
 		chapter = this.chapterService.findChapterById(1);
 		assertThat(chapter.getTitle()).isEqualTo(newTitle);
 	}
