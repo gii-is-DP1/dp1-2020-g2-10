@@ -1,23 +1,22 @@
 package org.springframework.samples.petclinic.web;
 
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
+import org.springframework.samples.petclinic.model.Stories;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.StoryService;
-import org.springframework.samples.petclinic.service.exceptions.DuplicatedStoryNameException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -35,6 +34,22 @@ public class StoryController {
 		this.storyService = storyService;
                 this.authorService = authorService;
 	}
+	
+	@GetMapping(value = { "/stories" })
+	public String showStoriesList(Map<String, Object> model) {
+		Stories stories = new Stories();
+		stories.getStoryList().addAll(this.storyService.findStories());
+		model.put("stories", stories);
+		return "stories/storyList";
+	}
+	
+	@GetMapping(value = "/authors/*/stories/{storyId}")
+	public String showStory(@PathVariable int storyId, Map<String, Object> model) {
+		Story s= this.storyService.findStoryById(storyId);
+		model.put("story", s);
+		return "stories/storyList";
+	}
+	
 	
 	@GetMapping(value = "/stories/new")
 	public String initCreationForm(Author author, ModelMap model) {
