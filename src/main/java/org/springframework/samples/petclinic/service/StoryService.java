@@ -25,6 +25,9 @@ public class StoryService {
 		
 	}		
 	
+	public Story findStoryById(int storyId){
+		return storyRepository.findStoryById(storyId);
+	}
 	
 
 }
