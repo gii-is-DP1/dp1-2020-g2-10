@@ -51,6 +51,7 @@ class StoryServiceTests {
 		assertThat(story.getId()).isNotNull();
 	}
 	
+	
 //	@Test
 //	@Transactional
 //	public void shouldThrowExceptionInsertingStoryWithNoTitle() {

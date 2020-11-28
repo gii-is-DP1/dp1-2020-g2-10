@@ -67,6 +67,7 @@ class StoryControllerTests {
 		given(this.authorService.findAuthorById(TEST_AUTHOR_ID)).willReturn(new Author());
 		given(this.storyService.findStoryById(TEST_STORY_ID)).willReturn(new Story());
 	}
+	
 
 	@WithMockUser(value = "spring")
 	@Test

@@ -42,6 +42,7 @@ public class StoryController {
 		author.addStory(story);
 		model.put("story", story);
 		
+		
 //		Aqui la idea es meterle al modelo los generos.
 //		Tambien se puede hacer como dijiste, poniendo los generos en el jsp
 //		realmente no veo el problema, lo malo es que habria que escribirlos otra vez y que habria que indicar
