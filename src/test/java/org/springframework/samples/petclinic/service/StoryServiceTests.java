@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,8 @@ class StoryServiceTests {
 	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() {
 		Author author1 = this.authorService.findAuthorById(1);
-		int found = author1.getStories().size();
+		List<Story> storiesA1 = author1.getStories();
+		int found = storiesA1.size();
 
 		Story story = new Story();
 		story.setTitle("La prueba positiva");

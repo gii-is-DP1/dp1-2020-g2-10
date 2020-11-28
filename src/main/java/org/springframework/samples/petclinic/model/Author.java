@@ -69,7 +69,8 @@ public @Data class Author extends Person {
 	public List<Story> getStories() {
 		List<Story> sortedStories = new ArrayList<>(getStoriesInternal());
 		PropertyComparator.sort(sortedStories, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedStories);
+//		return Collections.unmodifiableList(sortedStories);
+		return sortedStories;
 	}
 
 
