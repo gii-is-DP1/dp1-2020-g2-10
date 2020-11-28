@@ -51,6 +51,37 @@ public @Data class Author extends Person {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+	private Set<Story> stories;
+	
+	
+	protected Set<Story> getStoriesInternal() {
+		if (this.stories == null) {
+			this.stories = new HashSet<>();
+		}
+		return this.stories;
+	}
+
+	protected void setStoriesInternal(Set<Story> stories) {
+		this.stories = stories;
+	}
+
+	public List<Story> getStories() {
+		List<Story> sortedStories = new ArrayList<>(getStoriesInternal());
+		PropertyComparator.sort(sortedStories, new MutableSortDefinition("name", true, true));
+		return Collections.unmodifiableList(sortedStories);
+	}
+
+	public void addStory(Story story) {
+		getStoriesInternal().add(story);
+		story.setAuthor(this);
+	}
+	
+	public boolean removeStory(Story story) {
+		return getStoriesInternal().remove(story);
+	}
+	
+	
 	@Override
 	public String toString() {
 		return new ToStringCreator(this)
@@ -58,4 +89,5 @@ public @Data class Author extends Person {
 				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
 				.append("firstName", this.getFirstName()).append("biografia", this.biography).toString();
 	}
+
 }

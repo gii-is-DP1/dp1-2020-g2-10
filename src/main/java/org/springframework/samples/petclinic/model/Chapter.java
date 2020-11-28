@@ -33,7 +33,6 @@ public @Data class Chapter extends BaseEntity{
 	@Column(columnDefinition = "TEXT")
 	private String body;
 	
-<
 	@NotEmpty
 	@Column(name = "is_published")
 	private Boolean isPublished;

@@ -67,7 +67,8 @@ public @Data class Story extends BaseEntity{
 	@Column(name = "url_cover")
 	private String urlCover;
 	
-	@ManyToOne(optional=false)
+	@ManyToOne(optional=true)
+	//Once a history is published a moderator MUST be assigned (por que la historia 2 lo tiene null?)
 	private Moderator moderator;
 
 }

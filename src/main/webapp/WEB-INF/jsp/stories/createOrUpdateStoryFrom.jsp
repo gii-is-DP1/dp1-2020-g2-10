@@ -31,7 +31,7 @@
                 <petclinic:inputField label="Dedication" name="dedication"/>
                 <petclinic:inputField label="Genre" name="genre"/>
                 <petclinic:inputField label="StoryStatus" name="storyStatus"/>
-                <petclinic:inputField label="Adult" name="isAdult"/>
+                <form:checkbox label="Adult" name="isAdult"/>
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
