@@ -70,6 +70,6 @@ public @Data class Story extends BaseEntity{
 	@ManyToOne(optional=true)
 	//Once a history is published a moderator MUST be assigned (por que la historia 2 lo tiene null?)
 	private Moderator moderator;
-	
+
 
 }

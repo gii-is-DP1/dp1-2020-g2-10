@@ -36,6 +36,7 @@ public class StoryController {
                 this.authorService = authorService;
 	}
 	
+	
 	@GetMapping(value = "/stories/new")
 	public String initCreationForm(Author author, ModelMap model) {
 		Story story= new Story();

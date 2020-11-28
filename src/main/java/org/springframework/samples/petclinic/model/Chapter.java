@@ -21,7 +21,7 @@ import lombok.EqualsAndHashCode;
 		    @UniqueConstraint(columnNames = {"story_id", "index"})
 	})
 public @Data class Chapter extends BaseEntity{
-	
+
 
 	@NotEmpty
 	@Positive
