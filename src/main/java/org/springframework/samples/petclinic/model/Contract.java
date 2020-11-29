@@ -2,7 +2,10 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -15,7 +18,10 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.EqualsAndHashCode;
+
 @Entity
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "contracts")
 public class Contract extends BaseEntity {
 
@@ -24,36 +30,45 @@ public class Contract extends BaseEntity {
 @NotNull
 @PastOrPresent
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@Column(name = "offer_date")
 private Date offerDate;
 	
 @NotBlank
+@Column(columnDefinition = "TEXT")
 private String header;
 
 @NotBlank
+@Column(columnDefinition = "TEXT")
 private String text;
 
 @NotNull
 @Digits(fraction=2, integer = 3)
+//@Column(columnDefinition = "NUMBER")
 private Double remuneration;
 
 @NotNull
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@Column(name = "answer_date")
 private Date answerDate;
 
 @NotNull
+@Enumerated(EnumType.STRING)
 private ContractStatus contractStatus;
 
 @NotNull
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Future
+@Column(name = "start_date")
 private Date startDate;
 
 @NotNull
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Future
+@Column(name = "end_date")
 private Date endDate;
 
 @NotEmpty
+@Column(name = "is_exclusive")
 private Boolean isExclusive;
 
 // Relaciones
@@ -63,7 +78,7 @@ private Boolean isExclusive;
 private Author author;
 
 @ManyToOne(optional=false)
-//@JoinColumn(name = "company_id")
+@JoinColumn(name = "company_id")
 private Company company;
 
 //Getters and setters

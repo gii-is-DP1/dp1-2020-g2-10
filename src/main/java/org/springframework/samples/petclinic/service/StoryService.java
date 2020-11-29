@@ -1,5 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Story;
@@ -17,6 +19,15 @@ public class StoryService {
 		this.storyRepository = storyRepository;
 	}	
 
+	@Transactional(readOnly = true)	
+	public Collection<Story> findStories() throws DataAccessException {
+		return storyRepository.findAll();
+	}	
+	
+	@Transactional(readOnly = true)
+	public Story findStoryById(int id) throws DataAccessException {
+		return storyRepository.findStoryById(id);
+	}
 	
 	@Transactional
 	public void saveStory(Story story) throws DataAccessException {
