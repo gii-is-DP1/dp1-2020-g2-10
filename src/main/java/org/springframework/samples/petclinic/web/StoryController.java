@@ -3,12 +3,14 @@ package org.springframework.samples.petclinic.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.StoryService;
+import org.springframework.samples.petclinic.service.exceptions.PrincipalAuthorNotFound;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -22,21 +24,19 @@ public class StoryController {
 
 	private static final String VIEWS_STORIES_CREATE_OR_UPDATE_FORM = "stories/createOrUpdateStoryForm";
 
+	@Autowired
 	private final StoryService storyService;
-	
-	
-    private final AuthorService authorService;
-	
-    @Autowired
+
 	public StoryController(StoryService storyService, AuthorService authorService) {
 		super();
 		this.storyService = storyService;
-		this.authorService = authorService;
 	}
 
 	@GetMapping(value = "/stories/new")
 	public String initCreationForm(Author author, ModelMap model) {
-		Story story= new Story();
+		System.out.println("StoryService:" + storyService);
+		Story story = storyService.createStory();
+
 		//author.addStory(story);
 		model.put("story", story);
 		
@@ -60,9 +60,9 @@ public class StoryController {
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-                    author.addStory(story);
-					this.storyService.saveStory(story);
-                    return "redirect:/authors/{authorId}";
+			System.out.println("storyService: " + storyService);
+			storyService.saveStory(story);
+            return "redirect:/welcome";
 		}
 	}
 }

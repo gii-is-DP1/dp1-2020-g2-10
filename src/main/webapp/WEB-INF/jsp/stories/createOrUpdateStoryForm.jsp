@@ -4,6 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <petclinic:layout pageName="stories">
     <jsp:attribute name="customScript">
         <script>
@@ -19,6 +21,8 @@
         <form:form modelAttribute="story"
                     class="form-horizontal">
             <input type="hidden" name="id" value="${story.id}"/>
+            <fmt:formatDate value="${story.updatedDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedUpdatedDate"/>
+             <input type="hidden" name="updatedDate" value="${parsedUpdatedDate}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">Author</label>
