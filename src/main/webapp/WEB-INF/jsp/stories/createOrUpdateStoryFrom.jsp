@@ -32,6 +32,15 @@
                 <petclinic:inputField label="Genre" name="genre"/>
                 <petclinic:inputField label="StoryStatus" name="storyStatus"/>
                 <form:checkbox label="Adult" name="isAdult"/>
+                <form:select path="genres">
+     				<form:option value="-" label="--Please Select"/>
+     				<form:options items="${genres}" />
+				</form:select>
+				<form:select path="storystatus">
+     				<form:option value="-" label="--Please Select"/>
+     				<form:options items="${storyStatus}" />
+				</form:select>
+                
             </div>
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
