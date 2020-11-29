@@ -20,8 +20,9 @@ public class StoryServiceTests {
 	@Autowired
 	protected StoryService storyService;	
 
+	//@SuppressWarnings({ "deprecation", "static-access" })
 	@Test
-	void shouldFindStories() {
+	void shouldFindStories()  {
 		Collection<Story> stories = this.storyService.findStories();
 
 		Story story = EntityUtils.getById(stories, Story.class, 1);
@@ -35,9 +36,22 @@ public class StoryServiceTests {
 		assertThat(story.getStoryStatus()).isEqualTo(s);
 		Boolean b= Boolean.FALSE;
 		assertThat(story.getIsAdult()).isEqualTo(b);
-//		LocalDate l = LocalDate.of(2020, 10, 12);
+		//SimpleDateFormat sdf= new SimpleDateFormat("yyyy/MM/dd HH:mm");
+		//Date d = sdf.parse("2020-10-12 15:00");
+//		Date d = new Date(120, 9, 12, 15, 00);
+		
+//		d.parse("yyyy/MM/dd HH:mm");
+//		d.parse("yyyy/MM/dd HH:mm");
+		
+//		System.out.println("---------------------------------------------------------------");
+//		System.out.println("---------------------------------------------------------------");
+//		System.out.println("---------------------------------------------------------------");
+//		System.out.println(story.getUpdatedDate());
 //		assertThat(story.getUpdatedDate()).isEqualTo("2020-10-12 15:00");
-
+		
+		
+	
 
 	}
+	
 }
