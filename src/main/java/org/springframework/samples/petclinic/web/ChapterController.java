@@ -5,13 +5,17 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Chapter;
+import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.ChapterService;
+import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,43 +25,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ChapterController {
 	
 	private final ChapterService chapterService;
-	// private final HistoriaService historiaService;
+	private final StoryService storyService;
 	private final AuthorService authorService;
 	private static final String VISTA_EDICION_chapter= "chapters/editChapter";
 	
 	@Autowired
-	public ChapterController(ChapterService chapterService, /*HistoriaService historiaService,*/ AuthorService authorService) {
+	public ChapterController(ChapterService chapterService, StoryService storyService,AuthorService authorService) {
 
 		this.chapterService = chapterService;
-		// this.historiaService = historiaService;
+		this.storyService = storyService;
 		this.authorService = authorService;
 	}
 	
 	
 	// HU-05: Añadir un capítulo a una historia.
 	
+	@InitBinder
+ 	public void setAllowedFields(WebDataBinder dataBinder) {
+ 		dataBinder.setDisallowedFields("id");
+ 	}
+			
+			
+	
+	// HU-05: Añadir un capítulo a una historia.
+	
 	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
-	@GetMapping("/chapters/new")
-	public String añadirchapter(Author author, ModelMap modelMap) {
-		
+	@GetMapping("/authors/{authorId}/stories/{storyId}/chapters/new")
+	public String initAddChapter(ModelMap modelMap) {
+		modelMap.put("buttonCreate", true);
 		Chapter chapter = new Chapter();
-		modelMap.addAttribute("chapter", chapter);
+		modelMap.put("chapter", chapter);
+		
 		
 		return VISTA_EDICION_chapter;
 		
 	}
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
-	@PostMapping("/chapter/new")
-	public String procesarNuevochapter(Author author, @Valid Chapter cap, BindingResult result, ModelMap modelMap) {
+	@PostMapping("/authors/{authorId}/stories/{storyId}/chapters/new")
+	public String processNewChapter(@PathVariable("authorId") int authorId, @PathVariable("storyId") int storyId, @Valid Chapter chapter, BindingResult result, ModelMap modelMap) {
 		
-		String view = "chapters/listChapters";
+		modelMap.put("buttonCreate", true);
 		
 		// Si al validarlo, encontramos errores:
 		
 		if(result.hasErrors()) {
 			
-			modelMap.addAttribute("chapter", cap);
+			modelMap.put("chapter", chapter);
 			return VISTA_EDICION_chapter;
 		}
 		
@@ -65,13 +79,16 @@ public class ChapterController {
 		
 		else { 
 			
-			chapterService.saveChapter(cap);
-			modelMap.addAttribute("mensajeExito", "¡El capítulo se ha añadido con éxito!");
+			Story story = this.storyService.findStoryById(storyId);
+			chapter.setStory(story);
+			chapterService.saveChapter(chapter);
+			modelMap.addAttribute("messageSuccess", "¡El capítulo se ha añadido con éxito!");
 		
 		}
 		
-			return view;
+		return "redirect:/authors/{authorId}/story/{storyId}/chapters";
 		}
+	
 	
 	//HU-06 Edición de un capitulo
 		@GetMapping(value = "/chapters/{chapterId}/edit")

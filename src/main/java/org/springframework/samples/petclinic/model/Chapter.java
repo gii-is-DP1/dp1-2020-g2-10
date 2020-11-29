@@ -22,7 +22,7 @@ import lombok.EqualsAndHashCode;
 	})
 public @Data class Chapter extends BaseEntity{
 
-	@NotEmpty
+	@NotNull
 	@Positive
 	private Integer index;
 	
@@ -33,7 +33,7 @@ public @Data class Chapter extends BaseEntity{
 	@Column(columnDefinition = "TEXT")
 	private String body;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "is_published")
 	private Boolean isPublished;
 	
