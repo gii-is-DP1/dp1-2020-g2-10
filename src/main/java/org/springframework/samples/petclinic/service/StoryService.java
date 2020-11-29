@@ -7,7 +7,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.repository.StoryRepository;
-import org.springframework.samples.petclinic.service.exceptions.PrincipalAuthorNotFound;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
