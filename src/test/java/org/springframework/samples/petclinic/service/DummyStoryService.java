@@ -22,18 +22,18 @@ public class DummyStoryService {
 		// TODO Auto-generated method stub
 
 		
-		Author author1 = AuthorService.findAuthorById(1);
-		int found = author1.getStories().size();
-
-		Story story = new Story();
-		story.setTitle("La prueba positiva");
-		story.setGenre(Genre.CHILDREN_STORY);
-		story.setDescription("Espero que funcione");
-		story.setIsAdult(false);
-		story.setStoryStatus(StoryStatus.PUBLISHED);
-		story.setUpdatedDate(Date.valueOf(LocalDate.of(03, 05, 2020)));
-		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
-		author1.addStory(story);
+//		Author author1 = AuthorService.findAuthorById(1);
+//		int found = author1.getStories().size();
+//
+//		Story story = new Story();
+//		story.setTitle("La prueba positiva");
+//		story.setGenre(Genre.CHILDREN_STORY);
+//		story.setDescription("Espero que funcione");
+//		story.setIsAdult(false);
+//		story.setStoryStatus(StoryStatus.PUBLISHED);
+//		story.setUpdatedDate(Date.valueOf(LocalDate.of(03, 05, 2020)));
+//		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
+//		author1.addStory(story);
 		
 	}
 

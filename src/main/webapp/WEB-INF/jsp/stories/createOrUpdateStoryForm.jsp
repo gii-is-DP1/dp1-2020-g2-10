@@ -17,7 +17,7 @@
             <c:if test="${story['new']}">New </c:if> Story
         </h2>
         <form:form modelAttribute="story"
-                   class="form-horizontal">
+                    class="form-horizontal">
             <input type="hidden" name="id" value="${story.id}"/>
             <div class="form-group has-feedback">
                 <div class="form-group">
@@ -29,15 +29,13 @@
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Description" name="description"/>
                 <petclinic:inputField label="Dedication" name="dedication"/>
-                <petclinic:inputField label="Genre" name="genre"/>
-                <petclinic:inputField label="StoryStatus" name="storyStatus"/>
-                <form:checkbox label="Adult" name="isAdult"/>
-                <form:select path="genres">
-     				<form:option value="-" label="--Please Select"/>
+<%--                 <petclinic:inputField label="Genre" name="genre"/> --%>
+<%--                 <petclinic:inputField label="StoryStatus" name="storyStatus"/> --%>
+                <form:checkbox label="Adult" path="isAdult"/>
+                <form:select path="genre">
      				<form:options items="${genres}" />
 				</form:select>
-				<form:select path="storystatus">
-     				<form:option value="-" label="--Please Select"/>
+				<form:select path="storyStatus">
      				<form:options items="${storyStatus}" />
 				</form:select>
                 
