@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -65,4 +66,28 @@ public class StoryController {
                     return "redirect:/authors/{authorId}";
 		}
 	}
+	
+	@GetMapping(value = "/story/{storyId}/edit")
+	public String initUpdateForm(@PathVariable("storyId") int storyId, ModelMap model) {
+		Story story = this.storyService.findStoryById(storyId);
+		model.put("story", story);
+		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+	}
+
+  
+    @PostMapping(value = "/story/{storyId}/edit")
+	public String processUpdateForm(@Valid Story story, BindingResult result, Author author,@PathVariable("storyId") int storyId, ModelMap model) {
+		if (result.hasErrors()) {
+			model.put("story", story);
+			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			story.setId(storyId);
+			this.storyService.saveStory(story);
+            //Story storyToUpdate=this.storyService.findStoryById(storyId);
+			//BeanUtils.copyProperties(story, storyToUpdate, "id","author");                                                                                  
+            return "redirect:/author/{authorId}";
+		}
+	}
+
 }
