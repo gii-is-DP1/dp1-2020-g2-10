@@ -1,9 +1,11 @@
-<<<<<<< HEAD
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Collection;
 import java.util.Date;
+
+import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,6 +14,7 @@ import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
+import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,7 +27,7 @@ class StoryServiceTests {
 	protected AuthorService authorService;	
 
 
-	@Test
+	//@Test
 	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() {
 		Author author1 = this.authorService.findAuthorById(1);
@@ -132,30 +135,7 @@ class StoryServiceTests {
 //		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
 //		assertThat(visit.getId()).isNotNull();
 //	}
-}
-=======
-package org.springframework.samples.petclinic.service;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.Collection;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.Story;
-import org.springframework.samples.petclinic.model.StoryStatus;
-import org.springframework.samples.petclinic.util.EntityUtils;
-import org.springframework.stereotype.Service;
-
-@DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-public class StoryServiceTests {
-
-	@Autowired
-	protected StoryService storyService;	
-
+	
 	//@SuppressWarnings({ "deprecation", "static-access" })
 	@Test
 	void shouldFindStories()  {
@@ -184,11 +164,6 @@ public class StoryServiceTests {
 //		System.out.println("---------------------------------------------------------------");
 //		System.out.println(story.getUpdatedDate());
 //		assertThat(story.getUpdatedDate()).isEqualTo("2020-10-12 15:00");
-		
-		
-	
 
 	}
-	
 }
->>>>>>> develop
