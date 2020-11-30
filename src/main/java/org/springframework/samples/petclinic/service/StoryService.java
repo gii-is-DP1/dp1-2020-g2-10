@@ -34,10 +34,6 @@ public class StoryService {
 		
 		storyRepository.save(story);		
 		
-	}		
-	
-	public Story findStoryById(int storyId){
-		return storyRepository.findStoryById(storyId);
 	}
 	
 
