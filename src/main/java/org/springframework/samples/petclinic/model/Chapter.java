@@ -9,6 +9,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -38,6 +42,7 @@ public @Data class Chapter extends BaseEntity{
 	private Boolean isPublished;
 	
 	@ManyToOne(optional=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Story story;
 	
 }

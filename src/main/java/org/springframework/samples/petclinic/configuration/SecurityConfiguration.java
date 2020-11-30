@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/vets/**").authenticated()
 				// Stories
 				.antMatchers("/stories/new").hasAnyAuthority("author")
+				.antMatchers("/stories/{storyId}/delete").hasAnyAuthority("author")
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()

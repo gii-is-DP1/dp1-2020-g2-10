@@ -70,6 +70,12 @@ public class StoryController {
 		}
 	}
 	
+	@GetMapping(value = { "/{storyId}/delete"})
+	public String deleteStory(@PathVariable int storyId) {
+		storyService.deleteStory(storyId);
+		return "redirect:/";
+	}
+	
 	@GetMapping(value = { "/stories" })
 	public String showStoriesList(Map<String, Object> model) {
 		Stories stories = new Stories();
