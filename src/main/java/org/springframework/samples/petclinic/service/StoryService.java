@@ -63,6 +63,7 @@ public class StoryService {
 	public Story createStory(){
 		Story res = new Story();
 		
+		
 		res.setAuthor(authorService.getPrincipal());
 		res.setUpdatedDate(new Date());
 		

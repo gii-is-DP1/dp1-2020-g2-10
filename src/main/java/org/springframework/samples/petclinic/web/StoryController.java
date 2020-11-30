@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Arrays;
 import java.util.Map;
 
 
@@ -21,8 +22,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 @Controller
-@RequestMapping("authors/{authorId}")
+@RequestMapping("stories")
 public class StoryController {
 
 	private static final String VIEWS_STORIES_CREATE_OR_UPDATE_FORM = "stories/createOrUpdateStoryForm";
@@ -36,7 +39,7 @@ public class StoryController {
 	}
 
 
-	@GetMapping(value = "/stories/new")
+	@GetMapping(value = "/new")
 	public String initCreationForm(Author author, ModelMap model) {
 
 		Story story = storyService.createStory();
@@ -47,10 +50,24 @@ public class StoryController {
 //		realmente no veo el problema, lo malo es que habria que escribirlos otra vez y que habria que indicar
 //		el valor enumerado al que se refiere cada opcion.
 //		
-	    model.put("genres", Genre.values());
+	    model.put("genres", Arrays.asList(Genre.values()));
 //		Lo mismo con storyStatus
-		model.put("storyStatus", StoryStatus.values());
+		model.put("storyStatus", Arrays.asList(StoryStatus.values()));
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value = "/new")
+	public String processCreationForm(Author author, @Valid Story story, BindingResult result, ModelMap model) {		
+		if (result.hasErrors()) {
+			model.put("story", story);
+			System.out.println(result);
+			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			storyService.saveStory(story);
+            return "redirect:/";
+
+		}
 	}
 	
 	@GetMapping(value = { "/stories" })
@@ -66,19 +83,5 @@ public class StoryController {
 		Story s= this.storyService.findStoryById(storyId);
 		model.put("story", s);
 		return "stories/storyList";
-	}
-
-	@PostMapping(value = "/stories/new")
-	public String processCreationForm(Author author, @Valid Story story, BindingResult result, ModelMap model) {		
-		if (result.hasErrors()) {
-			model.put("story", story);
-			System.out.println(result);
-			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
-		}
-		else {
-			storyService.saveStory(story);
-            return "redirect:/welcome";
-
-		}
 	}
 }
