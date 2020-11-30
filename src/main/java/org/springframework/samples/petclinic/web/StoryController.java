@@ -1,11 +1,14 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Map;
+
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
+import org.springframework.samples.petclinic.model.Stories;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
@@ -14,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -31,14 +35,12 @@ public class StoryController {
 		this.storyService = storyService;
 	}
 
+
 	@GetMapping(value = "/stories/new")
 	public String initCreationForm(Author author, ModelMap model) {
-		System.out.println("StoryService:" + storyService);
-		Story story = storyService.createStory();
 
-		//author.addStory(story);
-		model.put("story", story);
-		
+		Story story = storyService.createStory();
+		model.put("story", story);		
 		
 //		Aqui la idea es meterle al modelo los generos.
 //		Tambien se puede hacer como dijiste, poniendo los generos en el jsp
@@ -50,6 +52,21 @@ public class StoryController {
 		model.put("storyStatus", StoryStatus.values());
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 	}
+	
+	@GetMapping(value = { "/stories" })
+	public String showStoriesList(Map<String, Object> model) {
+		Stories stories = new Stories();
+		stories.getStoryList().addAll(this.storyService.findStories());
+		model.put("stories", stories);
+		return "stories/storyList";
+	}
+	
+	@GetMapping(value = "/authors/*/stories/{storyId}")
+	public String showStory(@PathVariable int storyId, Map<String, Object> model) {
+		Story s= this.storyService.findStoryById(storyId);
+		model.put("story", s);
+		return "stories/storyList";
+	}
 
 	@PostMapping(value = "/stories/new")
 	public String processCreationForm(Author author, @Valid Story story, BindingResult result, ModelMap model) {		
@@ -59,9 +76,9 @@ public class StoryController {
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			System.out.println("storyService: " + storyService);
 			storyService.saveStory(story);
             return "redirect:/welcome";
+
 		}
 	}
 }

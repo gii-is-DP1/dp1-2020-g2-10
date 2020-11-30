@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Date;
+import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,6 +31,11 @@ public class StoryService {
 		this.moderatorService = moderatorService;
 	}
 
+	@Transactional(readOnly = true)	
+	public Collection<Story> findStories() throws DataAccessException {
+		return storyRepository.findAll();
+	}	
+	
 	@Transactional
 	public void saveStory(Story story){
 		Story oldStory = null;
@@ -66,7 +72,6 @@ public class StoryService {
 	public Story findStoryById(int storyId) {
 		return storyRepository.findById(storyId).orElseGet(null);
 	}
-	
 	
 
 }

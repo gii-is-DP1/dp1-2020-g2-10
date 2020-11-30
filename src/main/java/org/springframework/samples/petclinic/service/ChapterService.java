@@ -2,6 +2,8 @@ package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Chapter;
@@ -19,14 +21,21 @@ public class ChapterService {
 		this.chapterRepository = chapterRepository;
 	}	
 
-	
-
 	@Transactional
-	public void saveChapter(Chapter chapter) throws DataAccessException {
+	public Chapter findChapterById(Integer chapterId) throws DataAccessException {
+		Chapter chapter = chapterRepository.findById(chapterId).get();
+		return chapter;
+	}
+
+	public void saveChapter(@Valid Chapter chapter) throws DataAccessException {
 		
 		// Creamos el capítulo
 		chapterRepository.save(chapter);		
 		
+	}		
+	
+	public Collection<Chapter> findChapterByStoryId(int storyId){
+		return chapterRepository.findChapterByStoryId(storyId);
 	}		
 
 }
