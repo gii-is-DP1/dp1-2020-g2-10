@@ -1,10 +1,16 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Date;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.repository.StoryRepository;
@@ -68,6 +74,18 @@ public class StoryService {
 		res.setUpdatedDate(new Date());
 		
 		return res;
+	}
+	
+	public void deleteStory(int storyId) {
+		Story story = findStoryById(storyId);
+		Author principalAuthor = authorService.getPrincipal(); 
+		
+		assertNotNull(String.format("No story with ID=%d was found for deletion", storyId), story);
+		assertTrue("Only stories as DRAFT can be deleted", story.getStoryStatus().equals(StoryStatus.DRAFT));
+		assertTrue("Only the main author creator of the story can delete it.",
+				story.getAuthor().equals(principalAuthor));
+		
+		storyRepository.delete(story);
 	}
 	
 	public Story findStoryById(int storyId) {
