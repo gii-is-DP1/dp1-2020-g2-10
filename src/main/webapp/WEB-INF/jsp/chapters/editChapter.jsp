@@ -19,9 +19,13 @@
             	<petclinic:inputField label="Index" name="index"/>
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Body" name="body"/>
-<%--                 <petclinic:inputField label="Publish" name="isPublished"/> --%>
-                <form:radiobutton path="chapter.isPublished" value="true"/>
-                <form:radiobutton path="chapter.isPublished" value="false"/>
+				<c:if test="${errorPublished}">
+					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You cannot publish your chapter because your story is not.</h3>
+				</c:if>
+				<%--                &emsp sirve para implementar espacios --%>
+				
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Published&emsp;<form:radiobutton path="isPublished" value="true"/>
+                &emsp;&emsp;&emsp;Draft&emsp;<form:radiobutton path="isPublished" value="false"/>
                 
            	</div>
 				
@@ -36,7 +40,8 @@
                         </c:when>
                         <c:otherwise>
                             <button class="btn btn-default" type="submit">Update Chapter</button>
-								 <a class="btn btn-default" href="/authors/${authorId}/stories/${storyId}/chapters" >Return</a>
+<!--                             Aún no implementada la vista de return -->
+ 								 <a class="btn btn-default" href="/"<%--authors/${authorId}/stories/${storyId}/chapters"--%> >Return</a> 
                         </c:otherwise>
                         </c:choose>
                         
