@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Story;
+import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.ChapterService;
 import org.springframework.samples.petclinic.service.StoryService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/authors/{authorId}/stories/{storyId}")
+@RequestMapping("/stories/{storyId}")
 public class ChapterController {
 	
 	private final ChapterService chapterService;
@@ -91,26 +93,43 @@ public class ChapterController {
 	
 	
 	//HU-06 Edición de un capitulo
-		@GetMapping(value = "/chapters/{chapterId}/edit")
-		public String initUpdateChapterForm(@PathVariable("chapterId") int chapterId, Model model) {
-			model.addAttribute("buttonCreate", false); //si esta a false el boton de create no aparecera
-			Chapter chapter = this.chapterService.findChapterById(chapterId);
-			model.addAttribute(chapter);
-			return VISTA_EDICION_chapter;
-		}
-		
-		@PostMapping(value = "/chapters/{chapterId}/edit")
-		public String processUpdateChapterForm(@Valid Chapter chapter, BindingResult result,
-				@PathVariable("chapterId") int chapterId) {
-			if (result.hasErrors()) {
+			@GetMapping(value = "/chapters/{chapterId}/edit")
+			public String initUpdateChapterForm(@PathVariable("chapterId") int chapterId, 
+					@PathVariable("storyId") int storyId, ModelMap model) {
+				model.addAttribute("buttonCreate", false); //si esta a false el boton de create no aparecera
+				Chapter chapter = this.chapterService.findChapterById(chapterId);
+				model.addAttribute("chapter", chapter);
+				model.addAttribute("storyId", storyId);
 				return VISTA_EDICION_chapter;
 			}
-			else {
-				chapter.setId(chapterId);
-				this.chapterService.saveChapter(chapter);
-				return "redirect:/chapters/{chapterId}";
+			
+			@PostMapping(value = "/chapters/{chapterId}/edit")
+			public String processUpdateChapterForm(@Valid Chapter chapter, BindingResult result,
+					@PathVariable("chapterId") int chapterId, 
+					@PathVariable("storyId") int storyId, ModelMap model) {
+				Story story = this.storyService.findStory(storyId);
+				//No puedes hacer público un capítulo si las historia no esta publicada
+				if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
+					ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
+					result.addError(error1);
+				}
+				//----
+				if (result.hasErrors()) {
+					if(chapter.getIsPublished().equals(true)) {
+						model.addAttribute("errorPublished", true);
+					}else {
+						model.addAttribute("errorPublished", false);
+					}
+					return VISTA_EDICION_chapter;
+				}
+				else {
+					chapter.setId(chapterId);
+					chapter.setStory(story);
+					this.chapterService.saveChapter(chapter);
+//					return "redirect:/chapters/{chapterId}"; Aún no existe esta funcionalidad
+					return "redirect:/";
+				}
 			}
-		}
 	
 }
 

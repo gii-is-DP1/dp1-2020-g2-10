@@ -66,6 +66,11 @@ public class StoryService {
 		
 	}
 	
+	@Transactional
+	public Story findStory (int storyId) throws DataAccessException{
+		return storyRepository.findById(storyId).get();
+	}
+	
 	public Story createStory(){
 		Story res = new Story();
 		
