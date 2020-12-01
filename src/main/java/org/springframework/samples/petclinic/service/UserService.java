@@ -20,8 +20,12 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +43,51 @@ public class UserService {
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+	
+	/* Devuelve el usuario logueado */
+	public User getPrincipal() {
+		User res = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		
+		Optional<User> currentUser = findUser(userDetail.getUsername());
+		if(currentUser.isPresent()) {
+			res = currentUser.get();
+		}
+		return res;
+	}
+	
+	/* Devuelve la Authority del usuario loguado
+	 * o null en otro caso*/
+	private Authorities getPrincipalAuthority() {
+		Authorities res = null;
+		User currentUser = getPrincipal();
+		if(currentUser != null) {
+			res = currentUser.getAuthorities().iterator().next();
+		}
+		return res;
+	}
+	
+	/* Devuelve el nombre de la autoridad del usuario logueado
+	 * y anonymous en otro caso */
+	public String getPrincipalRole() {
+		String res = "anonymous";
+		Authorities principalAuthority = getPrincipalAuthority();
+		if(principalAuthority != null) {
+			res = principalAuthority.getAuthority();
+		}
+		return res;
+	}
+	
+	/* Devuelve cierto cuando el usuario está logueado*/
+	public Boolean isAuthenticated() {
+		Boolean res = false;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		UserDetails userDetail = (UserDetails) auth.getPrincipal();
+		res = userDetail != null;
+		
+		return res;
 	}
 
 	@Transactional

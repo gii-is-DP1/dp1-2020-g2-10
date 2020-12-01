@@ -37,11 +37,61 @@ class ChapterServiceTests {
 	
 	@Autowired
     protected StoryService storyService;
-        
+    
+	// Escenario positivo:
+	
+		// H5+E1 - Añadir un nuevo capítulo mi historia.
+		
+		@Test
+		@Transactional
+		public void shouldInsertChapter() {
+			
+
+			// Almacenamos en la colección los capítulos que forman parte de la historia.
+			Collection<Chapter> chaptersOfStory = this.chapterService.findChapterByStoryId(1);
+
+			// Registramos el número de capítulos.
+			int nChapters = chaptersOfStory.size();
+
+			// Creamos un capítulo nuevo.
+			Chapter chapter = new Chapter();
+			chapter.setId(20);
+			chapter.setIndex(20);
+			chapter.setTitle("Divangando en el sendero eterno del sueño");
+			chapter.setBody("El hombre condenado sin esperanza" + "Por creerse Dios, a su imagen y semejanza"
+					+ "A mi no me trata ni Dios ni la Iglesia"
+					+ "Guardo recuerdos inconfesables que no borra ni la amnesia");
+			chapter.setIsPublished(true);
+		
+			
+			// Instauramos historia para emplearla en la prueba.
+
+			Story s = storyService.findStoryById(1);
+			chapter.setStory(s);
+
+			// Probamos si se inserta correctamente.
+			this.chapterService.saveChapter(chapter);
+
+			// Comprobamos que el id del nuevo capítulo es distinto de cero.
+			
+			assertThat(chapter.getId().longValue()).isNotEqualTo(0);
+
+			// Finalmente, verificamos si el tamaño es el de antes de añadir el capítulo más
+			// el nuevo.
+			chaptersOfStory = this.chapterService.findChapterByStoryId(1);
+			assertThat(chaptersOfStory.size()).isEqualTo(nChapters + 1);
+		}
+		
+		// H5+E2-Añadir un nuevo capítulo coautor.
+		
+	 // Escenarios negativos:
+		// H5-E1 - No añadir un nuevo capítulo como editor.
+	
+	//----------------------------------------------------------------------------------------------------------------	
 	@Test
 	@Transactional
-	void shouldUpdateDiagnosis() {
-		// Cambiamos el titulo de diagnosis, y comprobamos que se ha efectuado correctamente el cambio
+	void shouldUpdateChapter() {
+		// Cambiamos el titulo de chapter, y comprobamos que se ha efectuado correctamente el cambio
 		Chapter chapter = this.chapterService.findChapterById(1);
 		String oldTitle = chapter.getTitle();
 		String newTitle = oldTitle + " un cambio cualquiera";
@@ -50,7 +100,6 @@ class ChapterServiceTests {
 		
 		this.chapterService.saveChapter(chapter);
 
-		// retrieving new name from database
 		chapter = this.chapterService.findChapterById(1);
 		assertThat(chapter.getTitle()).isEqualTo(newTitle);
 	}

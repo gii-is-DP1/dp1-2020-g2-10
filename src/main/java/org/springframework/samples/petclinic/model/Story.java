@@ -15,7 +15,6 @@ import javax.validation.constraints.PastOrPresent;
 import org.hibernate.validator.constraints.Length;
 
 import org.hibernate.validator.constraints.URL;
-import org.hibernate.validator.constraints.UniqueElements;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
@@ -70,5 +69,6 @@ public @Data class Story extends BaseEntity{
 	@ManyToOne(optional=true)
 	//Once a history is published a moderator MUST be assigned
 	private Moderator moderator;
+
 
 }

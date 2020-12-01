@@ -16,10 +16,12 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,10 +44,13 @@ public class AuthorService {
 	@Autowired
 	private AuthoritiesService authoritiesService;
 
-	@Autowired
-	public AuthorService(AuthorRepository authorRepository) {
+	public AuthorService(AuthorRepository authorRepository, UserService userService,
+			AuthoritiesService authoritiesService) {
+		super();
 		this.authorRepository = authorRepository;
-	}	
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
+	}
 
 	@Transactional(readOnly = true)
 	public Author findAuthorById(int id) throws DataAccessException {
@@ -55,6 +60,26 @@ public class AuthorService {
 	@Transactional(readOnly = true)
 	public Collection<Author> findAuthorByLastName(String lastName) throws DataAccessException {
 		return authorRepository.findByLastName(lastName);
+	}
+	
+	/* Devuelve el actor autenticado y null en otro caso*/
+	@Transactional(readOnly = true)
+	public Author getPrincipal(){
+		Author res = null;
+		
+		User currentUser = userService.getPrincipal();
+		if(currentUser != null) {
+			Optional<Author> optionalAuthor = authorRepository.findByUserUsername(currentUser.getUsername());
+			if(optionalAuthor.isPresent()) {
+				res = optionalAuthor.get();
+			}
+		}
+		return res;
+	}
+	
+	@Transactional(readOnly = true)
+	public Boolean isPrincipalAuthor() {
+		return userService.getPrincipalRole().equals("author");
 	}
 
 	@Transactional
