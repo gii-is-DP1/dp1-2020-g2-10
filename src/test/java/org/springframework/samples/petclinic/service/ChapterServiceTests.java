@@ -16,6 +16,8 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Collection;
 
@@ -23,8 +25,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Story;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,6 +41,9 @@ class ChapterServiceTests {
 	
 	@Autowired
     protected StoryService storyService;
+	
+	@Autowired
+	protected AuthorService authorService;
     
 	// Escenario positivo:
 	
@@ -84,8 +91,50 @@ class ChapterServiceTests {
 		
 		// H5+E2-Añadir un nuevo capítulo coautor.
 		
+		
 	 // Escenarios negativos:
 		// H5-E1 - No añadir un nuevo capítulo como editor.
+		
+		@Test
+		@WithMockUser(value = "author2", authorities = {
+		        "author"
+		    })
+		@Transactional
+		public void attempInsertChapterWithinAuthorOfStory() {
+			
+			// Definimos autor:
+						Author au = authorService.findAuthorById(2);
+					
+
+						// Creamos un capítulo nuevo.
+						Chapter chapter = new Chapter();
+						chapter.setId(20);
+						chapter.setIndex(20);
+						chapter.setTitle("Divangando en el sendero eterno del sueño");
+						chapter.setBody("El hombre condenado sin esperanza" + "Por creerse Dios, a su imagen y semejanza"
+								+ "A mi no me trata ni Dios ni la Iglesia"
+								+ "Guardo recuerdos inconfesables que no borra ni la amnesia");
+						chapter.setIsPublished(true);
+					
+						
+						// Instauramos historia para emplearla en la prueba.
+
+						Story s = storyService.findStoryById(1);
+						chapter.setStory(s);
+
+						// Probamos que salta excepción.
+						this.chapterService.saveChapter(chapter);
+			if(s.getAuthor().equals(au)) {
+		    Exception exception = assertThrows(NumberFormatException.class, () -> {
+		        Integer.parseInt("1a");
+		    });
+		 
+		    String expectedMessage = "No puedes insertar capítulo si no eres autor o coautor de la historia.";
+		    String actualMessage = exception.getMessage();
+		 
+		    assertTrue(actualMessage.contains(expectedMessage));
+		}
+		}
 	
 	//----------------------------------------------------------------------------------------------------------------	
 	@Test

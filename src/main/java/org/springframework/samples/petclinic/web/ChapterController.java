@@ -52,7 +52,7 @@ public class ChapterController {
 	// HU-05: Añadir un capítulo a una historia.
 	
 	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
-	@GetMapping("/authors/{authorId}/stories/{storyId}/chapters/new")
+	@GetMapping("/chapters/new")
 	public String initAddChapter(ModelMap modelMap) {
 		modelMap.put("buttonCreate", true);
 		Chapter chapter = new Chapter();
@@ -64,8 +64,8 @@ public class ChapterController {
 	}
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
-	@PostMapping("/authors/{authorId}/stories/{storyId}/chapters/new")
-	public String processNewChapter(@PathVariable("authorId") int authorId, @PathVariable("storyId") int storyId, @Valid Chapter chapter, BindingResult result, ModelMap modelMap) {
+	@PostMapping("/chapters/new")
+	public String processNewChapter(@PathVariable("storyId") int storyId, @Valid Chapter chapter, BindingResult result, ModelMap modelMap) {
 		
 		modelMap.put("buttonCreate", true);
 		
@@ -88,7 +88,7 @@ public class ChapterController {
 		
 		}
 		
-		return "redirect:/authors/{authorId}/story/{storyId}/chapters";
+		return "redirect:/";
 		}
 	
 	

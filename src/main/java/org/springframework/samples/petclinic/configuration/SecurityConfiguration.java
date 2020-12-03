@@ -43,6 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stories/new").hasAnyAuthority("author")
 				.antMatchers("/stories/{storyId}/delete").hasAnyAuthority("author")
 				//Chapters
+				.antMatchers("/stories/**/chapters/new").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/**/edit").hasAnyAuthority("author")
 				.anyRequest().denyAll()
 				.and()
