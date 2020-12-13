@@ -7,6 +7,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Chapter;
+import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.repository.ChapterRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,11 @@ public class ChapterService {
 	@Autowired
 	public ChapterService(ChapterRepository chapterRepository) {
 		this.chapterRepository = chapterRepository;
+	}	
+	
+	@Transactional(readOnly = true)	
+	public Collection<Chapter> findChapters(Integer storyId) throws DataAccessException {
+		return chapterRepository.findChapterByStoryId(storyId);
 	}	
 
 	@Transactional
