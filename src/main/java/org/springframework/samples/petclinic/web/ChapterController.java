@@ -1,10 +1,13 @@
 package org.springframework.samples.petclinic.web;
 
+import java.util.Map;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Chapter;
+import org.springframework.samples.petclinic.model.Stories;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
@@ -30,6 +33,8 @@ public class ChapterController {
 	private final StoryService storyService;
 	private final AuthorService authorService;
 	private static final String VISTA_EDICION_chapter= "chapters/editChapter";
+	private static final String VIEW_LIST_CHAPTERS="chapters/listChapters";
+	private static final String VIEW_SHOW_CHAPTER="chapters/showChapter";
 	
 	@Autowired
 	public ChapterController(ChapterService chapterService, StoryService storyService,AuthorService authorService) {
@@ -39,15 +44,27 @@ public class ChapterController {
 		this.authorService = authorService;
 	}
 	
-	
-	// HU-05: Añadir un capítulo a una historia.
-	
 	@InitBinder
  	public void setAllowedFields(WebDataBinder dataBinder) {
  		dataBinder.setDisallowedFields("id");
  	}
 			
-			
+	// HU-16: Listar y mostrar capítulos.
+	
+	@GetMapping(value = { "/chapters" })
+	public String listChaptersOfStory(@PathVariable("storyId") int storyId, ModelMap modelMap) {
+		Iterable<Chapter> chapters = this.chapterService.findChapterByStoryId(storyId);
+		modelMap.put("chapters", chapters);
+		return VIEW_LIST_CHAPTERS;
+	}
+	
+	@GetMapping(value = { "/chapters/{chapterId}" })
+	public String showChapter(@PathVariable("chapterId") int chapterId, ModelMap modelMap) {
+		Chapter chapter = this.chapterService.findChapterById(chapterId);
+		modelMap.put("chapter", chapter);
+		return VIEW_SHOW_CHAPTER;
+	}
+		
 	
 	// HU-05: Añadir un capítulo a una historia.
 	
