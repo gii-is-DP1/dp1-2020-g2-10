@@ -147,6 +147,22 @@ public class ChapterController {
 					return "redirect:/";
 				}
 			}
+			
+	// HU-07: Borrar un capítulo mientras esté en borrador
+			@GetMapping(value = "/chapters/{chapterId}/delete")
+			public String deleteChapter(@PathVariable("chapterId") int chapterId, ModelMap model) {
+				try {
+					System.out.println("ChapterDeletion is being called!");
+					chapterService.deleteChapter(chapterId);
+					model.addAttribute("messageSuccess", "¡El capítulo se ha eliminado con éxito!");
+				}catch (AssertionError error){
+		            // Output expected AssertionErrors.
+		            error.printStackTrace();
+		            
+				}
+				return "redirect:/";
+			}
+			
 	
 }
 

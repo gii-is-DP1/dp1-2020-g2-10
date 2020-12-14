@@ -27,7 +27,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Chapter;
+import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
+import org.springframework.samples.petclinic.model.StoryStatus;
+import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -151,5 +154,21 @@ class ChapterServiceTests {
 
 		chapter = this.chapterService.findChapterById(1);
 		assertThat(chapter.getTitle()).isEqualTo(newTitle);
+	}
+	
+	//Tests HU16
+	@Test
+	void shouldFindChapters() {
+		
+		Collection<Chapter> chapters = this.chapterService.findChapters(1);
+		assertThat(chapters.size()).isEqualTo(3);
+		
+		Chapter chapter = EntityUtils.getById(chapters, Chapter.class, 1);
+		assertThat(chapter.getTitle()).isEqualTo("Principium");
+		assertThat(chapter.getBody()).isEqualTo("Integer porttitor nulla id felis maximus pharetra. Etiam at neque eu justo "
+				+ "placerat cursus. Proin blandit eu justo ac gravida. Proin ac metus sed dui.");
+		assertThat(chapter.getIsPublished()).isEqualTo(true);
+		assertThat(chapter.getStory().getId()).isEqualTo(1);
+		
 	}
 }
