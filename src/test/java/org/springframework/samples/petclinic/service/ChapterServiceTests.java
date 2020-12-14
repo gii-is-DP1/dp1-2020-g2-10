@@ -162,9 +162,11 @@ class ChapterServiceTests {
 		
 		Collection<Chapter> chapters = this.chapterService.findChapters(1);
 		assertThat(chapters.size()).isEqualTo(3);
+		
 		Chapter chapter = EntityUtils.getById(chapters, Chapter.class, 1);
 		assertThat(chapter.getTitle()).isEqualTo("Principium");
-		assertThat(chapter.getBody()).isEqualTo("Integer porttitor nulla id felis maximus pharetra. Etiam at neque eu justo placerat cursus. Proin blandit eu justo ac gravida. Proin ac metus sed dui.");
+		assertThat(chapter.getBody()).isEqualTo("Integer porttitor nulla id felis maximus pharetra. Etiam at neque eu justo "
+				+ "placerat cursus. Proin blandit eu justo ac gravida. Proin ac metus sed dui.");
 		assertThat(chapter.getIsPublished()).isEqualTo(true);
 		assertThat(chapter.getStory().getId()).isEqualTo(1);
 	}
