@@ -26,7 +26,18 @@
 				</tr>
 			
 		</tbody>
-	</table>        
+	</table>   
+	<div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <c:choose>
+                    	<c:when test="${buttonCreate}">
+                            <button class="btn btn-default" type="submit">Create Report</button>
+                        </c:when>
+                       
+                        </c:choose>
+                        
+                </div>
+            </div>     
 	<!-- 	Con la variable del controlador ya puedo hacer bien el return -->
    <!-- <a class="btn btn-default" href="/stories/${storyId}/chapters">Return</a> -->
 </petclinic:layout>
