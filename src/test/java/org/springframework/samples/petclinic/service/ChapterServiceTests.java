@@ -169,5 +169,6 @@ class ChapterServiceTests {
 				+ "placerat cursus. Proin blandit eu justo ac gravida. Proin ac metus sed dui.");
 		assertThat(chapter.getIsPublished()).isEqualTo(true);
 		assertThat(chapter.getStory().getId()).isEqualTo(1);
+		
 	}
 }
