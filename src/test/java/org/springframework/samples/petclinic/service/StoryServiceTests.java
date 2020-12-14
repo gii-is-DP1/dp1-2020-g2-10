@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Collection;
 import java.util.Date;
@@ -10,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
 import org.junit.Ignore;
@@ -88,23 +91,24 @@ class StoryServiceTests {
 		story.setIsAdult(false);
 		story.setStoryStatus(StoryStatus.DRAFT);
 		
-		Validator validator = createValidator();
-		Set<ConstraintViolation<Story>> constraintViolations = validator.validate(story);
-		assertThat(constraintViolations.size()).isEqualTo(2);
-		Iterator<ConstraintViolation<Story>> it = constraintViolations.iterator();
-//		ConstraintViolation<Story> violation = constraintViolations.iterator().next();
-		ConstraintViolation<Story> violation = it.next();
-		assertThat(violation.getPropertyPath().toString())
-							.isEqualTo("title");
-		assertThat(violation.getMessage()).isEqualTo("no puede estar vacío");
+//		Validator validator = createValidator();
+//		Set<ConstraintViolation<Story>> constraintViolations = validator.validate(story);
+//		assertThat(constraintViolations.size()).isEqualTo(2);
+//		Iterator<ConstraintViolation<Story>> it = constraintViolations.iterator();
+//		ConstraintViolation<Story> violation = it.next();
+//		assertThat(violation.getPropertyPath().toString())
+//							.isEqualTo("title");
+//		assertThat(violation.getMessage()).isEqualTo("no puede estar vacío");
 
-        this.storyService.saveStory(story);
-		this.authorService.saveAuthor(author1);
+//		this.storyService.saveStory(story);
+		
+		Exception exception = assertThrows(ConstraintViolationException.class, () -> {
 
-		author1 = this.authorService.findAuthorById(1);
-		assertThat(storyService.getStoriesFromAuthorId(author1.getId()).size()).isEqualTo(found);
-		// checks that id has not been generated
-		assertThat(story.getId()).isNull();
+			this.storyService.saveStory(story);
+
+		   });
+		System.out.println(exception.getMessage());
+//		assertEquals("no puede estar vacío", exception.getMessage());
 	}
 	
 	
