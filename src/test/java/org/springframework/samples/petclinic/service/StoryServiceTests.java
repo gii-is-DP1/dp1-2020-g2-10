@@ -4,6 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 
 import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
@@ -15,8 +22,10 @@ import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.util.EntityUtils;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class StoryServiceTests {        
@@ -26,7 +35,8 @@ class StoryServiceTests {
     @Autowired
 	protected AuthorService authorService;	
 
-
+    
+    
 	//@Test
 	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() {
@@ -53,6 +63,112 @@ class StoryServiceTests {
 		// checks that id has been generated
 		assertThat(story.getId()).isNotNull();
 	}
+	
+	private Validator createValidator() {
+		LocalValidatorFactoryBean localValidatorFactoryBean =
+				new LocalValidatorFactoryBean();
+		localValidatorFactoryBean.afterPropertiesSet();
+		return localValidatorFactoryBean;
+	}
+	
+	@Test
+	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+	@Transactional
+	public void shouldNotInsertStoryIntoDatabaseBecauseTittleIsEmpty() {
+		Author author1 = this.authorService.findAuthorById(1);
+		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
+		int found = storiesA1.size();
+
+		Story story = new Story();
+		story.setTitle("");
+		story.setGenre(Genre.CHILDREN_STORY);
+		story.setDescription("Espero que no funcioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+		story.setIsAdult(false);
+		story.setStoryStatus(StoryStatus.DRAFT);
+		
+		Validator validator = createValidator();
+		Set<ConstraintViolation<Story>> constraintViolations = validator.validate(story);
+		assertThat(constraintViolations.size()).isEqualTo(2);
+		Iterator<ConstraintViolation<Story>> it = constraintViolations.iterator();
+//		ConstraintViolation<Story> violation = constraintViolations.iterator().next();
+		ConstraintViolation<Story> violation = it.next();
+		assertThat(violation.getPropertyPath().toString())
+							.isEqualTo("title");
+		assertThat(violation.getMessage()).isEqualTo("no puede estar vacío");
+
+        this.storyService.saveStory(story);
+		this.authorService.saveAuthor(author1);
+
+		author1 = this.authorService.findAuthorById(1);
+		assertThat(storyService.getStoriesFromAuthorId(author1.getId()).size()).isEqualTo(found);
+		// checks that id has not been generated
+		assertThat(story.getId()).isNull();
+	}
+	
+	
+//	@Test
+//	@Transactional
+//	public void shouldThrowExceptionInsertingStoryWithNoTitle() {
+//		Owner owner6 = this.ownerService.findOwnerById(6);
+//		Pet pet = new Pet();
+//		pet.setName("wario");
+//		Collection<PetType> types = this.petService.findPetTypes();
+//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
+//		pet.setBirthDate(LocalDate.now());
+//		owner6.addPet(pet);
+//		
+//		Pet anotherPet = new Pet();		
+//		anotherPet.setName("waluigi");
+//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
+//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
+//		owner6.addPet(anotherPet);
+//		
+//		try {
+//			petService.savePet(pet);
+//			petService.savePet(anotherPet);
+//		} catch (DuplicatedPetNameException e) {
+//			// The pets already exists!
+//			e.printStackTrace();
+//		}				
+//			
+//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
+//			anotherPet.setName("wario");
+//			petService.savePet(anotherPet);
+//		});		
+//	}
+//	
+//	@Test
+//	@Transactional
+//	public void shouldThrowExceptionInsertingStoryWithEmptyValues() {
+//		Owner owner6 = this.ownerService.findOwnerById(6);
+//		Pet pet = new Pet();
+//		pet.setName("wario");
+//		Collection<PetType> types = this.petService.findPetTypes();
+//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
+//		pet.setBirthDate(LocalDate.now());
+//		owner6.addPet(pet);
+//		
+//		Pet anotherPet = new Pet();		
+//		anotherPet.setName("waluigi");
+//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
+//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
+//		owner6.addPet(anotherPet);
+//		
+//		try {
+//			petService.savePet(pet);
+//			petService.savePet(anotherPet);
+//		} catch (DuplicatedPetNameException e) {
+//			// The pets already exists!
+//			e.printStackTrace();
+//		}				
+//			
+//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
+//			anotherPet.setName("wario");
+//			petService.savePet(anotherPet);
+//		});		
+//	}
 	
 //	@Test
 //	@Transactional

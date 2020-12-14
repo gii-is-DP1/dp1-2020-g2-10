@@ -92,5 +92,7 @@ public class StoryService {
 		return storyRepository.findById(storyId).orElseGet(null);
 	}
 	
-
+	public Collection<Story> getStoriesFromAuthorId(int authorId) {
+		return storyRepository.getStoriesFromAuthorId(authorId);
+	}
 }
