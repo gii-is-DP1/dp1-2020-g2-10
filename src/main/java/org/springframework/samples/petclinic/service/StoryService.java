@@ -69,6 +69,11 @@ public class StoryService {
 		
 	}
 	
+	@Transactional
+	public Story findStory (int storyId) throws DataAccessException{
+		return storyRepository.findById(storyId).get();
+	}
+	
 	public Story createStory(){
 		Story res = new Story();
 		
@@ -84,9 +89,10 @@ public class StoryService {
 		Author principalAuthor = authorService.getPrincipal(); 
 		
 		assertNotNull(String.format("No story with ID=%d was found for deletion", storyId), story);
-		assertTrue("Only stories as DRAFT can be deleted", story.getStoryStatus().equals(StoryStatus.DRAFT));
 		assertTrue("Only the main author creator of the story can delete it.",
 				story.getAuthor().equals(principalAuthor));
+		assertTrue("Only stories as DRAFT can be deleted", story.getStoryStatus().equals(StoryStatus.DRAFT));
+
 		
 		storyRepository.delete(story);
 	}
