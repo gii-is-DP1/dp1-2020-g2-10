@@ -2,15 +2,14 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
-
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.Stories;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
@@ -23,14 +22,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.sun.xml.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 @Controller
-@RequestMapping("stories")
+@RequestMapping("/stories")
 public class StoryController {
 
 	private static final String VIEWS_STORIES_CREATE_OR_UPDATE_FORM = "stories/createOrUpdateStoryForm";
+	
+	private static final String VIEWS_STORIES_LIST= "stories/storiesList";
+	
+	private static final String VIEWS_STORIES_SHOW = "stories/showStory";
 
+	
 	@Autowired
 	private final StoryService storyService;
 
@@ -39,7 +41,20 @@ public class StoryController {
 		this.storyService = storyService;
 	}
 
-
+	@GetMapping(value = { "/list" })
+	public String showStoriesList(Map<String, Object> model) {
+		Collection<Story> stories = this.storyService.findStories();
+		model.put("stories", stories);
+		return VIEWS_STORIES_LIST;
+	}
+	
+	@GetMapping(value = "/{storyId}")
+	public String showStory(@PathVariable int storyId, Map<String, Object> model) {
+		Story s= this.storyService.findStoryById(storyId);
+		model.put("story", s);
+		return VIEWS_STORIES_SHOW;
+	}
+	
 	@GetMapping(value = "/new")
 	public String initCreationForm(Author author, ModelMap model) {
 
@@ -77,18 +92,5 @@ public class StoryController {
 		return "redirect:/";
 	}
 	
-	@GetMapping(value = { "/stories" })
-	public String showStoriesList(Map<String, Object> model) {
-		Stories stories = new Stories();
-		stories.getStoryList().addAll(this.storyService.findStories());
-		model.put("stories", stories);
-		return "stories/storyList";
-	}
 	
-	@GetMapping(value = "/authors/*/stories/{storyId}")
-	public String showStory(@PathVariable int storyId, Map<String, Object> model) {
-		Story s= this.storyService.findStoryById(storyId);
-		model.put("story", s);
-		return "stories/storyList";
-	}
 }

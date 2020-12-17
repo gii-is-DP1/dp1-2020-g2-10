@@ -1,12 +1,10 @@
 package org.springframework.samples.petclinic.service;
 
-import java.util.Date;
-
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -41,6 +39,11 @@ public class StoryService {
 	public Collection<Story> findStories() throws DataAccessException {
 		return storyRepository.findAll();
 	}	
+	
+	public Story findStoryById(int storyId) {
+		return storyRepository.findById(storyId).orElseGet(null);
+	}
+	
 	
 	@Transactional
 	public void saveStory(Story story){
@@ -94,9 +97,6 @@ public class StoryService {
 		storyRepository.delete(story);
 	}
 	
-	public Story findStoryById(int storyId) {
-		return storyRepository.findById(storyId).orElseGet(null);
-	}
 	
 
 }

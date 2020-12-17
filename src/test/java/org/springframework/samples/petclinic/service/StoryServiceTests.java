@@ -2,6 +2,9 @@ package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 
@@ -152,8 +155,8 @@ class StoryServiceTests {
 		assertThat(story.getStoryStatus()).isEqualTo(s);
 		Boolean b= Boolean.FALSE;
 		assertThat(story.getIsAdult()).isEqualTo(b);
-		//SimpleDateFormat sdf= new SimpleDateFormat("yyyy/MM/dd HH:mm");
-		//Date d = sdf.parse("2020-10-12 15:00");
+//		SimpleDateFormat sdf= new SimpleDateFormat("yyyy/MM/dd HH:mm");
+//		Date d = sdf.parse("2020-10-12 15:00");
 //		Date d = new Date(120, 9, 12, 15, 00);
 		
 //		d.parse("yyyy/MM/dd HH:mm");
@@ -163,7 +166,9 @@ class StoryServiceTests {
 //		System.out.println("---------------------------------------------------------------");
 //		System.out.println("---------------------------------------------------------------");
 //		System.out.println(story.getUpdatedDate());
-//		assertThat(story.getUpdatedDate()).isEqualTo("2020-10-12 15:00");
+//		DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
+//		System.out.println("Hora y fecha: "+hourdateFormat.format("15:00:00 2020/10/12"));
+//		assertThat(story.getUpdatedDate()).isEqualTo("15:00:00 2020/10/12");
 
 	}
 }
