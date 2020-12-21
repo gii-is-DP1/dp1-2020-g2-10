@@ -91,170 +91,43 @@ class StoryServiceTests {
 		story.setIsAdult(false);
 		story.setStoryStatus(StoryStatus.DRAFT);
 		
-//		Validator validator = createValidator();
-//		Set<ConstraintViolation<Story>> constraintViolations = validator.validate(story);
-//		assertThat(constraintViolations.size()).isEqualTo(2);
-//		Iterator<ConstraintViolation<Story>> it = constraintViolations.iterator();
-//		ConstraintViolation<Story> violation = it.next();
-//		assertThat(violation.getPropertyPath().toString())
-//							.isEqualTo("title");
-//		assertThat(violation.getMessage()).isEqualTo("no puede estar vacío");
-
-//		this.storyService.saveStory(story);
-		
 		Exception exception = assertThrows(ConstraintViolationException.class, () -> {
 
 			this.storyService.saveStory(story);
 
 		   });
-		System.out.println(exception.getMessage());
-//		assertEquals("no puede estar vacío", exception.getMessage());
+//		System.out.println(exception.getMessage());
+		assertEquals(exception.getMessage().contains("no puede estar vacío"), true);
 	}
 	
+	@Test
+	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+	@Transactional
+	public void shouldNotInsertStoryIntoDatabaseBecauseEverythingExceptTitleIsNull() {
+		Author author1 = this.authorService.findAuthorById(1);
+		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
+		int found = storiesA1.size();
+
+		Story story = new Story();
+		story.setTitle("Los demas campos vacios");
+		story.setGenre(null);
+		story.setDescription(null);
+		story.setIsAdult(null);
+		story.setStoryStatus(null);
+				
+		Exception exception = assertThrows(NullPointerException.class, () -> {
+
+			this.storyService.saveStory(story);
+
+		   });
+//		System.out.println("========================================================================================================================");
+//		System.out.println(exception);
+		assertEquals(exception.toString(), "java.lang.NullPointerException");
+//		assertEquals(exception.getMessage().contains("null"), true);
+	}
 	
-//	@Test
-//	@Transactional
-//	public void shouldThrowExceptionInsertingStoryWithNoTitle() {
-//		Owner owner6 = this.ownerService.findOwnerById(6);
-//		Pet pet = new Pet();
-//		pet.setName("wario");
-//		Collection<PetType> types = this.petService.findPetTypes();
-//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//		pet.setBirthDate(LocalDate.now());
-//		owner6.addPet(pet);
-//		
-//		Pet anotherPet = new Pet();		
-//		anotherPet.setName("waluigi");
-//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
-//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-//		owner6.addPet(anotherPet);
-//		
-//		try {
-//			petService.savePet(pet);
-//			petService.savePet(anotherPet);
-//		} catch (DuplicatedPetNameException e) {
-//			// The pets already exists!
-//			e.printStackTrace();
-//		}				
-//			
-//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-//			anotherPet.setName("wario");
-//			petService.savePet(anotherPet);
-//		});		
-//	}
-//	
-//	@Test
-//	@Transactional
-//	public void shouldThrowExceptionInsertingStoryWithEmptyValues() {
-//		Owner owner6 = this.ownerService.findOwnerById(6);
-//		Pet pet = new Pet();
-//		pet.setName("wario");
-//		Collection<PetType> types = this.petService.findPetTypes();
-//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//		pet.setBirthDate(LocalDate.now());
-//		owner6.addPet(pet);
-//		
-//		Pet anotherPet = new Pet();		
-//		anotherPet.setName("waluigi");
-//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
-//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-//		owner6.addPet(anotherPet);
-//		
-//		try {
-//			petService.savePet(pet);
-//			petService.savePet(anotherPet);
-//		} catch (DuplicatedPetNameException e) {
-//			// The pets already exists!
-//			e.printStackTrace();
-//		}				
-//			
-//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-//			anotherPet.setName("wario");
-//			petService.savePet(anotherPet);
-//		});		
-//	}
-	
-//	@Test
-//	@Transactional
-//	public void shouldThrowExceptionInsertingStoryWithNoTitle() {
-//		Owner owner6 = this.ownerService.findOwnerById(6);
-//		Pet pet = new Pet();
-//		pet.setName("wario");
-//		Collection<PetType> types = this.petService.findPetTypes();
-//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//		pet.setBirthDate(LocalDate.now());
-//		owner6.addPet(pet);
-//		
-//		Pet anotherPet = new Pet();		
-//		anotherPet.setName("waluigi");
-//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
-//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-//		owner6.addPet(anotherPet);
-//		
-//		try {
-//			petService.savePet(pet);
-//			petService.savePet(anotherPet);
-//		} catch (DuplicatedPetNameException e) {
-//			// The pets already exists!
-//			e.printStackTrace();
-//		}				
-//			
-//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-//			anotherPet.setName("wario");
-//			petService.savePet(anotherPet);
-//		});		
-//	}
-//	
-//	@Test
-//	@Transactional
-//	public void shouldThrowExceptionInsertingStoryWithEmptyValues() {
-//		Owner owner6 = this.ownerService.findOwnerById(6);
-//		Pet pet = new Pet();
-//		pet.setName("wario");
-//		Collection<PetType> types = this.petService.findPetTypes();
-//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//		pet.setBirthDate(LocalDate.now());
-//		owner6.addPet(pet);
-//		
-//		Pet anotherPet = new Pet();		
-//		anotherPet.setName("waluigi");
-//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
-//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-//		owner6.addPet(anotherPet);
-//		
-//		try {
-//			petService.savePet(pet);
-//			petService.savePet(anotherPet);
-//		} catch (DuplicatedPetNameException e) {
-//			// The pets already exists!
-//			e.printStackTrace();
-//		}				
-//			
-//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-//			anotherPet.setName("wario");
-//			petService.savePet(anotherPet);
-//		});		
-//	}
-//
-//	@Test
-//	@Transactional
-//	public void shouldAddNewChapterForStory() {
-//		Pet pet7 = this.petService.findPetById(7);
-//		int found = pet7.getVisits().size();
-//		Visit visit = new Visit();
-//		pet7.addVisit(visit);
-//		visit.setDescription("test");
-//		this.petService.saveVisit(visit);
-//            try {
-//                this.petService.savePet(pet7);
-//            } catch (DuplicatedPetNameException ex) {
-//                Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//		pet7 = this.petService.findPetById(7);
-//		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
-//		assertThat(visit.getId()).isNotNull();
-//	}
 	
 	//@SuppressWarnings({ "deprecation", "static-access" })
 	@Test
