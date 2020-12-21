@@ -27,8 +27,8 @@ INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
 INSERT INTO users(username,password,enabled) VALUES ('moderador1','moderador1',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderador');
 -- editorial1, named editorial1 with password editorial1
-INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editorial');
+-- INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
+-- INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','company');
 
 
 
@@ -73,7 +73,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 
 -- INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
 -- 
--- INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
+--  INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
 
 
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
@@ -360,7 +360,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 		VALUES ('A40329876', 'NEWS SECTOR','info@newssector.com','NEWSPAPER','/resources/images/companies/company4.png', 
 		'News and media outlet. Breaking news, quality journalism and literature reviewrs','company4');
 	
-		-- Contracts from Company3 -----------------------------------------------------
+		-- Contracts from Company4 -----------------------------------------------------
 		
 				-- Contract9 with Author1 ( EXCLUSIVO - PENDIENTE ) ----------------------
 						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
@@ -369,6 +369,13 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 						'NEWS SECTOR offers Marco Medina Sandoval to be the public face of the aforementioned company. The sponsorhip that all the work produced in that period by the author will be associated with the NEWS SECTOR trademark. A compensation will be given as stated in this contract.',
 						140420.49, null, 'PENDING' ,'2020-10-01 00:00', '2021-06-30 23:59', true,
 						1,4);
+						
+				-- Contract10 with Author3 ( EXCLUSIVO - PENDIENTE ) ----------------------
+					INSERT INTO contracts(offer_date, header ,body,remuneration , answer_date, contract_status, start_date,end_date,is_exclusive,
+					author_id,company_id) 
+					VALUES ('2020-12-08 15:00','Oferta de contrato 10','Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
+					6.89,'2020-12-15 12:00', 'PENDING', '2021-01-01 14:00','2021-02-02 14:00', true,
+					3,4);
 
 -- 7. Reports -----------------------------------------------------------------------------
 
@@ -382,12 +389,12 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 -- INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
 -- VALUES('Title 3', 4, 'Comment 3', '2018-10-01 01:06',2,3)
 
--- INSERT INTO contract(offer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
--- VALUES('2019-07-05 11:11', 'Header 1','Text 1', '75/2', '2020-09-01 11:11', 'ACEPTED', '2021-10-01 12:11','2022-10-01 11:30', TRUE, 1 ,1)
--- INSERT INTO contract(ioffer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
--- VALUES('2016-10-13 11:11'. 'Header 2','Text 2', '37/3', '2019-11-07 11:11', 'REJECTED', '2023-10-01 9:07','2024-10-01 14:41', FALSE , 1, 2)
--- INSERT INTO contract(offer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
--- VALUES('2015-07-09 11:11', 'Header 3','Text 3', '100/2', '2020-06-09 11:11', 'PENDING', '2021-12-10 11:11','2022-11-01 10:13', TRUE, 2,3)
+ --INSERT INTO contracts(offer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
+ --VALUES('2019-07-05 11:11', 'Header 1','Text 1', '75/2', '2020-09-01 11:11', 'ACEPTED', '2021-10-01 12:11','2022-10-01 11:30', TRUE, 1 ,1)
+-- INSERT INTO contracts(ioffer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
+ --VALUES('2016-10-13 11:11'. 'Header 2','Text 2', '37/3', '2019-11-07 11:11', 'REJECTED', '2023-10-01 9:07','2024-10-01 14:41', FALSE , 1, 2)
+ --INSERT INTO contracts(offer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
+ --VALUES('2015-07-09 11:11', 'Header 3','Text 3', '100/2', '2020-06-09 11:11', 'PENDING', '2021-12-10 11:11','2022-11-01 10:13', TRUE, 2,3)
 
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(EDITOR,1,1)
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(COAUTHOR,2,2)

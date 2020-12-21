@@ -18,12 +18,13 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode(callSuper=false)
 @Table(name = "contracts")
-public class Contract extends BaseEntity {
+public @Data class Contract extends BaseEntity {
 
 // Atributos
 	
@@ -52,6 +53,7 @@ private Date answerDate;
 
 @NotNull
 @Enumerated(EnumType.STRING)
+@Column(name = "contract_status")
 private ContractStatus contractStatus;
 
 @NotNull
@@ -66,7 +68,7 @@ private Date startDate;
 @Column(name = "end_date")
 private Date endDate;
 
-@NotEmpty
+@NotNull
 @Column(name = "is_exclusive")
 private Boolean isExclusive;
 
