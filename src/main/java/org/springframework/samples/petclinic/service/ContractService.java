@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.service;
 import java.util.Collection;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Contract;
 import org.springframework.samples.petclinic.model.ContractStatus;
@@ -35,13 +36,23 @@ public class ContractService {
 		return findByAuthorAndStatus(principalAuthor, status);
 	}
 	
+	@Transactional(readOnly = true)	
+	public Collection<Contract> findContractsByCompanyId(Integer companyId) throws DataAccessException {
+		return contractRepository.findContractsByCompanyId(companyId);
+	}	
+
+	@Transactional
+	public Contract findContractById(Integer contractId) throws DataAccessException {
+		Contract contract = contractRepository.findById(contractId).get();
+		return contract;
+	}	
+	
 	public Contract createContract(){
 		Contract res = new Contract();
 		
 		
 		res.setAuthor(authorService.getPrincipal());
 		res.setCompany(companyService.getPrincipal());
-		
 		
 		return res;
 	}
@@ -51,5 +62,6 @@ public class ContractService {
 		contractRepository.save(contract);		
 		
 	}
-	
+
+
 }

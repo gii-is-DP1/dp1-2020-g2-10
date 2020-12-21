@@ -49,12 +49,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stories/**/chapters/{chapterId}").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/new").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/**/edit").hasAnyAuthority("author")
-        .antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
+				.antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
 				// Reports
 				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
 				// Contracts
 				.antMatchers("/contracts/list").hasAnyAuthority("author", "company")
-				/*Default mathers*/
+				//Listar contratos compania (H11)
+		        .antMatchers("/contracts/company/{companyId}/list").hasAnyAuthority("company")
+		        //Mostrar contratos compania (H11)
+		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("company")
+		        /*Default mathers*/
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()

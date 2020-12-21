@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.web;
 
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -16,6 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.samples.petclinic.service.AuthorService;
+import org.springframework.samples.petclinic.service.CompanyService;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -26,11 +32,25 @@ public class ContractController {
 	@Autowired
 	ContractService contractService;
 	
+	@Autowired
+	CompanyService companyService;
+	
+	// TODO: Si peta, crear el constructor exlicitamente y poner private final para los atributos
+	
+	private static final String VIEW_LIST_CONTRACTS="contracts/listContracts";
+	
+	private static final String VIEW_SHOW_CONTRACTS="contracts/showContracts";
+	
 	private static final String VIEWS_CONTRACTS_LIST = "contracts/contractsList";
 	
 	private static final String VIEWS_CONTRACTS_SHOW = "contracts/contractsShow";
 	
 	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
+	
+	@InitBinder
+ 	public void setAllowedFields(WebDataBinder dataBinder) {
+ 		dataBinder.setDisallowedFields("id");
+ 	}
 	
 	@GetMapping(value = { "/list" })
 	public String listContracts(Map<String, Object> model) {
@@ -61,8 +81,23 @@ public class ContractController {
             return "redirect:/";
 
 		}
-	}	
+	}
 	
+	// HU-11: Listar y mostrar contratos generados por una compañia.
 	
+	@GetMapping(value = { "/company/{companyId}/list" })
+	public String listContractsOfCompany(@PathVariable("companyId") int companyId, ModelMap modelMap) {
+		Iterable<Contract> contracts = this.contractService.findContractsByCompanyId(companyId);
+		modelMap.put("contracts", contracts);
+		modelMap.put("companyId", companyId);
+		return VIEW_LIST_CONTRACTS;
+	}
+	
+	@GetMapping(value = { "/{contractId}/show" })
+	public String showContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
+		Contract contract = this.contractService.findContractById(contractId);
+		modelMap.put("contract", contract);
+		return VIEW_SHOW_CONTRACTS;
+	}
 
 }

@@ -53,6 +53,7 @@ private Date answerDate;
 
 @NotNull
 @Enumerated(EnumType.STRING)
+@Column(name = "contract_status")
 private ContractStatus contractStatus;
 
 @NotNull
@@ -67,7 +68,7 @@ private Date startDate;
 @Column(name = "end_date")
 private Date endDate;
 
-@NotEmpty
+@NotNull
 @Column(name = "is_exclusive")
 private Boolean isExclusive;
 
