@@ -39,14 +39,13 @@ private String header;
 
 @NotBlank
 @Column(columnDefinition = "TEXT")
-private String text;
+private String body;
 
 @NotNull
-@Digits(fraction=2, integer = 3)
+@Digits(fraction=2, integer = 8)
 //@Column(columnDefinition = "NUMBER")
 private Double remuneration;
 
-@NotNull
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "answer_date")
 private Date answerDate;
@@ -80,73 +79,6 @@ private Author author;
 @ManyToOne(optional=false)
 @JoinColumn(name = "company_id")
 private Company company;
-
-//Getters and setters
-
-public String getHeader() {
-	return header;
-}
-
-public void setHeader(String header) {
-	this.header = header;
-}
-
-public String getText() {
-	return text;
-}
-
-public void setText(String text) {
-	this.text = text;
-}
-
-public Double getRemuneration() {
-	return remuneration;
-}
-
-public void setRemuneration(Double remuneration) {
-	this.remuneration = remuneration;
-}
-
-public ContractStatus getContractStatus() {
-	return contractStatus;
-}
-
-public void setContractStatus(ContractStatus contractStatus) {
-	this.contractStatus = contractStatus;
-}
-
-public Date getOfferDate() {
-	return offerDate;
-}
-
-public Date getAnswerDate() {
-	return answerDate;
-}
-
-public Date getStartDate() {
-	return startDate;
-}
-
-public Date getEndDate() {
-	return endDate;
-}
-
-public Boolean getEsExclusivo() {
-	return isExclusive;
-}
-
-public Author getAuthor() {
-	return author;
-}
-
-//Método ToString
-
-@Override
-public String toString() {
-	return "Contract [offerDate=" + offerDate + ", header=" + header + ", text=" + text + ", remuneration="
-			+ remuneration + ", answerDate=" + answerDate + ", ContractStatus=" + contractStatus + ", startDate="
-			+ startDate + ", endDate=" + endDate + ", isExclusive=" + isExclusive + ", author=" + author + "]";
-}
 
 
 }
