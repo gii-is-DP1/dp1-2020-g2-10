@@ -12,4 +12,7 @@ public interface StoryRepository extends CrudRepository<Story, Integer>{
 //	public Story findStoryById(@Param("id") int id);
 
 	public Collection<Story> findAll() throws DataAccessException;
+	
+	@Query("SELECT story FROM Story story WHERE author.id  =:authorId")
+	public Collection<Story> getStoriesFromAuthorId(@Param("authorId") int authorId) throws DataAccessException;
 }
