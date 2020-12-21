@@ -16,15 +16,13 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Company;
-import org.springframework.samples.petclinic.model.Moderator;
-import org.springframework.samples.petclinic.repository.AuthorRepository;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.CompanyRepository;
-import org.springframework.samples.petclinic.repository.ModeratorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -60,6 +58,21 @@ public class CompanyService {
 	public Collection<Company> findCompanyByLastName(String name) throws DataAccessException {
 		return companyRepository.findByName(name);
 	}
+	
+	
+	public Company getPrincipal(){
+		Company res = null;
+		
+		User currentUser = userService.getPrincipal();
+		if(currentUser != null) {
+			Optional<Company> optionalCompany = companyRepository.findByUserUsername(currentUser.getUsername());
+			if(optionalCompany.isPresent()) {
+				res = optionalCompany.get();
+			}
+		}
+		return res;
+	}
+	
 
 	@Transactional
 	public void saveCompany(Company company) throws DataAccessException {

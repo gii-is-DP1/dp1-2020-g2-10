@@ -22,6 +22,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.repository.CompanyRepository;
 
@@ -45,4 +46,7 @@ public interface CompanyRepository extends Repository<Company, Integer> {
 	@Query("SELECT DISTINCT company FROM Company company WHERE company.user.username = :username")
 	public Optional<Company> findByUserUsername(@Param("username") int username);
 
+	@Query("SELECT DISTINCT company FROM Company company WHERE company.user.username = :username")
+	public Optional<Company> findByUserUsername(@Param("username") String username);
+	
 }

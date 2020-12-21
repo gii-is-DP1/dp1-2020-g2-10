@@ -18,12 +18,13 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode(callSuper=false)
 @Table(name = "contracts")
-public class Contract extends BaseEntity {
+public @Data class Contract extends BaseEntity {
 
 // Atributos
 	
@@ -81,72 +82,6 @@ private Author author;
 @JoinColumn(name = "company_id")
 private Company company;
 
-//Getters and setters
-
-public String getHeader() {
-	return header;
-}
-
-public void setHeader(String header) {
-	this.header = header;
-}
-
-public String getText() {
-	return text;
-}
-
-public void setText(String text) {
-	this.text = text;
-}
-
-public Double getRemuneration() {
-	return remuneration;
-}
-
-public void setRemuneration(Double remuneration) {
-	this.remuneration = remuneration;
-}
-
-public ContractStatus getContractStatus() {
-	return contractStatus;
-}
-
-public void setContractStatus(ContractStatus contractStatus) {
-	this.contractStatus = contractStatus;
-}
-
-public Date getOfferDate() {
-	return offerDate;
-}
-
-public Date getAnswerDate() {
-	return answerDate;
-}
-
-public Date getStartDate() {
-	return startDate;
-}
-
-public Date getEndDate() {
-	return endDate;
-}
-
-public Boolean getEsExclusivo() {
-	return isExclusive;
-}
-
-public Author getAuthor() {
-	return author;
-}
-
-//Método ToString
-
-@Override
-public String toString() {
-	return "Contract [offerDate=" + offerDate + ", header=" + header + ", text=" + text + ", remuneration="
-			+ remuneration + ", answerDate=" + answerDate + ", ContractStatus=" + contractStatus + ", startDate="
-			+ startDate + ", endDate=" + endDate + ", isExclusive=" + isExclusive + ", author=" + author + "]";
-}
 
 
 }
