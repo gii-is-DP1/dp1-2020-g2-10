@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.web;
 
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Map;
 
 import javax.validation.Valid;
 
@@ -9,8 +11,6 @@ import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.model.Contract;
 import org.springframework.samples.petclinic.model.ContractStatus;
-import org.springframework.samples.petclinic.service.AuthorService;
-import org.springframework.samples.petclinic.service.CompanyService;
 import org.springframework.samples.petclinic.service.ContractService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,16 +22,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/contracts")
 public class ContractController {
-
-	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
-
+	
 	@Autowired
-	private final ContractService contractService;
-
-	public ContractController(ContractService contractService, AuthorService authorService, CompanyService companyService) {
-		super();
-		this.contractService = contractService;
-		
+	ContractService contractService;
+	
+	private static final String VIEWS_CONTRACTS_LIST = "contracts/contractsList";
+	
+	private static final String VIEWS_CONTRACTS_SHOW = "contracts/contractsShow";
+	
+	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
+	
+	@GetMapping(value = { "/list" })
+	public String listContracts(Map<String, Object> model) {
+		Collection<Contract> contracts = contractService.findByAuthorPrincipalAndStatus(null);
+		model.put("contracts", contracts);
+		return VIEWS_CONTRACTS_LIST;
 	}
 	
 	@GetMapping(value = "/new")
@@ -56,9 +61,8 @@ public class ContractController {
             return "redirect:/";
 
 		}
-	}
+	}	
 	
-	
-}
 	
 
+}

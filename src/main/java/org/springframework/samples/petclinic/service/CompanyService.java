@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CompanyService {
 
+	@Autowired
 	private CompanyRepository companyRepository;	
 	
 	@Autowired
@@ -44,19 +45,11 @@ public class CompanyService {
 	@Autowired
 	private AuthoritiesService authoritiesService;
 
-	@Autowired
-	public CompanyService(CompanyRepository companyRepository) {
-		this.companyRepository = companyRepository;
-	}	
-
 	@Transactional(readOnly = true)
-	public Company findCompanyById(int id) throws DataAccessException {
-		return companyRepository.findById(id);
-	}
-
-	@Transactional(readOnly = true)
-	public Collection<Company> findCompanyByLastName(String name) throws DataAccessException {
-		return companyRepository.findByName(name);
+	public Optional<Company> findCompanyById(int id) {
+		Optional<Company> res = companyRepository.findById(id);
+		
+		return res;
 	}
 	
 	

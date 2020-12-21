@@ -24,13 +24,19 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Digits;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
@@ -41,19 +47,33 @@ import lombok.Data;
 @Entity
 @Table(name = "companies")
 public @Data class Company extends NamedEntity {
-
+	
+	@NotEmpty
+	@Column(unique = true)
+	protected String cif;
+	
+	@NotEmpty
+	@Column(unique = true)
+	@Email
+	protected String email;
+	
+	@Column(name = "company_type")
+	@NotNull
+	@Enumerated(EnumType.STRING)
+	protected CompanyType companyType;
 	
 	
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
+	
+	@URL
+	@Column(name = "url_logo")
+	protected String urlLogo;
+	
+	@NotEmpty
+	@Column(columnDefinition = "TEXT")
+	private String description;
 
 	
-	@Override
-	public String toString() {
-		return new ToStringCreator(this)
-
-				.append("id", this.getId()).append("new", this.isNew()).append("name", this.getName())
-				.toString();
-	}
 }

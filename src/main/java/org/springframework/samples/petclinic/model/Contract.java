@@ -40,14 +40,13 @@ private String header;
 
 @NotBlank
 @Column(columnDefinition = "TEXT")
-private String text;
+private String body;
 
 @NotNull
-@Digits(fraction=2, integer = 3)
+@Digits(fraction=2, integer = 8)
 //@Column(columnDefinition = "NUMBER")
 private Double remuneration;
 
-@NotNull
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "answer_date")
 private Date answerDate;
@@ -81,7 +80,6 @@ private Author author;
 @ManyToOne(optional=false)
 @JoinColumn(name = "company_id")
 private Company company;
-
 
 
 }

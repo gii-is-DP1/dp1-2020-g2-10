@@ -1,7 +1,11 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Contract;
+import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.repository.ContractRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,13 +21,18 @@ public class ContractService {
 	
 	@Autowired
 	private CompanyService companyService;
-
-	public ContractService(ContractRepository contractRepository, AuthorService authorService,
-			CompanyService companyService) {
-		super();
-		this.contractRepository = contractRepository;
-		this.authorService = authorService;
-		this.companyService = companyService;
+	
+	
+	@Transactional(readOnly = true)
+	private Collection<Contract> findByAuthorAndStatus(Author author, ContractStatus status){
+		return contractRepository.findByAuthorIdAndContractStatus(author.getId(), status);
+	}
+	
+	@Transactional(readOnly = true)
+	public Collection<Contract> findByAuthorPrincipalAndStatus(ContractStatus status){
+		Author principalAuthor = authorService.getPrincipal(); 
+		
+		return findByAuthorAndStatus(principalAuthor, status);
 	}
 	
 	public Contract createContract(){
@@ -42,6 +51,5 @@ public class ContractService {
 		contractRepository.save(contract);		
 		
 	}
-	
 	
 }
