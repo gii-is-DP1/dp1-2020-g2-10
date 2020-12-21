@@ -27,8 +27,8 @@ INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
 INSERT INTO users(username,password,enabled) VALUES ('moderador1','moderador1',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderador');
 -- editorial1, named editorial1 with password editorial1
-INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editorial');
+-- INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
+-- INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','company');
 
 
 
@@ -73,7 +73,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 
 -- INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
 -- 
--- INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
+--  INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
 
 
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
@@ -234,12 +234,20 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 	INSERT INTO users(username,password,enabled) VALUES ('company1','company1',TRUE);
 	INSERT INTO authorities(username, authority) VALUES ('company1','company');
 	
+	INSERT INTO users(username,password,enabled) VALUES ('company2','company2',TRUE);
+	INSERT INTO authorities(username, authority) VALUES ('company2','company');
+	
 		-- // TODO: Incluir todos los atributos de Company correctamente, tal como viene en el diagrama UML
+	INSERT INTO companies(name,username) VALUES ('Editorial Magistral', 'company1');
+	INSERT INTO companies(name,username) VALUES ('Editorial Marte', 'company2');
 	
 		-- Contracts from Company1 -----------------------------------------------------
 		
-				-- Contract1 with Author1 - Ganadero1 --------------------
-
+				-- Contract1 with Author1 and Company1 --------------------
+				-- Para añadir contractStatus: contract_status 2 (aceptado) ó contract_status 1 (rechazadog)
+	INSERT INTO contracts(offer_date,header,text,remuneration,answer_date,start_date,end_date,is_exclusive,author_id,company_id) VALUES ('2020-12-08 15:00','Oferta de contrato 1',
+	'Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
+	6.89,'2020-12-15 12:00','2021-01-01 14:00','2021-02-02 14:00',1,1,1);
 -- 7. Reports -----------------------------------------------------------------------------
 
 

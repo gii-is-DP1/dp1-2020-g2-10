@@ -51,9 +51,10 @@ private Double remuneration;
 @Column(name = "answer_date")
 private Date answerDate;
 
-@NotNull
-@Enumerated(EnumType.STRING)
-private ContractStatus contractStatus;
+//@NotNull
+//@Enumerated(EnumType.STRING)
+//@Column(name = "contract_status")
+//private ContractStatus contractStatus;
 
 @NotNull
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
@@ -67,7 +68,7 @@ private Date startDate;
 @Column(name = "end_date")
 private Date endDate;
 
-@NotEmpty
+@NotNull
 @Column(name = "is_exclusive")
 private Boolean isExclusive;
 
@@ -107,13 +108,13 @@ public void setRemuneration(Double remuneration) {
 	this.remuneration = remuneration;
 }
 
-public ContractStatus getContractStatus() {
-	return contractStatus;
-}
-
-public void setContractStatus(ContractStatus contractStatus) {
-	this.contractStatus = contractStatus;
-}
+//public ContractStatus getContractStatus() {
+//	return contractStatus;
+//}
+//
+//public void setContractStatus(ContractStatus contractStatus) {
+//	this.contractStatus = contractStatus;
+//}
 
 public Date getOfferDate() {
 	return offerDate;
@@ -144,7 +145,7 @@ public Author getAuthor() {
 @Override
 public String toString() {
 	return "Contract [offerDate=" + offerDate + ", header=" + header + ", text=" + text + ", remuneration="
-			+ remuneration + ", answerDate=" + answerDate + ", ContractStatus=" + contractStatus + ", startDate="
+			+ remuneration + ", answerDate=" + answerDate + /*", ContractStatus=" + contractStatus +*/ ", startDate="
 			+ startDate + ", endDate=" + endDate + ", isExclusive=" + isExclusive + ", author=" + author + "]";
 }
 
