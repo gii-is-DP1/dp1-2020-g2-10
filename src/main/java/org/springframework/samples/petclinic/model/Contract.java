@@ -18,12 +18,13 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode(callSuper=false)
 @Table(name = "contracts")
-public class Contract extends BaseEntity {
+public @Data class Contract extends BaseEntity {
 
 // Atributos
 	

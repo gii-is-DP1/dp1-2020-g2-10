@@ -36,6 +36,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class AuthorService {
 
+	@Autowired
 	private AuthorRepository authorRepository;	
 	
 	@Autowired

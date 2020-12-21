@@ -69,5 +69,6 @@ public @Data class Story extends BaseEntity{
 	//Once a history is published a moderator MUST be assigned
 	private Moderator moderator;
 
+	
 
 }

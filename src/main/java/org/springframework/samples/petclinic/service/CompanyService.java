@@ -16,6 +16,7 @@
 package org.springframework.samples.petclinic.service;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -38,6 +39,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CompanyService {
 
+	@Autowired
 	private CompanyRepository companyRepository;	
 	
 	@Autowired
@@ -46,19 +48,11 @@ public class CompanyService {
 	@Autowired
 	private AuthoritiesService authoritiesService;
 
-	@Autowired
-	public CompanyService(CompanyRepository companyRepository) {
-		this.companyRepository = companyRepository;
-	}	
-
 	@Transactional(readOnly = true)
-	public Company findCompanyById(int id) throws DataAccessException {
-		return companyRepository.findById(id);
-	}
-
-	@Transactional(readOnly = true)
-	public Collection<Company> findCompanyByLastName(String name) throws DataAccessException {
-		return companyRepository.findByName(name);
+	public Optional<Company> findCompanyById(int id) {
+		Optional<Company> res = companyRepository.findById(id);
+		
+		return res;
 	}
 
 	@Transactional
