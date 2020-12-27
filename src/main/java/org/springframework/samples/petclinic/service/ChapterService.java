@@ -36,7 +36,7 @@ public class ChapterService {
 
 	@Transactional
 	public Chapter findChapterById(Integer chapterId) throws DataAccessException {
-		Chapter chapter = chapterRepository.findById(chapterId).get();
+		Chapter chapter = chapterRepository.findChapterById(chapterId);
 		return chapter;
 	}
 
