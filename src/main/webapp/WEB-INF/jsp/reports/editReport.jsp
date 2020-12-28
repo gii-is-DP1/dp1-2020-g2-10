@@ -37,15 +37,16 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
-                    	<c:when test="${buttonCreate}"> <%-- Comprobamos si la variable buttonCreate esta activada o no --%>
+                    	<c:when test="${buttonCreate}">
                             <button class="btn btn-default" type="submit">Create Report</button>
-                            <a class="btn btn-default" href="/authors/${authorId}" >Return</a>
+                            <a class="btn btn-default" href="/" >Return</a>
                         </c:when>
                         
                         </c:choose>
                         
                 </div>
             </div>
+            
         </form:form>
     </jsp:body>
 
