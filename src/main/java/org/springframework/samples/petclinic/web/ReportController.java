@@ -85,7 +85,7 @@ public class ReportController {
 		
 		}
 		
-		return "redirect:/";
+		return "redirect:/stories/{storyId}/chapters/{chapterId}";
 		}
 	
 	
