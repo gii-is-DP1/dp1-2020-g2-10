@@ -2,8 +2,9 @@ package org.springframework.samples.petclinic.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-//import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
@@ -13,14 +14,13 @@ import javax.validation.constraints.PastOrPresent;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "reviews")
-@Getter
-@Setter
-public class Review extends BaseEntity {
+public @Data class Review extends BaseEntity {
 
 // Atributos
 	
@@ -29,24 +29,27 @@ private String title;
 
 @NotNull
 @Range(min=0, max=5)
+//@Column(columnDefinition = "NUMBER")
 private Integer rating;
 
 @NotEmpty
+@Column(columnDefinition = "TEXT")
 private String text;
 
 @NotNull
 @PastOrPresent
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@Column(name = "publication_date")
 private Date publicationDate;
 
 // Relaciones
 
 @ManyToOne(optional=false)
-//@JoinColumn(name = "author_id")
+@JoinColumn(name = "author_id")
 private Author author;
 
 @ManyToOne(optional=false)
-//@JoinColumn(name = "story_id")
+@JoinColumn(name = "story_id")
 private Story story;
 
 

@@ -16,14 +16,13 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.petclinic.model.Moderator;
-import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.repository.ModeratorRepository;
 
 /**
@@ -42,5 +41,8 @@ public interface ModeratorRepository extends Repository<Moderator, Integer> {
 
 	@Query("SELECT moderator FROM Moderator moderator WHERE moderator.id =:id")
 	public Moderator findById(@Param("id") int id);
+	
+	@Query("SELECT DISTINCT moderator FROM Moderator moderator WHERE moderator.user.username = :username")
+	public Optional<Moderator> findByUserUsername(@Param("username") String username);
 
 }

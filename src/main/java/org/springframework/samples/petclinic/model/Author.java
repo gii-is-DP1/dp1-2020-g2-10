@@ -15,6 +15,13 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,12 +31,14 @@ import javax.persistence.Table;
 
 import org.springframework.core.style.ToStringCreator;
 
+import lombok.Data;
+
+
 
 @Entity
 @Table(name = "authors")
-public class Author extends Person {
+public @Data class Author extends Person {
 
-	@Column(name = "biography")
 	private String biography;
 
 	
@@ -37,26 +46,38 @@ public class Author extends Person {
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
 	
-	public String getBiography() {
-		return biography;
-	}
-
-	public void setBiografia(String biography) {
-		this.biography = biography;
-	}
-
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
+	private Set<Story> stories;
 	
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	
+	protected Set<Story> getStoriesInternal() {
+		if (this.stories == null) {
+			this.stories = new HashSet<>();
+		}
+		return this.stories;
+	}
 
+	protected void setStoriesInternal(Set<Story> stories) {
+		this.stories = stories;
+	}
+
+	public List<Story> getStories() {
+		List<Story> sortedStories = new ArrayList<>(getStoriesInternal());
+		PropertyComparator.sort(sortedStories, new MutableSortDefinition("name", true, true));
+		return Collections.unmodifiableList(sortedStories);
+//		return sortedStories;
+	}
+
+
+	public void addStory(Story story) {
+		getStoriesInternal().add(story);
+		story.setAuthor(this);
+	}
+	
+	public boolean removeStory(Story story) {
+		return getStoriesInternal().remove(story);
+	}
+	
 	
 	@Override
 	public String toString() {
@@ -65,4 +86,5 @@ public class Author extends Person {
 				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
 				.append("firstName", this.getFirstName()).append("biografia", this.biography).toString();
 	}
+
 }
