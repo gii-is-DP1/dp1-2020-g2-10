@@ -19,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 
@@ -28,6 +29,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Contract;
+import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.util.EntityUtils;
@@ -47,29 +49,37 @@ class ContractServiceTests {
 	
 	//Tests HU11
 	@Test
+	@Transactional
+	@WithMockUser(value = "company1", authorities = {
+	        "company"
+	    })
 	void shouldFindContracts() {
 		
-		Collection<Contract> contracts = this.contractService.findContractsByCompanyId(1);
-		assertThat(contracts.size()).isEqualTo(1);
+		Collection<Contract> contracts = this.contractService.findContractsByCompanyId();
+		assertThat(contracts.size()).isEqualTo(4);
 		//FECHAS
 		//OFERTA
-		Date offerDate = new Date(120, 11, 8, 15, 0, 0);
+		//Usando el tipo Date fallaba puesto que las fechas se inicializan en la BD como TimeStamp
+		//Date offerDate = new Date(120, 7, 20, 16, 30, 0);
+		Timestamp offerDate = new Timestamp(120, 7, 20, 16, 30, 0, 0); 
 		//RESPUESTA
-		Date answerDate = new Date(120, 11, 15, 12, 0, 0);
+		Timestamp answerDate = new Timestamp(120, 7, 25, 18, 27, 0, 0); 
 		//INICIO
-		Date startDate = new Date(121, 0, 2, 14, 0, 0);
+		Timestamp startDate = new Timestamp(120, 8, 1, 0, 0, 0, 0); 
 		//FIN
-		Date endDate = new Date(121, 1, 2, 14, 0, 0); //2020-08-15 12:00','2021-01-01 14:00','2021-02-02 14:00
-		
+		Timestamp endDate = new Timestamp(120, 8, 30, 23, 59, 0, 0); 
+
 		Contract contract = EntityUtils.getById(contracts, Contract.class, 1);
-		assertThat(contract.getHeader()).isEqualTo("Oferta de contrato 1");
-		assertThat(contract.getBody()).isEqualTo("Nos ponemos en contacto con usted porque estamos "
-				+ "interesados en contratarle en nuestra editorial");
-//		assertThat(contract.getOfferDate()).isEqualTo(offerDate);
-//		assertThat(contract.getStartDate()).isEqualTo(startDate);
-//		assertThat(contract.getEndDate()).isEqualTo(startDate);
-//		assertThat(contract.getAnswerDate()).isEqualTo(startDate);
-		assertThat(contract.getRemuneration()).isEqualTo(6.89);
-		
+		assertThat(contract.getHeader()).isEqualTo("Mecenazgo EXCLUSIVO SEPTIEMBRE 2020");
+		assertThat(contract.getBody()).isEqualTo("Por el presente contrato se estipula que Bookista ofrece"
+				+ " un mecenazgo a Marco Medina Sandoval. Marco Medina se compromete a"
+				+ " NO ACEPTAR PATROCINIOS de otras compañías durante el mes de SEPTIEMBRE 2020.");
+		assertThat(contract.getOfferDate()).isEqualTo(offerDate);
+		assertThat(contract.getStartDate()).isEqualTo(startDate);
+		assertThat(contract.getEndDate()).isEqualTo(endDate);
+		assertThat(contract.getAnswerDate()).isEqualTo(answerDate);
+		assertThat(contract.getRemuneration()).isEqualTo(12000.5);
+		assertThat(contract.getIsExclusive()).isEqualTo(true);
+		assertThat(contract.getContractStatus()).isEqualTo(ContractStatus.ACCEPTED);
 	}
 }

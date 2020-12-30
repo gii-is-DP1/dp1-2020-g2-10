@@ -29,8 +29,7 @@
 					<td><c:out value="${contracts.remuneration}" /></td>
 <%-- 					<td><c:out value="${contracts.contractStatus}" /></td> --%>
 					<td> 
-                        <spring:url value="/companies/{companyId}/contracts/{contractId}" var="showUrl">
-                        	<spring:param name="companyId" value="${companyId}"/>
+                        <spring:url value="/contracts/{contractId}/show" var="showUrl">
 							<spring:param name="contractId" value="${contracts.id}"/>
                     	</spring:url>
                     	<a href="${fn:escapeXml(showUrl)}">Show</a>
@@ -41,5 +40,6 @@
 				</tr>
 			</c:forEach>
 		</tbody>
-	</table>        
+	</table>
+	<a class="btn btn-default" href="/" >Return</a>        
 </petclinic:layout>

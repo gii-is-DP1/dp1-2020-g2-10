@@ -20,7 +20,7 @@
 				<th style="width: 150px;">Start Date</th>
 				<th style="width: 150px;">End Date</th>
 				<th style="width: 150px;">Exclusive</th>
-<!-- 				<th style="width: 150px;">Contract Status</th> -->
+				<th style="width: 150px;">Contract Status</th>
 				
 
 			</tr>
@@ -34,11 +34,12 @@
 					<td><c:out value="${contract.startDate}" /></td>
 					<td><c:out value="${contract.endDate}" /></td>
 					<td><c:out value="${contract.isExclusive}" /></td>
-<%-- 					<td><c:out value="${contract.contractStatus}" /></td> --%>
+					<td><c:out value="${contract.contractStatus}" /></td>
 
 				
 				</tr>
 			
 		</tbody>
-	</table>   
+	</table>
+		<a class="btn btn-default" href="/contracts/company/list" >Return</a>          
 </petclinic:layout>

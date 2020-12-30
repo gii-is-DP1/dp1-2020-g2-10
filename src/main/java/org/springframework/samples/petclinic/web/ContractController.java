@@ -85,11 +85,10 @@ public class ContractController {
 	
 	// HU-11: Listar y mostrar contratos generados por una compañia.
 	
-	@GetMapping(value = { "/company/{companyId}/list" })
-	public String listContractsOfCompany(@PathVariable("companyId") int companyId, ModelMap modelMap) {
-		Iterable<Contract> contracts = this.contractService.findContractsByCompanyId(companyId);
+	@GetMapping(value = { "/company/list" })
+	public String listContractsOfCompany(ModelMap modelMap) {
+		Iterable<Contract> contracts = this.contractService.findContractsByCompanyId();
 		modelMap.put("contracts", contracts);
-		modelMap.put("companyId", companyId);
 		return VIEW_LIST_CONTRACTS;
 	}
 	

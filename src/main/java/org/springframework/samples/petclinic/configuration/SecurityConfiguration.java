@@ -55,7 +55,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				// Contracts
 				.antMatchers("/contracts/list").hasAnyAuthority("author", "company")
 				//Listar contratos compania (H11)
-		        .antMatchers("/contracts/company/{companyId}/list").hasAnyAuthority("company")
+		        .antMatchers("/contracts/company/list").hasAnyAuthority("company")
 		        //Mostrar contratos compania (H11)
 		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("company")
 		        /*Default mathers*/
