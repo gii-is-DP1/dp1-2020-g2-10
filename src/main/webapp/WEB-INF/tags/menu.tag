@@ -22,11 +22,20 @@
 		<div class="navbar-collapse collapse" id="main-navbar">
 			<ul class="nav navbar-nav">
 
-				<petclinic:menuItem active="${name eq 'home'}" url="/"
-					title="home page">
-					<span class="glyphicon glyphicon-home" aria-hidden="true"></span>
-					<span>Home</span>
-				</petclinic:menuItem>
+<%-- 				<petclinic:menuItem active="${name eq 'home'}" url="/" --%>
+<%-- 					title="home page"> --%>
+<!-- 					<span class="glyphicon glyphicon-home" aria-hidden="true"></span> -->
+<!-- 					<span>Home</span> -->
+<%-- 				</petclinic:menuItem> --%>
+
+<!-- COMO PASAR ID A ESTA URL -->
+				<sec:authorize access="hasAnyAuthority('company')">
+					<petclinic:menuItem active="${name eq 'contracts'}" url="/contracts/company/list"
+						title="The list of my contracts">
+						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+						<span>My Contracts</span>
+					</petclinic:menuItem>
+				</sec:authorize>
 
 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
 					title="find owners">
