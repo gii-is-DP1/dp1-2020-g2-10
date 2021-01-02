@@ -12,5 +12,8 @@ public interface ChapterRepository extends CrudRepository<Chapter, Integer>{
 	// Recogemos los capítulos que componen la historia correspondiente al id introducido en la consulta
 	@Query("SELECT chapter FROM Chapter chapter WHERE chapter.story.id  =:id")
 	public Collection<Chapter> findChapterByStoryId(@Param("id") int id);
+	
+	@Query("SELECT chapter FROM Chapter chapter WHERE chapter.id  =:id")
+	public Chapter findChapterById(@Param("id") int id);
 			
 }

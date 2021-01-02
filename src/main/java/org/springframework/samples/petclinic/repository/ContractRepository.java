@@ -15,4 +15,9 @@ public interface ContractRepository extends CrudRepository<Contract, Integer>{
 	@Query("SELECT DISTINCT contract FROM Contract contract where contract.author.id = :authorId AND (:status is null OR  contract.contractStatus = :status)")
 	public Collection<Contract> findByAuthorIdAndContractStatus(@Param("authorId") int authorId, @Param("status") ContractStatus status);
 
+
+	@Query("SELECT contract FROM Contract contract WHERE contract.company.id  =:id")
+	public Collection<Contract> findContractsByCompanyId(@Param("id") int id);
+			
+
 }

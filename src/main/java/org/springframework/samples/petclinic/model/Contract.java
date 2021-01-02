@@ -53,6 +53,7 @@ private Date answerDate;
 
 @NotNull
 @Enumerated(EnumType.STRING)
+@Column(name = "contract_status")
 private ContractStatus contractStatus;
 
 @NotNull

@@ -1,10 +1,20 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +28,7 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class StoryServiceTests {        
@@ -27,7 +38,8 @@ class StoryServiceTests {
     @Autowired
 	protected AuthorService authorService;	
 
-
+    
+    
 	//@Test
 	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() {
@@ -55,87 +67,67 @@ class StoryServiceTests {
 		assertThat(story.getId()).isNotNull();
 	}
 	
-//	@Test
-//	@Transactional
-//	public void shouldThrowExceptionInsertingStoryWithNoTitle() {
-//		Owner owner6 = this.ownerService.findOwnerById(6);
-//		Pet pet = new Pet();
-//		pet.setName("wario");
-//		Collection<PetType> types = this.petService.findPetTypes();
-//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//		pet.setBirthDate(LocalDate.now());
-//		owner6.addPet(pet);
-//		
-//		Pet anotherPet = new Pet();		
-//		anotherPet.setName("waluigi");
-//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
-//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-//		owner6.addPet(anotherPet);
-//		
-//		try {
-//			petService.savePet(pet);
-//			petService.savePet(anotherPet);
-//		} catch (DuplicatedPetNameException e) {
-//			// The pets already exists!
-//			e.printStackTrace();
-//		}				
-//			
-//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-//			anotherPet.setName("wario");
-//			petService.savePet(anotherPet);
-//		});		
-//	}
-//	
-//	@Test
-//	@Transactional
-//	public void shouldThrowExceptionInsertingStoryWithEmptyValues() {
-//		Owner owner6 = this.ownerService.findOwnerById(6);
-//		Pet pet = new Pet();
-//		pet.setName("wario");
-//		Collection<PetType> types = this.petService.findPetTypes();
-//		pet.setType(EntityUtils.getById(types, PetType.class, 2));
-//		pet.setBirthDate(LocalDate.now());
-//		owner6.addPet(pet);
-//		
-//		Pet anotherPet = new Pet();		
-//		anotherPet.setName("waluigi");
-//		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
-//		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
-//		owner6.addPet(anotherPet);
-//		
-//		try {
-//			petService.savePet(pet);
-//			petService.savePet(anotherPet);
-//		} catch (DuplicatedPetNameException e) {
-//			// The pets already exists!
-//			e.printStackTrace();
-//		}				
-//			
-//		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
-//			anotherPet.setName("wario");
-//			petService.savePet(anotherPet);
-//		});		
-//	}
-//
-//	@Test
-//	@Transactional
-//	public void shouldAddNewChapterForStory() {
-//		Pet pet7 = this.petService.findPetById(7);
-//		int found = pet7.getVisits().size();
-//		Visit visit = new Visit();
-//		pet7.addVisit(visit);
-//		visit.setDescription("test");
-//		this.petService.saveVisit(visit);
-//            try {
-//                this.petService.savePet(pet7);
-//            } catch (DuplicatedPetNameException ex) {
-//                Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//
-//		pet7 = this.petService.findPetById(7);
-//		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
-//		assertThat(visit.getId()).isNotNull();
-//	}
+	private Validator createValidator() {
+		LocalValidatorFactoryBean localValidatorFactoryBean =
+				new LocalValidatorFactoryBean();
+		localValidatorFactoryBean.afterPropertiesSet();
+		return localValidatorFactoryBean;
+	}
+	
+	@Test
+	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+	@Transactional
+	public void shouldNotInsertStoryIntoDatabaseBecauseTittleIsEmpty() {
+		Author author1 = this.authorService.findAuthorById(1);
+		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
+		int found = storiesA1.size();
+
+		Story story = new Story();
+		story.setTitle("");
+		story.setGenre(Genre.CHILDREN_STORY);
+		story.setDescription("Espero que no funcioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+		story.setIsAdult(false);
+		story.setStoryStatus(StoryStatus.DRAFT);
+		
+		Exception exception = assertThrows(ConstraintViolationException.class, () -> {
+
+			this.storyService.saveStory(story);
+
+		   });
+//		System.out.println(exception.getMessage());
+		assertEquals(exception.getMessage().contains("no puede estar vacío"), true);
+	}
+	
+	@Test
+	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+	@Transactional
+	public void shouldNotInsertStoryIntoDatabaseBecauseEverythingExceptTitleIsNull() {
+		Author author1 = this.authorService.findAuthorById(1);
+		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
+		int found = storiesA1.size();
+
+		Story story = new Story();
+		story.setTitle("Los demas campos vacios");
+		story.setGenre(null);
+		story.setDescription(null);
+		story.setIsAdult(null);
+		story.setStoryStatus(null);
+				
+		Exception exception = assertThrows(NullPointerException.class, () -> {
+
+			this.storyService.saveStory(story);
+
+		   });
+//		System.out.println("========================================================================================================================");
+//		System.out.println(exception);
+		assertEquals(exception.toString(), "java.lang.NullPointerException");
+//		assertEquals(exception.getMessage().contains("null"), true);
+	}
+	
 	
 	
 	//Test HU-01: listado y mostrado de storys

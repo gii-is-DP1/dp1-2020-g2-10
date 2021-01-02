@@ -14,12 +14,13 @@ import javax.validation.constraints.PastOrPresent;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @EqualsAndHashCode(callSuper=false)
 @Table(name = "reviews")
-public class Review extends BaseEntity {
+public @Data class Review extends BaseEntity {
 
 // Atributos
 	

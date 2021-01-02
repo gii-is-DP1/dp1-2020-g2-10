@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
+				.antMatchers("/authors/**").hasAnyAuthority("author","admin")				
 				.antMatchers("/vets/**").authenticated()
 				// Stories
 				.antMatchers("/stories/new").hasAnyAuthority("author")
@@ -53,8 +53,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
 				// Contracts
 				.antMatchers("/contracts/list").hasAnyAuthority("author", "company")
-				.antMatchers("/contracts/new").hasAnyAuthority("company")
-				/*Default mathers*/
+
+				//Listar contratos compania (H11)
+		        .antMatchers("/contracts/company/list").hasAnyAuthority("company")
+		        //Mostrar contratos compania (H11)
+		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("company")
+          // Crear solicitud de contrato
+           .antMatchers("/contracts/new").hasAnyAuthority("company")
+		        /*Default mathers*/
+      
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()

@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/stories/{storyId}")
+@RequestMapping("stories/{storyId}")
 public class ChapterController {
 	
 	private final ChapterService chapterService;
@@ -100,7 +100,7 @@ public class ChapterController {
 		
 		}
 		
-		return "redirect:/";
+		return "redirect:/stories/{storyId}/chapters";
 		}
 	
 	
