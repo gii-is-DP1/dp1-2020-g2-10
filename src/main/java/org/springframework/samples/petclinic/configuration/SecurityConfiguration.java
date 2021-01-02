@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -54,11 +53,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
 				// Contracts
 				.antMatchers("/contracts/list").hasAnyAuthority("author", "company")
+
 				//Listar contratos compania (H11)
 		        .antMatchers("/contracts/company/list").hasAnyAuthority("company")
 		        //Mostrar contratos compania (H11)
 		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("company")
+          // Crear solicitud de contrato
+           .antMatchers("/contracts/new").hasAnyAuthority("company")
 		        /*Default mathers*/
+      
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()

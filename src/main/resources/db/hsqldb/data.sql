@@ -399,5 +399,3 @@ INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderado
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(EDITOR,1,1)
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(COAUTHOR,2,2)
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(CONSULTANT,3,3)
-
-

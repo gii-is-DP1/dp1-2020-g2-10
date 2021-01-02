@@ -4,6 +4,10 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
+import java.util.Date;
+
+import javax.validation.Valid;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +32,15 @@ public class ContractService {
 	@Autowired
 	private CompanyService companyService;
 	
+	
+	public ContractService(ContractRepository contractRepository, AuthorService authorService,
+			CompanyService companyService) {
+		super();
+		this.contractRepository = contractRepository;
+		this.authorService = authorService;
+		this.companyService = companyService;
+	}
+
 	
 	@Transactional(readOnly = true)
 	private Collection<Contract> findByAuthorAndStatus(Author author, ContractStatus status){
@@ -64,15 +77,17 @@ public class ContractService {
 	public Contract createContract(){
 		Contract res = new Contract();
 		
-		
-		res.setAuthor(authorService.getPrincipal());
 		res.setCompany(companyService.getPrincipal());
+
+		Date moment;
 		
+        moment = new Date(System.currentTimeMillis() - 1);
+        res.setOfferDate(moment);
 		return res;
 	}
 	
 	@Transactional
-	public void saveContract(Contract contract){
+	public void saveContract(@Valid Contract contract) throws DataAccessException{
 		contractRepository.save(contract);		
 		
 	}

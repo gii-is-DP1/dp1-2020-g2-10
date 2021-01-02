@@ -6,34 +6,47 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
-<alexandria:layout pageName="contracts">
+
+<alexandria:layout pageName="contracts">  
+
+<jsp:attribute name="customScript">
+            <script>
+                $(function () {
+                    $("#startDate").datepicker();*/
+                    $("#endDate").datepicker();*/
+
+                });
+            </script>
+    </jsp:attribute>
+        
     <jsp:body>
         <h2>
             <c:if test="${contract['new']}">New </c:if> Contract
         </h2>
-        <c:out value="username: ${contract.author.user.username}"/>
+        <c:out value="username: ${contract.company.user.username}"/>
+         <c:out value="id: ${contract.company.id}"/>
+        
         <form:form modelAttribute="contract"
                     class="form-horizontal">
             <input type="hidden" name="id" value="${contract.id}"/>
-            <input type="hidden" name="authorId" value="${contract.author.id}"/>
-            
+            <input type="hidden" name="company.id" value="${contract.company.id}"/>
+            <fmt:formatDate value="${contract.offerDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedOfferDate"/>
+            <input type="hidden"  name= "offerDate" value="${parsedOfferDate}" />
+           
+           
             <div class="form-group has-feedback">
-            
+            	
+				<alexandria:inputField label="Author ID" name="author.id"/>
+         
                 <alexandria:inputField label="Header" name="header"/>
-                <alexandria:textareaField label="Text" name="text"/>
+                <alexandria:textareaField label="Body" name="body"/>
                 <alexandria:textareaField label="Remuneration" name="remuneration"/>
-                <fmt:formatDate label= "Offer Date" name= "offerDate" value="${contract.offerDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedOfferDate"/>
-                <fmt:formatDate label= "Answer Date" name= "answerDate" value="${contract.answerDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedAnswerDate"/>
-                <fmt:formatDate label= "Start Date" name= "startDate" value="${contract.startDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedStartDate"/>
-                <fmt:formatDate label= "End Date" name= "endDate" value="${contract.endDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedEndDate"/>
-                
-                
                 <alexandria:selectEnumField options="${contractStatus}" label="Status" name="contractStatus"/>
-                <alexandria:checkboxField label="Exlusivity" name="isExclusive">
-                 <option value="Yes">Yes</option>
-                 <option value="No">No</option>
-                </alexandria:checkboxField>
-            </div>
+                <alexandria:checkboxField label="Exlusivity" name="isExclusive"/>
+                
+           		<alexandria:inputField label= "Fecha de inicio" name= "startDate" />
+           		<alexandria:inputField label="Fecha fin" name= "endDate"  />
+            	</div>
             
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">

@@ -4,9 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
@@ -18,7 +16,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -132,12 +129,19 @@ class StoryServiceTests {
 	}
 	
 	
-	//@SuppressWarnings({ "deprecation", "static-access" })
+	
+	//Test HU-01: listado y mostrado de storys
+	
 	@Test
+	@Transactional
 	void shouldFindStories()  {
 		Collection<Story> stories = this.storyService.findStories();
+		
+		Timestamp updatedDate = new Timestamp(120, 9, 12, 15, 00, 0, 0); 
+
 
 		Story story = EntityUtils.getById(stories, Story.class, 1);
+		
 		assertThat(story.getTitle()).isEqualTo("Lorem ipsum");
 		assertThat(story.getDescription()).isEqualTo("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum "
 				+ "at blandit dolor, at laoreet nulla. Donec nibh nisi.");
@@ -148,20 +152,11 @@ class StoryServiceTests {
 		assertThat(story.getStoryStatus()).isEqualTo(s);
 		Boolean b= Boolean.FALSE;
 		assertThat(story.getIsAdult()).isEqualTo(b);
-//		SimpleDateFormat sdf= new SimpleDateFormat("yyyy/MM/dd HH:mm");
-//		Date d = sdf.parse("2020-10-12 15:00");
-//		Date d = new Date(120, 9, 12, 15, 00);
+		assertThat(story.getUpdatedDate()).isEqualTo(updatedDate);
 		
-//		d.parse("yyyy/MM/dd HH:mm");
-//		d.parse("yyyy/MM/dd HH:mm");
+
 		
-//		System.out.println("---------------------------------------------------------------");
-//		System.out.println("---------------------------------------------------------------");
-//		System.out.println("---------------------------------------------------------------");
-//		System.out.println(story.getUpdatedDate());
-//		DateFormat hourdateFormat = new SimpleDateFormat("HH:mm:ss dd/MM/yyyy");
-//		System.out.println("Hora y fecha: "+hourdateFormat.format("15:00:00 2020/10/12"));
-//		assertThat(story.getUpdatedDate()).isEqualTo("15:00:00 2020/10/12");
+		// No hay test negativo al ser un listado
 
 	}
 }

@@ -12,7 +12,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 
@@ -47,6 +46,7 @@ private String body;
 //@Column(columnDefinition = "NUMBER")
 private Double remuneration;
 
+
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "answer_date")
 private Date answerDate;
@@ -57,14 +57,14 @@ private Date answerDate;
 private ContractStatus contractStatus;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Future
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "start_date")
 private Date startDate;
 
 @NotNull
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Future
+@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "end_date")
 private Date endDate;
 

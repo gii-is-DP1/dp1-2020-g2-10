@@ -47,6 +47,13 @@ public class ContractController {
 	
 	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
 	
+	
+	public ContractController(ContractService contractService) {
+		super();
+		this.contractService = contractService;
+	}
+
+
 	@InitBinder
  	public void setAllowedFields(WebDataBinder dataBinder) {
  		dataBinder.setDisallowedFields("id");
@@ -58,6 +65,8 @@ public class ContractController {
 		model.put("contracts", contracts);
 		return VIEWS_CONTRACTS_LIST;
 	}
+	
+	// HU-08 Envío de un contrato
 	
 	@GetMapping(value = "/new")
 	public String initCreationContractForm(Author author,Company company , ModelMap model) {
@@ -77,7 +86,9 @@ public class ContractController {
 			return VIEWS_CONTRACT_CREATE_FORM;
 		}
 		else {
+			System.out.println(contract);
 			contractService.saveContract(contract);
+			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
             return "redirect:/";
 
 		}
