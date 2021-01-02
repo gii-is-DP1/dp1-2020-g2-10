@@ -27,8 +27,8 @@ INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
 INSERT INTO users(username,password,enabled) VALUES ('moderador1','moderador1',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderador');
 -- editorial1, named editorial1 with password editorial1
-INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editorial');
+-- INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
+-- INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','company');
 
 
 
@@ -73,7 +73,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 
 -- INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
 -- 
--- INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
+--  INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
 
 
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
@@ -360,7 +360,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 		VALUES ('A40329876', 'NEWS SECTOR','info@newssector.com','NEWSPAPER','/resources/images/companies/company4.png', 
 		'News and media outlet. Breaking news, quality journalism and literature reviewrs','company4');
 	
-		-- Contracts from Company3 -----------------------------------------------------
+		-- Contracts from Company4 -----------------------------------------------------
 		
 				-- Contract9 with Author1 ( EXCLUSIVO - PENDIENTE ) ----------------------
 						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
@@ -369,6 +369,13 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 						'NEWS SECTOR offers Marco Medina Sandoval to be the public face of the aforementioned company. The sponsorhip that all the work produced in that period by the author will be associated with the NEWS SECTOR trademark. A compensation will be given as stated in this contract.',
 						140420.49, null, 'PENDING' ,'2020-10-01 00:00', '2021-06-30 23:59', true,
 						1,4);
+						
+				-- Contract10 with Author3 ( EXCLUSIVO - PENDIENTE ) ----------------------
+					INSERT INTO contracts(offer_date, header ,body,remuneration , answer_date, contract_status, start_date,end_date,is_exclusive,
+					author_id,company_id) 
+					VALUES ('2020-12-08 15:00','Oferta de contrato 10','Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
+					6.89,'2020-12-15 12:00', 'PENDING', '2021-01-01 14:00','2021-02-02 14:00', true,
+					3,4);
 
 -- 7. Reports -----------------------------------------------------------------------------
 
@@ -392,5 +399,3 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(EDITOR,1,1)
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(COAUTHOR,2,2)
 -- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(CONSULTANT,3,3)
-
-

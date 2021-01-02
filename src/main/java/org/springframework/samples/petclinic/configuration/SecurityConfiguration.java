@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -49,11 +48,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stories/**/chapters/{chapterId}").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/new").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/**/edit").hasAnyAuthority("author")
-        .antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
+				.antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
 				// Reports
 				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
 				// Contracts
 				.antMatchers("/contracts/list").hasAnyAuthority("author", "company")
+				.antMatchers("/contracts/new").hasAnyAuthority("company")
 				/*Default mathers*/
 				.anyRequest().denyAll()
 				.and()
