@@ -23,7 +23,6 @@
 				<th style="width: 200px;">Cover</th>
 				<th style="width: 200px;">Title</th>
 				<th>Genre</th>
-				<th>NSFW</th>
 				<th>Last update</th>
 				<th>Author</th>
 				<th></th>
@@ -37,9 +36,12 @@
 							<img src="<c:out value="${story.urlCover}"/>" alt="<c:out value="${story.urlCover}"/>"  width="200" />
 						</c:if>
 					</td>
-					<td><c:out value="${story.title}" /></td>
+					<td><c:out value="${story.title}" />&nbsp
+						<c:if test="${story.isAdult}">
+							<span class="label label-danger">+18</span>
+						</c:if>
+					</td>
 					<td><c:out value="${story.genre}" /></td>
-					<td><c:out value="${story.isAdult}" /></td>
 					<fmt:formatDate value="${story.updatedDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedUpdatedDate"/>
 					<td><c:out value="${parsedUpdatedDate}" /></td>
 					<td>

@@ -16,7 +16,8 @@
 		</c:if>
 	  </div>
 	  <div class="col-sm-8">
-	  <h1><c:out value="${story.title}"/>&nbsp<small>(<c:out value="${story.genre}" />)</small></h1>
+	  <h1><c:out value="${story.title}"/>&nbsp<span class="label label-danger">+18</span>&nbsp<small>(<c:out value="${story.genre}" />)</small></h1>
+	  
 	  <section>
 	  	<h3>Description</h3>
 	  	<p>${story.description}</p>
