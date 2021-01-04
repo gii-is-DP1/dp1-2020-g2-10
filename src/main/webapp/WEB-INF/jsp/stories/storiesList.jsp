@@ -5,6 +5,8 @@
 <%@ taglib prefix="alexandria" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 
 <alexandria:layout pageName="stories">
     <h1>Stories</h1>
@@ -50,6 +52,12 @@
 						</p>
 					</td>			
 					<td><a href="/stories/<c:out value="${story.id}" />/show">Show</a></td>	
+					<td>
+					<spring:url value="/stories/{storyId}/delete" var="deleteUrl">
+						<spring:param name="storyId" value="${story.id}"/>
+						</spring:url>
+						<a href="${fn:escapeXml(deleteURL)}">Delete story</a>
+					</td>
 				</tr>
 			</c:forEach>
 		</tbody>

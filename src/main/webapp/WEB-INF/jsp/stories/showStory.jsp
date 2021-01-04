@@ -3,6 +3,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="stories">
     
@@ -43,6 +44,14 @@
 		  	<h3>Dedication</h3>
 		  	<p>${story.dedication}</p>
 	  </section>
+	<div class="row spaced">
+				<spring:url value="/stories/{storyId}/chapters/{chapterId}" var="showChaptersUrl">
+                        	<spring:param name="storyId" value="${story.id}"/>
+							<spring:param name="chapterId" value="${stories.chapters.id}"/>
+                    	</spring:url>
+                    	<a href="${fn:escapeXml(showChaptersUrl)}">  Show chapters</a>
+                 		</div>
+                    	
 		</div>
 	</div>      
 
