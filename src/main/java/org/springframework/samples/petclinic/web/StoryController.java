@@ -48,7 +48,7 @@ public class StoryController {
 		return VIEWS_STORIES_LIST;
 	}
 	
-	@GetMapping(value = "/{storyId}")
+	@GetMapping(value = "/{storyId}/show")
 	public String showStory(@PathVariable int storyId, Map<String, Object> model) {
 		Story s= this.storyService.findStoryById(storyId);
 		model.put("story", s);
@@ -81,7 +81,7 @@ public class StoryController {
 		}
 		else {
 			storyService.saveStory(story);
-            return "redirect:/";
+            return "redirect:/stories/list";
 
 		}
 	}
@@ -89,7 +89,7 @@ public class StoryController {
 	@GetMapping(value = { "/{storyId}/delete"})
 	public String deleteStory(@PathVariable int storyId) {
 		storyService.deleteStory(storyId);
-		return "redirect:/";
+		return "redirect:/stories/list";
 	}
 	
 	

@@ -2,46 +2,54 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="alexandria" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
-<petclinic:layout pageName="stories">
-    <h2>Stories</h2>
-
-
-	<table id="chaptersTable" class="table table-striped">
+<alexandria:layout pageName="stories">
+    <h1>Stories</h1>
+    
+    <sec:authorize access="hasAnyAuthority('author')">
+    <div class="row spaced">
+    	<div class="col-md-12">
+    		<button class="btn btn-default" onclick="location.href = '/stories/new';">Create</button>
+    	</div>
+    </div>
+    </sec:authorize>
+    
+	<table id="storiesTable" class="table table-striped">
 		<thead>
 			<tr>
+				<th style="width: 200px;">Cover</th>
 				<th style="width: 200px;">Title</th>
-				<th style="width: 150px;">Description</th>
-				<th style="width: 150px;">Dedication</th>
-				<th style="width: 150px;">Genre</th>
-				<th style="width: 150px;">storyStatus</th>
-				<th style="width: 150px;">isAdult</th>
-				<th style="width: 150px;">updatedDate</th>
-				<th style="width: 150px;">author</th>
-				<th style="width: 150px;">urlCover</th>
-				<th style="width: 150px;">moderator</th>
+				<th>Genre</th>
+				<th>NSFW</th>
+				<th>Last update</th>
+				<th>Author</th>
+				<th></th>
 			</tr>
 		</thead>
 		<tbody>
 			<c:forEach items="${stories}" var="story">
 				<tr>
+					<td>
+						<c:if test="${not empty story.urlCover}"> 
+							<img src="<c:out value="${story.urlCover}"/>" alt="<c:out value="${story.urlCover}"/>"  width="200" />
+						</c:if>
+					</td>
 					<td><c:out value="${story.title}" /></td>
-					<td><c:out value="${story.description}" /></td>
-					<td><c:out value="${story.dedication}" /></td>
 					<td><c:out value="${story.genre}" /></td>
-					<td><c:out value="${story.storyStatus}" /></td>
 					<td><c:out value="${story.isAdult}" /></td>
-					<td><c:out value="${story.updatedDate}" /></td>
-					<td><c:out value="${story.author.firstName}" /></td>
-					<td><c:out value="${story.urlCover}" /> 
-					<img src="<c:out value="${story.urlCover}" /> "  width="200" > </td>
-					<td><c:out value="${story.moderator.lastName}" /></td>
-					
-					
-	
+					<fmt:formatDate value="${story.updatedDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedUpdatedDate"/>
+					<td><c:out value="${parsedUpdatedDate}" /></td>
+					<td>
+						<p>
+							<c:out value="${story.author.firstName}"/>&nbsp<c:out value="${story.author.lastName}"/>
+						</p>
+					</td>			
+					<td><a href="/stories/<c:out value="${story.id}" />/show">Show</a></td>	
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>        
-</petclinic:layout>
+</alexandria:layout>
