@@ -8,9 +8,9 @@
 
 <alexandria:layout pageName="stories">
     <jsp:body>
-        <h2>
+        <h1>
             <c:if test="${story['new']}">New </c:if> Story
-        </h2>
+        </h1>
         <c:out value="username: ${story.author.user.username}"/>
         <form:form modelAttribute="story"
                     class="form-horizontal">
@@ -44,6 +44,7 @@
                             <button class="btn btn-default" type="submit">Update</button>
                         </c:otherwise>
                     </c:choose>
+                    <button class="btn btn-default" type="reset" onclick="location.href = '/stories/list';">Cancel</button>
                 </div>
             </div>
         </form:form>
