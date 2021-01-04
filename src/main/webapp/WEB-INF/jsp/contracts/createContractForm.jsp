@@ -55,10 +55,15 @@
                             <button class="btn btn-default" type="submit">Create</button>
                         </c:when>
                     </c:choose>
+                    
+                    <a class="btn btn-default" href="/" >Return</a>  
+                    
                 </div>
+                
             </div>
         </form:form>
         <c:if test="${!contract['new']}">
         </c:if>
+        
     </jsp:body>
 </alexandria:layout>

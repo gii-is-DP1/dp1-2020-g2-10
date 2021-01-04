@@ -48,6 +48,6 @@
             </div>
         </form:form>
         <c:if test="${!story['new']}">
-        </c:if>
+        </c:if>        
     </jsp:body>
 </alexandria:layout>
