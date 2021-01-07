@@ -55,8 +55,8 @@
 					<td>
 					<spring:url value="/stories/{storyId}/delete" var="deleteUrl">
 						<spring:param name="storyId" value="${story.id}"/>
-						</spring:url>
-						<a href="${fn:escapeXml(deleteURL)}">Delete story</a>
+					</spring:url>
+						<a href="${fn:escapeXml(deleteUrl)}">Delete story</a>
 					</td>
 				</tr>
 			</c:forEach>
