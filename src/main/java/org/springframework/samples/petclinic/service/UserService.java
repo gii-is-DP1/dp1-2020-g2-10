@@ -16,7 +16,10 @@
 package org.springframework.samples.petclinic.service;
 
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -25,6 +28,8 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -62,24 +67,18 @@ public class UserService {
 		return res;
 	}
 	
-	/* Devuelve la Authority del usuario loguado
-	 * o null en otro caso*/
-	private Authorities getPrincipalAuthority() {
-		Authorities res = null;
-		User currentUser = getPrincipal();
-		if(currentUser != null) {
-			res = currentUser.getAuthorities().iterator().next();
-		}
-		return res;
-	}
-	
 	/* Devuelve el nombre de la autoridad del usuario logueado
 	 * y anonymous en otro caso */
 	public String getPrincipalRole() {
 		String res = "anonymous";
-		Authorities principalAuthority = getPrincipalAuthority();
-		if(principalAuthority != null) {
-			res = principalAuthority.getAuthority();
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		Optional<String> role = authentication.getAuthorities().stream()
+			     .map(r -> r.getAuthority()).findAny();
+		
+		if(role.isPresent()) {
+			res = role.get();
 		}
 		return res;
 	}
