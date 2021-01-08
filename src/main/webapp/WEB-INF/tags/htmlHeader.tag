@@ -17,7 +17,7 @@ PetClinic :: a Spring Framework demonstration
     <title>PetClinic :: a Spring Framework demonstration</title>
 
     <%-- CSS generated from LESS --%>
-    <spring:url value="/resources/css/petclinic.css" var="petclinicCss"/>
+    <spring:url value="/resources/css/alexandria.css" var="petclinicCss"/>
     <link href="${petclinicCss}" rel="stylesheet"/>
 	
 
