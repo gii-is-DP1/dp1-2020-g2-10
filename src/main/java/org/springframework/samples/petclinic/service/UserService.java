@@ -23,6 +23,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -49,12 +50,15 @@ public class UserService {
 	public User getPrincipal() {
 		User res = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		
-		Optional<User> currentUser = findUser(userDetail.getUsername());
-		if(currentUser.isPresent()) {
-			res = currentUser.get();
+		if(!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			Optional<User> currentUser = findUser(userDetail.getUsername());
+			
+			if(currentUser.isPresent()) {
+				res = currentUser.get();
+			}
 		}
+		
 		return res;
 	}
 	
@@ -84,8 +88,8 @@ public class UserService {
 	public Boolean isAuthenticated() {
 		Boolean res = false;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		UserDetails userDetail = (UserDetails) auth.getPrincipal();
-		res = userDetail != null;
+		
+		res = !(auth instanceof AnonymousAuthenticationToken);
 		
 		return res;
 	}
