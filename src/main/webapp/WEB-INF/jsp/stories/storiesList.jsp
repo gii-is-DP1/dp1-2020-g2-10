@@ -38,9 +38,12 @@
 							<img src="<c:out value="${story.urlCover}"/>" alt="<c:out value="${story.urlCover}"/>"  width="200" />
 						</c:if>
 					</td>
-					<td><c:out value="${story.title}" />&nbsp
+					<td><c:out value="${story.title}" />
 						<c:if test="${story.isAdult}">
-							<span class="label label-danger">+18</span>
+							&nbsp<span class="label label-danger">+18</span>
+						</c:if>
+						<c:if test="${story.storyStatus eq 'DRAFT'}">
+							&nbsp<span class="label label-info">Draft</span>
 						</c:if>
 					</td>
 					<td><c:out value="${story.genre}" /></td>
@@ -51,13 +54,17 @@
 							<c:out value="${story.author.firstName}"/>&nbsp<c:out value="${story.author.lastName}"/>
 						</p>
 					</td>			
-					<td><a href="/stories/<c:out value="${story.id}" />/show">Show</a></td>	
-					<td>
-					<spring:url value="/stories/{storyId}/delete" var="deleteUrl">
-						<spring:param name="storyId" value="${story.id}"/>
-					</spring:url>
-						<a href="${fn:escapeXml(deleteUrl)}">Delete story</a>
+					<td><a href="/stories/<c:out value="${story.id}" />/show">Show</a>&nbsp
+						<c:if test="${not empty principal 
+						and principal.username eq story.author.user.username 
+						and story.storyStatus eq 'DRAFT'}">
+							<spring:url value="/stories/{storyId}/delete" var="deleteUrl">
+								<spring:param name="storyId" value="${story.id}"/>
+							</spring:url>
+							<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-danger">Delete</a>
+						</c:if>
 					</td>
+
 				</tr>
 			</c:forEach>
 		</tbody>

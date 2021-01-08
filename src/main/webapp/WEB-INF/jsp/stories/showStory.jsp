@@ -6,9 +6,6 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="stories">
-    
-	
-	
 	
 	<div class="row">
 	  <div class="col-sm-4">
@@ -17,7 +14,16 @@
 		</c:if>
 	  </div>
 	  <div class="col-sm-8">
-	  <h1><c:out value="${story.title}"/>&nbsp<span class="label label-danger">+18</span>&nbsp<small>(<c:out value="${story.genre}" />)</small></h1>
+		<h1><c:out value="${story.title}"/>&nbsp
+		
+		  	<c:if test="${story.isAdult}">
+				&nbsp<span class="label label-danger">+18</span>
+			</c:if>
+
+		  	<c:if test="${story.storyStatus eq 'DRAFT'}">
+				&nbsp<span class="label label-info">Draft</span>
+			</c:if>&nbsp<small>(<c:out value="${story.genre}" />)</small>
+		</h1>
 	  
 	  <section>
 	  	<h3>Description</h3>
