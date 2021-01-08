@@ -10,6 +10,7 @@
 <petclinic:htmlHeader/>
 
 <body>
+
 <petclinic:bodyHeader menuName="${pageName}"/>
 
 <div class="container-fluid">
@@ -30,7 +31,6 @@
 </div>
 <petclinic:footer/>
 <jsp:invoke fragment="customScript" />
-
 </body>
 
 </html>

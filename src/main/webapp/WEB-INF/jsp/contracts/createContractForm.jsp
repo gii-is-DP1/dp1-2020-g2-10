@@ -12,12 +12,12 @@
 <jsp:attribute name="customScript">
             <script>
                 $(function () {
-                    $("#startDate").datepicker();*/
-                    $("#endDate").datepicker();*/
+                    $("#startDate").datepicker();
+                    $("#endDate").datepicker();
 
                 });
             </script>
-    </jsp:attribute>
+</jsp:attribute>
         
     <jsp:body>
         <h2>

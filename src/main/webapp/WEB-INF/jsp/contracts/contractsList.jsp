@@ -24,7 +24,7 @@
 				<tr>
 					<td><c:out value="${contract.offerDate}" /></td>
 					<td><c:out value="${contract.header}" /></td>
-					<td><c:out value="${contract.remuneration}" /> &euro</td>
+					<td><c:out value="${contract.remuneration}" /> &euro;</td>
 					<td><c:out value="${contract.startDate}" /></td>
 					<td><c:out value="${contract.endDate}" /></td>
 					<td><img src="<c:out value="${contract.company.urlLogo}" /> "  width="200" > </td>
