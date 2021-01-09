@@ -35,15 +35,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
 				.antMatchers("/users/new").permitAll()
-				.antMatchers("/carlos").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/authors/**").hasAnyAuthority("author","admin")				
 				.antMatchers("/vets/**").authenticated()
 				// Stories
+				.antMatchers("/stories/list").permitAll()
+				.antMatchers("/stories/{storyId}/show").permitAll()
 				.antMatchers("/stories/new").hasAnyAuthority("author")
 				.antMatchers("/stories/{storyId}/delete").hasAnyAuthority("author")
-
-				.antMatchers("/stories/**").hasAnyAuthority("author")
 				//Chapters
 				.antMatchers("/stories/**/chapters").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/{chapterId}").hasAnyAuthority("author")

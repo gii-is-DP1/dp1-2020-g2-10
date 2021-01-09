@@ -62,9 +62,9 @@
 				</petclinic:menuItem>
 				
 <!-- COMO PASAR ID A ESTA URL -->
-				<sec:authorize access="hasAnyAuthority('company')">
-					<petclinic:menuItem active="${name eq 'contracts'}" url="/contracts/company/list"
-						title="The list of my contracts">
+				<sec:authorize access="hasAnyAuthority('company','author')">
+					<petclinic:menuItem active="${name eq 'contracts'}" url="/contracts/list"
+						title="My Contracts">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>My Contracts</span>
 					</petclinic:menuItem>

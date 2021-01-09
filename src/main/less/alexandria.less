@@ -42,7 +42,7 @@
 
 @btn-default-color:              @spring-light-grey;
 @btn-default-bg:                 @spring-brown;
-@btn-default-border:             @alexandria-brown;
+@btn-default-border:             @spring-brown;
 
 @nav-tabs-active-link-hover-color:        @spring-light-grey;
 @nav-tabs-active-link-hover-bg:           @spring-brown;
@@ -69,19 +69,14 @@
 
 .btn-default {
   border-width: 2px;
-  transition: border 0.15s;
-  -webkit-transition: border 0.15s;
-  -moz-transition: border 0.15s;
-  -o-transition: border 0.15s;
-  -ms-transition: border 0.15s;
 
   &:hover,
   &:focus,
   &:active,
   &.active,
   .open .dropdown-toggle& {
-    background-color: @spring-brown;
-    border-color: @spring-brown;
+    background-color: @alexandria-brown;
+    border-color: @alexandria-brown;
   }
 }
 
@@ -243,8 +238,55 @@ hr {
 @import "responsive.less";
 
 
-/* Alexandria */
+/*************************** Alexandria ******************************/
 
 div .spaced{
 	margin: 20px 0px;
+}
+
+/****CSS adicional para los botones agrupados ****/
+/*https://www.w3schools.com/howto/howto_css_button_group.asp*/
+
+.btn-group button {
+  background-color: @spring-grey;
+  border: 1px solid @spring-grey;
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+.btn-group .selected{
+	background-color: @alexandria-dark-brown;
+	pointer-events: none;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: @alexandria-brown;
+}
+
+/** Fin: CSS adicional para los botones agrupados**/
+div.center{
+    text-align: center;
+	padding: 15px;
+}
+
+.small-padding{
+	padding: 10px;
+}
+
+.medium-padding{
+	padding: 20px;
 }

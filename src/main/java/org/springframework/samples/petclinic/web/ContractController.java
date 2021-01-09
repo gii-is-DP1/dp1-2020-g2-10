@@ -41,10 +41,6 @@ public class ContractController {
 	
 	private static final String VIEW_SHOW_CONTRACTS="contracts/showContracts";
 	
-	private static final String VIEWS_CONTRACTS_LIST = "contracts/contractsList";
-	
-	private static final String VIEWS_CONTRACTS_SHOW = "contracts/contractsShow";
-	
 	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
 	
 	
@@ -59,11 +55,21 @@ public class ContractController {
  		dataBinder.setDisallowedFields("id");
  	}
 	
+	// HU-09 Listar contrato como Autor
+	// HU-09 Listar contrato como Empresa
+	
 	@GetMapping(value = { "/list" })
 	public String listContracts(Map<String, Object> model) {
-		Collection<Contract> contracts = contractService.findByAuthorPrincipalAndStatus(null);
-		model.put("contracts", contracts);
-		return VIEWS_CONTRACTS_LIST;
+		
+		Collection<Contract> pendingContracts = contractService.findByPrincipalAndStatus(ContractStatus.PENDING);
+		Collection<Contract> acceptedContracts = contractService.findByPrincipalAndStatus(ContractStatus.ACCEPTED);
+		Collection<Contract> allContracts = contractService.findByPrincipalAndStatus(null);
+		
+		model.put("pendingContracts", pendingContracts);
+		model.put("acceptedContracts", acceptedContracts);
+		model.put("allContracts", allContracts);
+		
+		return VIEW_LIST_CONTRACTS;
 	}
 	
 	// HU-08 Envío de un contrato
