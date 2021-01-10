@@ -13,4 +13,4 @@ Respecto al análisis retrospectivo, hemos funcionado correctamente y hemos corr
 
 A continuación, se adjunta los informes de Clockify que recogen el esfuerzo en horas invertido por cada miembro:
 
-![Clokify report summary](/Sprint3-Clokify_Summary.png)
+![Clokify report summary](Sprint3-Clokify_Summary.png)
