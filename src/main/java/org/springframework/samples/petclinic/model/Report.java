@@ -8,6 +8,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.sun.istack.NotNull;
@@ -36,6 +38,7 @@ public @Data class Report extends BaseEntity{
 	
 	@NotNull
 	@ManyToOne(optional=true)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Chapter chapter;
 	
 }
