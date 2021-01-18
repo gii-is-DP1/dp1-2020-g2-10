@@ -80,7 +80,7 @@ public class AuthorService {
 	
 	@Transactional(readOnly = true)
 	public Boolean isPrincipalAuthor() {
-		return userService.getPrincipalRole().equals("author");
+		return getPrincipal() != null;
 	}
 
 	@Transactional

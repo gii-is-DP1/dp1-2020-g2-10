@@ -34,6 +34,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				// 404 error page for demonstration
+				.antMatchers("/no-controller").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/authors/**").hasAnyAuthority("author","admin")				
@@ -57,7 +59,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				//Listar contratos compania (H11)
 		        .antMatchers("/contracts/company/list").hasAnyAuthority("company")
 		        //Mostrar contratos compania (H11)
-		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("company")
+		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("author","company")
+		        .antMatchers("/contracts/{contractId}/accept").hasAnyAuthority("author")
+		        .antMatchers("/contracts/{contractId}/reject").hasAnyAuthority("author")
           // Crear solicitud de contrato
            .antMatchers("/contracts/new").hasAnyAuthority("company")
 		        /*Default mathers*/

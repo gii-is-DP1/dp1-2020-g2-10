@@ -44,9 +44,10 @@ public class ContractController {
 	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
 	
 	
-	public ContractController(ContractService contractService) {
+	public ContractController(ContractService contractService, CompanyService companyService) {
 		super();
 		this.contractService = contractService;
+		this.companyService = companyService;
 	}
 
 
@@ -95,9 +96,24 @@ public class ContractController {
 			System.out.println(contract);
 			contractService.saveContract(contract);
 			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
-            return "redirect:/";
+			return "redirect:/contracts/list";
 
 		}
+	}
+	
+	// H10: Aceptar o rechazar contratos recibidos (Autor)
+	@GetMapping(value = { "/{contractId}/accept" })
+	public String acceptContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
+		
+		contractService.answerContract(contractId, ContractStatus.ACCEPTED);
+		return "redirect:/contracts/list";
+	}
+	
+	@GetMapping(value = { "/{contractId}/reject" })
+	public String rejectContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
+		
+		contractService.answerContract(contractId, ContractStatus.REJECTED);
+		return "redirect:/contracts/list";
 	}
 	
 	// HU-11: Listar y mostrar contratos generados por una compañia.
@@ -110,9 +126,15 @@ public class ContractController {
 	}
 	
 	@GetMapping(value = { "/{contractId}/show" })
-	public String showContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
-		Contract contract = this.contractService.findContractById(contractId);
-		modelMap.put("contract", contract);
+	public String showContract(@PathVariable("contractId") int contractId, Map<String, Object> model) {
+		System.out.println("===================showContract===================");
+		System.out.println("======================================");
+		System.out.println("======================================");
+		System.out.println("======================================");
+		System.out.println("contractId: " + contractId);
+		Contract contract = contractService.findContractById(contractId);
+		System.out.println(contract);
+		model.put("contract", contract);
 		return VIEW_SHOW_CONTRACTS;
 	}
 

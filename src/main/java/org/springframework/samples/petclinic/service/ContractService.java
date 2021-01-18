@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.validation.Valid;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -102,15 +103,20 @@ public class ContractService {
 		return contratos;
 	}	
 
-	@Transactional //SHOW
 	public Contract findContractById(Integer contractId) throws DataAccessException {
-		Contract contract = contractRepository.findById(contractId).get();
-		Company principalCompany = this.companyService.getPrincipal();
-		Company contractCompany = contract.getCompany();
+		System.out.println("contractService.findContractById(): " + contractId);
+		Optional<Contract> optContract = contractRepository.findById(contractId);
 		
-		assertTrue("Only the creative company can see this contract",
-				principalCompany.equals(contractCompany));
-		return contract;
+		System.out.println("Do I get here? ontractService.findContractById()");
+		System.out.println("Optional findContractById(): " + optContract);
+		System.out.println("Contract findContractById(): " + optContract.get());
+		// TODO: Los Autores tambien pueden ver los contratos, corregir para compañia y autor
+//		Company principalCompany = this.companyService.getPrincipal();
+//		Company contractCompany = contract.getCompany();
+//		
+//		assertTrue("Only the creative company can see this contract",
+//				principalCompany.equals(contractCompany));
+		return optContract.isPresent()?optContract.get():null;
 	}	
 	//-------------------
 	public Contract createContract(){
@@ -129,6 +135,31 @@ public class ContractService {
 	public void saveContract(@Valid Contract contract) throws DataAccessException{
 		contractRepository.save(contract);		
 		
+	}
+	
+	@Transactional
+	public void answerContract(Integer contractId, ContractStatus updatedStatus) throws DataAccessException{
+		assertTrue("Only an author can respond to contracts.", authorService.isPrincipalAuthor());
+		
+		Author principal = authorService.getPrincipal();
+		Contract originalContract = findContractById(contractId);
+		assertTrue("Only the author recipient of the contract can provide an answer to the contract.",
+				originalContract.getAuthor().equals(principal));
+		
+		assertTrue("The contract has already been responded, no further modifications are allowed.", 
+				originalContract.getContractStatus().equals(ContractStatus.PENDING));
+		
+		assertTrue("The contract cannot longer be responded as its start date has already passed.", 
+				originalContract.getStartDate().after(new Date()));
+		
+		if(updatedStatus.equals(ContractStatus.ACCEPTED)) {
+			//TODO: Restricciones respecto a la exclusividad y conflictos con otros contratos (Queries)
+		}
+		
+		originalContract.setContractStatus(updatedStatus);
+		originalContract.setAnswerDate(new Date());
+		
+		saveContract(originalContract);
 	}
 
 
