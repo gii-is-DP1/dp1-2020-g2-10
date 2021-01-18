@@ -1,6 +1,7 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -23,6 +24,5 @@ public interface ContractRepository extends CrudRepository<Contract, Integer>{
 
 	@Query("SELECT contract FROM Contract contract WHERE contract.company.id  =:id")
 	public Collection<Contract> findContractsByCompanyId(@Param("id") int id);
-			
 
 }
