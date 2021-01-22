@@ -25,6 +25,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/stories")
 public class StoryController {
@@ -46,6 +49,13 @@ public class StoryController {
 
 	@GetMapping(value = { "/list" })
 	public String showStoriesList(Map<String, Object> model) {
+		log.debug("Lista de historias, log de debug");
+		
+		log.trace("A TRACE Message");
+        log.debug("A DEBUG Message");
+        log.info("An INFO Message");
+        log.warn("A WARN Message");
+        log.error("An ERROR Message");
 		Collection<Story> stories = this.storyService.findStories();
 		model.put("stories", stories);
 		return VIEWS_STORIES_LIST;
