@@ -41,7 +41,7 @@
 								&nbsp<span class="label label-warning">Exclusive</span>
 							</c:if>
 							<jsp:useBean id="now" class="java.util.Date"/>
-							<c:if test="${now > contract.endDate}">
+							<c:if test="${now > contract.startDate}">
 								&nbsp<span class="label label-default">Expired</span>
 							</c:if>
 						</td>

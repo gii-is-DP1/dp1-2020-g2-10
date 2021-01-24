@@ -51,11 +51,11 @@
 			<div class="center">
 				<div class="btn-group-wrap ">
 					<div id="btn-group" class="btn-group mx-auto">
-						<a class="btn btn-default" href="/contracts/company/list">Accept</a>
-						<a class="btn btn-danger" >Reject</a>
+						<a class="btn btn-default" href="<c:out value="${acceptUrl}" />" >Accept</a>
+						<a class="btn btn-danger"  href="<c:out value="${rejectUrl}" />" >Reject</a>
 					</div>
 				</div>
 			</div>
 		</div>
-		<a class="btn btn-default" href="/contracts/company/list" >Return</a>          
+		<a class="btn btn-default" href="/contracts/list" >Return</a>          
 </petclinic:layout>
