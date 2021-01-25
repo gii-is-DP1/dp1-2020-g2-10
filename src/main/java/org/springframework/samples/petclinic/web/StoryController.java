@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -100,8 +101,10 @@ public class StoryController {
 	}
 	
 	@GetMapping(value = { "/{storyId}/delete"})
-	public String deleteStory(@PathVariable int storyId) {
+	public String deleteStory(@PathVariable int storyId, RedirectAttributes redirectAttributes) {
 		storyService.deleteStory(storyId);
+		redirectAttributes.addFlashAttribute("message", String.format("The story with storyId=%d was deleted.", storyId));
+		redirectAttributes.addFlashAttribute("messageType", "success");
 		return "redirect:/stories/list";
 	}
 	
