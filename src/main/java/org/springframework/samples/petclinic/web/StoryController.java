@@ -16,8 +16,6 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.samples.petclinic.service.UserService;
-import org.springframework.samples.petclinic.util.AlexandriaAlert;
-import org.springframework.samples.petclinic.util.AlexandriaAlertType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -60,7 +58,6 @@ public class StoryController {
         log.error("An ERROR Message");
 		Collection<Story> stories = this.storyService.findStories();
 		model.put("stories", stories);
-		model.put("alert", new AlexandriaAlert(AlexandriaAlertType.INFO, "This is a test"));
 		return VIEWS_STORIES_LIST;
 	}
 	

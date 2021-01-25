@@ -15,7 +15,7 @@
 
 <div class="container-fluid">
     <div class="container xd-container">
-    <petclinic:alert alert="${alert}"/>
+    <petclinic:alert />
 	<c:if test="${not empty message}" >
 	<div class="alert alert-${not empty messageType ? messageType : 'info'}" role="alert">
   		<c:out value="${message}"></c:out>
