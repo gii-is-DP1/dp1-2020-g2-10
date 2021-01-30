@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -35,10 +34,38 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				// 404 error page for demonstration
+				.antMatchers("/no-controller").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
-				.antMatchers("/owners/**").hasAnyAuthority("owner","admin")				
+				.antMatchers("/authors/**").hasAnyAuthority("author","admin")				
 				.antMatchers("/vets/**").authenticated()
+				// Stories
+				.antMatchers("/stories/list").permitAll()
+				.antMatchers("/stories/{storyId}/show").permitAll()
+				.antMatchers("/stories/new").hasAnyAuthority("author")
+				.antMatchers("/stories/{storyId}/delete").hasAnyAuthority("author")
+				//Chapters
+				.antMatchers("/stories/**/chapters").hasAnyAuthority("author")
+				.antMatchers("/stories/**/chapters/{chapterId}").hasAnyAuthority("author")
+				.antMatchers("/stories/**/chapters/new").hasAnyAuthority("author")
+				.antMatchers("/stories/**/chapters/**/edit").hasAnyAuthority("author")
+				.antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
+				// Reports
+				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
+				// Contracts
+				.antMatchers("/contracts/list").hasAnyAuthority("author", "company")
+
+				//Listar contratos compania (H11)
+		        .antMatchers("/contracts/company/list").hasAnyAuthority("company")
+		        //Mostrar contratos compania (H11)
+		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("author","company")
+		        .antMatchers("/contracts/{contractId}/accept").hasAnyAuthority("author")
+		        .antMatchers("/contracts/{contractId}/reject").hasAnyAuthority("author")
+          // Crear solicitud de contrato
+           .antMatchers("/contracts/new").hasAnyAuthority("company")
+		        /*Default mathers*/
+      
 				.anyRequest().denyAll()
 				.and()
 				 	.formLogin()

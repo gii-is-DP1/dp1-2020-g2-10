@@ -5,7 +5,12 @@
 <petclinic:layout pageName="error">
 
     <spring:url value="/resources/images/pets.png" var="petsImage"/>
-    <img src="${petsImage}"/>
+    <div class="row">
+	     <div class="col-md-12">
+            <spring:url value="/resources/images/alexandria-library-fire-2.jpeg" htmlEscape="true" var="petsImage"/>
+            <img class="img-responsive" src="${petsImage}"/>
+        </div>
+    </div>
 
     <h2>Something happened...</h2>
 

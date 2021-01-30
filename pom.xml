@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.springframework.samples</groupId>
-    <artifactId>spring-petclinic</artifactId>
+    <artifactId>G2-10</artifactId>
     <version>2.2.0.BUILD-SNAPSHOT</version>
 
     <parent>
@@ -12,7 +12,7 @@
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.4.RELEASE</version>
     </parent>
-    <name>petclinic</name>
+    <name>G2-10</name>
 
     <properties>
 
@@ -33,6 +33,15 @@
     </properties>
 
 	<developers>
+    
+    <developer>
+	 		<id>davgangar1</id>
+	 		<name>David</name>
+	 		<email>davgangar1@alum.us.es</email>
+	 		<roles>
+	 			<role>member</role>
+	 		</roles>
+	 	</developer>
 	 	<developer>
 	 		<id>pabcalper</id>
 	 		<name>Pablosky</name>
@@ -49,6 +58,16 @@
 	 			<role>Developer</role>
 	 		</roles>
 	 	</developer>
+	 	
+	 	<developer>
+	 		<id>felconmar</id>
+	 		<name>Félix Conde Marrón</name>
+	 		<email>felconmar@alum.us.es</email>
+	 		<roles>
+	 			<role>member</role>
+	 		</roles>
+	 	</developer>
+	 	
 	</developers>
  
     <dependencies>
