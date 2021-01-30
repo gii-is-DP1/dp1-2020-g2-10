@@ -51,6 +51,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/stories/**/chapters/new").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/**/edit").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
+				//Reviews
+				.antMatchers("/stories/**/reviews/new").hasAnyAuthority("author")
 				// Reports
 				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
 				// Contracts
