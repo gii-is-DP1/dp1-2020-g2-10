@@ -14,6 +14,8 @@
 		</c:if>
 	  </div>
 	  <div class="col-sm-8">
+	  <div class="row row-no-padding">
+	  <div class="col-sm-8">
 		<h1><c:out value="${story.title}"/>&nbsp
 		
 		  	<c:if test="${story.isAdult}">
@@ -24,6 +26,18 @@
 				&nbsp<span class="label label-info">Draft</span>
 			</c:if>&nbsp<small>(<c:out value="${story.genre}" />)</small>
 		</h1>
+	 	 </div>
+	 	 <div class="col-sm-4 pull-right">
+	 		 <spring:url value="/stories/{storyId}/reviews/new" var="reviewStoryUrl">
+             	<spring:param name="storyId" value="${story.id}"/>
+             </spring:url>
+             <a href="${fn:escapeXml(reviewStoryUrl)}">  Review story</a>
+             <!--
+             <button onclick="${fn:escapeXml(reviewStoryUrl)}">Review story</button>
+             -->
+	  </div>
+	  </div>
+	  
 	  
 	  <section>
 	  	<h3>Description</h3>

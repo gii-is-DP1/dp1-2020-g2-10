@@ -71,6 +71,8 @@
 		<alexandria:contractTable contractList="${allContracts}" tableId="allContracts" startHidden="true"/>
 		
 		<a class="btn btn-default" href="/" >Return</a>
+		<a class="btn btn-default" href="/contracts/new" >Create</a>          
+		
 	</jsp:body>
 	
 </alexandria:layout>
