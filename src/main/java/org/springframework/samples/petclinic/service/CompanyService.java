@@ -36,6 +36,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class CompanyService {
 
+	
+	public CompanyService(CompanyRepository companyRepository, UserService userService,
+			AuthoritiesService authoritiesService) {
+		super();
+		this.companyRepository = companyRepository;
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
+	}
+
+
 	@Autowired
 	private CompanyRepository companyRepository;	
 	
