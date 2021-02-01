@@ -42,7 +42,7 @@ public class ReviewController {
 		return this.storyService.findStoryById(storyId);
 	}
 	
-	@GetMapping("/review/new")
+	@GetMapping("/reviews/new")
 	public String initAddReview(Story story, ModelMap modelMap) {
 //		modelMap.put("buttonCreate", true);
 		Review review = this.reviewService.createReview(story);
@@ -53,7 +53,7 @@ public class ReviewController {
 		
 	}
 	
-	@PostMapping("/review/new")
+	@PostMapping("/reviews/new")
 	public String processNewReview(Story story, @Valid Review review, BindingResult result, ModelMap modelMap) {
 		
 		modelMap.put("buttonCreate", true);

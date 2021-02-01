@@ -15,25 +15,12 @@
  */
 package org.springframework.samples.petclinic.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotEmpty;
 
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 
 import lombok.Data;
@@ -50,38 +37,6 @@ public @Data class Author extends Person {
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "username", referencedColumnName = "username")
 	private User user;
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "author")
-	private Set<Story> stories;
-	
-	
-	protected Set<Story> getStoriesInternal() {
-		if (this.stories == null) {
-			this.stories = new HashSet<>();
-		}
-		return this.stories;
-	}
-
-	protected void setStoriesInternal(Set<Story> stories) {
-		this.stories = stories;
-	}
-
-	public List<Story> getStories() {
-		List<Story> sortedStories = new ArrayList<>(getStoriesInternal());
-		PropertyComparator.sort(sortedStories, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedStories);
-//		return sortedStories;
-	}
-
-
-	public void addStory(Story story) {
-		getStoriesInternal().add(story);
-		story.setAuthor(this);
-	}
-	
-	public boolean removeStory(Story story) {
-		return getStoriesInternal().remove(story);
-	}
 	
 	
 	@Override

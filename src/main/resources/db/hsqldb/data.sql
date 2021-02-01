@@ -1,31 +1,6 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
--- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
--- Pabcalper, named pabcalper with password 0wn7r
-INSERT INTO users(username,password,enabled) VALUES ('pabcalper','0wn7r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (7,'pabcalper','owner');
--- oscdoraba, named oscdoraba with password oscdoraba
-INSERT INTO users(username,password,enabled) VALUES ('oscdoraba','oscdoraba',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'oscdoraba','owner');
--- felconmar, named felconmar with password 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('felconmar','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (9,'felconmar','owner');
--- davgangar1, named davgangar1 with password davgangar1
-INSERT INTO users(username,password,enabled) VALUES ('davgangar1','davgangar1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (10,'davgangar1','owner');
--- Pablosky, named pablosky with password pabloEscritor7
-INSERT INTO users(username,password,enabled) VALUES ('pablosky','pabloEscritor7',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
-
--- moderador1, named moderador1 with password moderador1
-INSERT INTO users(username,password,enabled) VALUES ('moderador1','moderador1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderador');
 -- editorial1, named editorial1 with password editorial1
 -- INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
 -- INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','company');
@@ -284,9 +259,9 @@ INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderado
 				-- Contract3 with Author2 ( PENDIENTE )--------------------
 						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
 						author_id, company_id) 
-						VALUES ('2020-09-23 08:12', 'Patrocinio Q4 2020 hasta Q2 2021',
+						VALUES ('2020-09-23 08:12', 'Patrocinio Q2 2021',
 						'Bookista ofrece un mecenazgo a Sonia Arredondo Zaragoza sin cláusulas de exclusividad. Bookista se reserva el derecho de retirar el patrocinio en caso de violación a los principios de la empresa por parte del autor.',
-						4300.00, null, 'PENDING' , '2020-10-01 00:00', '2021-06-30 23:59', false,
+						4300.00, null, 'PENDING' , '2021-03-01 00:00', '2021-06-30 23:59', false,
 						2,1);
 
 				-- Contract4 with Author3 ( PENDIENTE  )--------------------
@@ -311,17 +286,17 @@ INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderado
 				-- Contract5 with Author1 ( PENDIENTE )----------------------
 						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
 						author_id, company_id) 
-						VALUES ('2020-11-15 09:28', 'Patrocinio Q4 2020 hasta Q2 2021 NO EXCLUSIVO',
+						VALUES ('2020-11-15 09:28', 'Patrocinio Q2 2021 NO EXCLUSIVO',
 						'Authorsy, por iniciativa propia, ofrece a Marco Medina Sandoval RECONOCER sus méritos creativos de forma monetaria. Si se acepta se deben cumplir los términos y condiciones de los premios, ayudas y patrocinios otorgados por Authorsy en authorsy.org/sponsorships',
-						900.80, null, 'PENDING' ,'2020-11-19 00:00', '2021-12-15 23:59', false,
+						900.80, null, 'PENDING' ,'2021-03-01 00:00', '2021-06-30 23:59', false,
 						1,2);
 						
 				-- Contract6 with Author2 ( EXCLUSIVO - PENDIENTE )----------------------
 						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
 						author_id, company_id) 
-						VALUES ('2020-11-15 09:28', 'Representación de Authorsy Q4 2020 hasta Q2 2021 EXCLUSIVO',
+						VALUES ('2020-11-15 09:28', 'Representación de Authorsy Q2 hasta Q4 2021 EXCLUSIVO',
 						'Authorsy SE COMPROMETE CON Sonia Arredondo Zaragoza a PATROCINAR sus creaciones literarias en el período desde octubre 2020 hasta junio del 2021. Sonia Arredondo Zaragoza se compromete, en caso de aceptar el patrocinio, a ser la cara pública de la empresa y se compromete a respetar su visión y misión empresarial.',
-						100320.95, null, 'PENDING' ,'2020-10-01 00:00', '2021-06-30 23:59', true,
+						100320.95, null, 'PENDING' ,'2020-06-01 00:00', '2021-12-31 23:59', true,
 						2,2);
 				
 	-- Company3 ----------------------------------------------------------------------
@@ -365,16 +340,16 @@ INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderado
 				-- Contract9 with Author1 ( EXCLUSIVO - PENDIENTE ) ----------------------
 						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
 						author_id, company_id) 
-						VALUES ('2020-11-05', 'PUBLIC EXCLUSIVE SPONSORSHIP 2020/2021 from NEWS SECTOR',
+						VALUES ('2020-11-05', 'PUBLIC EXCLUSIVE SPONSORSHIP 2021 from NEWS SECTOR',
 						'NEWS SECTOR offers Marco Medina Sandoval to be the public face of the aforementioned company. The sponsorhip that all the work produced in that period by the author will be associated with the NEWS SECTOR trademark. A compensation will be given as stated in this contract.',
-						140420.49, null, 'PENDING' ,'2020-10-01 00:00', '2021-06-30 23:59', true,
+						140420.49, null, 'PENDING' ,'2021-03-01 00:00', '2021-12-31 23:59', true,
 						1,4);
 						
 				-- Contract10 with Author3 ( EXCLUSIVO - PENDIENTE ) ----------------------
 					INSERT INTO contracts(offer_date, header ,body,remuneration , answer_date, contract_status, start_date,end_date,is_exclusive,
 					author_id,company_id) 
 					VALUES ('2020-12-08 15:00','Oferta de contrato 10','Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
-					6.89,'2020-12-15 12:00', 'PENDING', '2021-01-01 14:00','2021-02-02 14:00', true,
+					6.89,'2020-12-15 12:00', 'PENDING', '2021-03-01 14:00','2021-06-02 14:00', true,
 					3,4);
 
 -- 7. Reports -----------------------------------------------------------------------------

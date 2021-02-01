@@ -41,5 +41,21 @@
 			
 		</tbody>
 	</table>
-		<a class="btn btn-default" href="/contracts/company/list" >Return</a>          
+	<spring:url value="/contracts/{contractId}/accept" var="acceptUrl">
+		<spring:param name="contractId" value="${contract.id}"/>
+	</spring:url>
+	<spring:url value="/contracts/{contractId}/reject" var="rejectUrl">
+		<spring:param name="contractId" value="${contract.id}"/>
+	</spring:url>
+		<div class="row">
+			<div class="center">
+				<div class="btn-group-wrap ">
+					<div id="btn-group" class="btn-group mx-auto">
+						<a class="btn btn-default" href="<c:out value="${acceptUrl}" />" >Accept</a>
+						<a class="btn btn-danger"  href="<c:out value="${rejectUrl}" />" >Reject</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		<a class="btn btn-default" href="/contracts/list" >Return</a>          
 </petclinic:layout>

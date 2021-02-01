@@ -41,16 +41,13 @@ public class ContractController {
 	
 	private static final String VIEW_SHOW_CONTRACTS="contracts/showContracts";
 	
-	private static final String VIEWS_CONTRACTS_LIST = "contracts/contractsList";
-	
-	private static final String VIEWS_CONTRACTS_SHOW = "contracts/contractsShow";
-	
 	private static final String VIEWS_CONTRACT_CREATE_FORM = "contracts/createContractForm";
 	
 	
-	public ContractController(ContractService contractService) {
+	public ContractController(ContractService contractService, CompanyService companyService) {
 		super();
 		this.contractService = contractService;
+		this.companyService = companyService;
 	}
 
 
@@ -59,11 +56,21 @@ public class ContractController {
  		dataBinder.setDisallowedFields("id");
  	}
 	
+	// HU-09 Listar contrato como Autor
+	// HU-09 Listar contrato como Empresa
+	
 	@GetMapping(value = { "/list" })
 	public String listContracts(Map<String, Object> model) {
-		Collection<Contract> contracts = contractService.findByAuthorPrincipalAndStatus(null);
-		model.put("contracts", contracts);
-		return VIEWS_CONTRACTS_LIST;
+		
+		Collection<Contract> pendingContracts = contractService.findByPrincipalAndStatus(ContractStatus.PENDING);
+		Collection<Contract> acceptedContracts = contractService.findByPrincipalAndStatus(ContractStatus.ACCEPTED);
+		Collection<Contract> allContracts = contractService.findByPrincipalAndStatus(null);
+		
+		model.put("pendingContracts", pendingContracts);
+		model.put("acceptedContracts", acceptedContracts);
+		model.put("allContracts", allContracts);
+		
+		return VIEW_LIST_CONTRACTS;
 	}
 	
 	// HU-08 Envío de un contrato
@@ -89,9 +96,24 @@ public class ContractController {
 			System.out.println(contract);
 			contractService.saveContract(contract);
 			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
-            return "redirect:/";
+			return "redirect:/contracts/list";
 
 		}
+	}
+	
+	// H10: Aceptar o rechazar contratos recibidos (Autor)
+	@GetMapping(value = { "/{contractId}/accept" })
+	public String acceptContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
+		
+		contractService.answerContract(contractId, ContractStatus.ACCEPTED);
+		return "redirect:/contracts/list";
+	}
+	
+	@GetMapping(value = { "/{contractId}/reject" })
+	public String rejectContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
+		
+		contractService.answerContract(contractId, ContractStatus.REJECTED);
+		return "redirect:/contracts/list";
 	}
 	
 	// HU-11: Listar y mostrar contratos generados por una compañia.
@@ -104,9 +126,15 @@ public class ContractController {
 	}
 	
 	@GetMapping(value = { "/{contractId}/show" })
-	public String showContract(@PathVariable("contractId") int contractId, ModelMap modelMap) {
-		Contract contract = this.contractService.findContractById(contractId);
-		modelMap.put("contract", contract);
+	public String showContract(@PathVariable("contractId") int contractId, Map<String, Object> model) {
+		System.out.println("===================showContract===================");
+		System.out.println("======================================");
+		System.out.println("======================================");
+		System.out.println("======================================");
+		System.out.println("contractId: " + contractId);
+		Contract contract = contractService.findContractById(contractId);
+		System.out.println(contract);
+		model.put("contract", contract);
 		return VIEW_SHOW_CONTRACTS;
 	}
 

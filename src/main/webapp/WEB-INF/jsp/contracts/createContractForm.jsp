@@ -12,12 +12,12 @@
 <jsp:attribute name="customScript">
             <script>
                 $(function () {
-                    $("#startDate").datepicker();*/
-                    $("#endDate").datepicker();*/
+                    $("#startDate").datepicker();
+                    $("#endDate").datepicker();
 
                 });
             </script>
-    </jsp:attribute>
+</jsp:attribute>
         
     <jsp:body>
         <h2>
@@ -55,6 +55,8 @@
                             <button class="btn btn-default" type="submit">Create</button>
                         </c:when>
                     </c:choose>
+						<a class="btn btn-default" href="/contracts/list" >Return</a>          
+                    
                 </div>
             </div>
         </form:form>

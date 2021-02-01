@@ -28,37 +28,52 @@
 <!-- 					<span>Home</span> -->
 <%-- 				</petclinic:menuItem> --%>
 
+<%-- 				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find" --%>
+<%-- 					title="find owners"> --%>
+<!-- 					<span class="glyphicon glyphicon-search" aria-hidden="true"></span> -->
+<!-- 					<span>Find owners</span> -->
+<%-- 				</petclinic:menuItem> --%>
+
+<%-- 				<petclinic:menuItem active="${name eq 'vets'}" url="/vets" --%>
+<%-- 					title="veterinarians"> --%>
+<!-- 					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> -->
+<!-- 					<span>Veterinarians</span> -->
+<%-- 				</petclinic:menuItem> --%>
+
+				<!-- Ejemplo de menú dropdown anidado -->
+
+<%-- 				<petclinic:menuItem active="${name eq 'stories'}" url="/stories/list" dropdown="true" --%>
+<%-- 					title="stories"> --%>
+					
+<!-- 					<ul class="dropdown-menu"> -->
+<%-- 						<petclinic:menuItem active="${name eq 'stories'}" url="/stories/list" --%>
+<%-- 						title="stories"> --%>
+<!-- 							<span class="glyphicon glyphicon-book" aria-hidden="true"></span> -->
+<!-- 							<span>List</span> -->
+<%-- 						</petclinic:menuItem> --%>
+<!-- 					</ul> -->
+					
+<%-- 				</petclinic:menuItem> --%>
+				
+				<petclinic:menuItem active="${name eq 'stories'}" url="/stories/list"
+					title="stories">
+					<span class="glyphicon glyphicon-book" aria-hidden="true"></span>
+					<span>Stories</span>
+				</petclinic:menuItem>
+				
 <!-- COMO PASAR ID A ESTA URL -->
-				<sec:authorize access="hasAnyAuthority('company')">
-					<petclinic:menuItem active="${name eq 'contracts'}" url="/contracts/company/list"
-						title="The list of my contracts">
+				<sec:authorize access="hasAnyAuthority('company','author')">
+					<petclinic:menuItem active="${name eq 'contracts'}" url="/contracts/list"
+						title="My Contracts">
 						<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
 						<span>My Contracts</span>
 					</petclinic:menuItem>
 				</sec:authorize>
-
-				<petclinic:menuItem active="${name eq 'owners'}" url="/owners/find"
-					title="find owners">
-					<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-					<span>Find owners</span>
-				</petclinic:menuItem>
-
-				<petclinic:menuItem active="${name eq 'vets'}" url="/vets"
-					title="veterinarians">
-					<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-					<span>Veterinarians</span>
-				</petclinic:menuItem>
-
+				
 				<petclinic:menuItem active="${name eq 'error'}" url="/oups"
 					title="trigger a RuntimeException to see how it is handled">
 					<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
 					<span>Error</span>
-				</petclinic:menuItem>
-				
-				<petclinic:menuItem active="${name eq 'stories'}" url="/stories/new"
-					title="stories">
-					<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-					<span>Stories</span>
 				</petclinic:menuItem>
 
 				

@@ -52,39 +52,6 @@ private Author author;
 @JoinColumn(name = "story_id")
 private Story story;
 
-//Getters ands setters
-
-public Integer getRating() {
-	return rating;
-}
-
-public void setPunctuation(Integer rating) {
-	this.rating = rating;
-}
-
-public String getText() {
-	return text;
-}
-
-public void setText(String text) {
-	this.text = text;
-}
-
-public String getTitle() {
-	return title;
-}
-
-public Date getPublicationDate() {
-	return publicationDate;
-}
-
-public Author getAuthor() {
-	return author;
-}
-
-public Story getStory() {
-	return story;
-}
 
 // Método ToString
 @Override

@@ -55,14 +55,11 @@ class StoryServiceTests {
 		story.setStoryStatus(StoryStatus.PUBLISHED);
 		story.setUpdatedDate(new Date());
 		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
-		author1.addStory(story);
-		assertThat(author1.getStories().size()).isEqualTo(found + 1);
 
         this.storyService.saveStory(story);
 		this.authorService.saveAuthor(author1);
 
 		author1 = this.authorService.findAuthorById(1);
-		assertThat(author1.getStories().size()).isEqualTo(found + 1);
 		// checks that id has been generated
 		assertThat(story.getId()).isNotNull();
 	}

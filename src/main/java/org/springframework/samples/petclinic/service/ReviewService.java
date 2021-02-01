@@ -43,4 +43,8 @@ public class ReviewService {
 		return res;
 	}
 	
+	public Review findReviewById(int reviewId) {
+		return reviewRepository.findById(reviewId).orElseGet(null);
+	}
+	
 }

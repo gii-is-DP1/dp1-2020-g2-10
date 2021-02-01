@@ -8,13 +8,14 @@
 
 <alexandria:layout pageName="stories">
     <jsp:body>
-        <h2>
+        <h1>
             <c:if test="${story['new']}">New </c:if> Story
-        </h2>
+        </h1>
         <c:out value="username: ${story.author.user.username}"/>
         <form:form modelAttribute="story"
                     class="form-horizontal">
             <input type="hidden" name="id" value="${story.id}"/>
+            <input type="hidden" name="version" value="${story.version}"/>
             <input type="hidden" name="authorId" value="${story.author.id}"/>
             <fmt:formatDate value="${story.updatedDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedUpdatedDate"/>
             <input type="hidden" name="updatedDate" value="${parsedUpdatedDate}"/>
@@ -44,6 +45,7 @@
                             <button class="btn btn-default" type="submit">Update</button>
                         </c:otherwise>
                     </c:choose>
+                    <button class="btn btn-default" type="reset" onclick="location.href = '/stories/list';">Cancel</button>
                 </div>
             </div>
         </form:form>

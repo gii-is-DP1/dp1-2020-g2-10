@@ -34,21 +34,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests()
 				.antMatchers("/resources/**","/webjars/**","/h2-console/**").permitAll()
 				.antMatchers(HttpMethod.GET, "/","/oups").permitAll()
+				// 404 error page for demonstration
+				.antMatchers("/no-controller").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
 				.antMatchers("/authors/**").hasAnyAuthority("author","admin")				
 				.antMatchers("/vets/**").authenticated()
 				// Stories
+				.antMatchers("/stories/list").permitAll()
+				.antMatchers("/stories/{storyId}/show").permitAll()
 				.antMatchers("/stories/new").hasAnyAuthority("author")
 				.antMatchers("/stories/{storyId}/delete").hasAnyAuthority("author")
-
-				.antMatchers("/stories/**").hasAnyAuthority("author")
 				//Chapters
 				.antMatchers("/stories/**/chapters").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/{chapterId}").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/new").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/**/edit").hasAnyAuthority("author")
 				.antMatchers("/stories/**/chapters/{chapterId}/delete").hasAnyAuthority("author")
+				//Reviews
+				.antMatchers("/stories/**/reviews/new").hasAnyAuthority("author")
 				// Reports
 				.antMatchers("/stories/**/chapters/{chapterId}/reports/new").hasAnyAuthority("author")
 				// Contracts
@@ -57,7 +61,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				//Listar contratos compania (H11)
 		        .antMatchers("/contracts/company/list").hasAnyAuthority("company")
 		        //Mostrar contratos compania (H11)
-		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("company")
+		        .antMatchers("/contracts/{contractId}/show").hasAnyAuthority("author","company")
+		        .antMatchers("/contracts/{contractId}/accept").hasAnyAuthority("author")
+		        .antMatchers("/contracts/{contractId}/reject").hasAnyAuthority("author")
           // Crear solicitud de contrato
            .antMatchers("/contracts/new").hasAnyAuthority("company")
 		        /*Default mathers*/

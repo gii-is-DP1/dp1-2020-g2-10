@@ -23,6 +23,9 @@ public class ReportService {
 		this.reportRepository = reportRepository;
 	}	
 	
+	public Report findReportById(int reportId){
+		return reportRepository.findReportById(reportId);
+	}	
 
 	public void saveReport(@Valid Report report) throws DataAccessException {
 		
