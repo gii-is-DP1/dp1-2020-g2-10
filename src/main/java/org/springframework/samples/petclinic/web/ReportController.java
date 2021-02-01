@@ -1,17 +1,21 @@
 package org.springframework.samples.petclinic.web;
 
+import java.time.LocalDate;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Report;
 import org.springframework.samples.petclinic.model.ReportStatus;
+import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.ChapterService;
 import org.springframework.samples.petclinic.service.ReportService;
 import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -62,30 +66,41 @@ public class ReportController {
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/reports/new")
-	public String processNewChapter(@PathVariable("storyId") int storyId, @PathVariable("chapterId") int chapterId, @Valid Report report, BindingResult result, ModelMap modelMap) {
+	public String processNewReport(@PathVariable("storyId") int storyId, @PathVariable("chapterId") int chapterId, @Valid Report report, BindingResult result, ModelMap modelMap) {
 		
 		modelMap.put("buttonCreate", true);
 		
 		// Si al validarlo, encontramos errores:
-		
+		if(!(report.getReportType() != null)) {
+			ObjectError error1 = new ObjectError("reportType", "Debe señalar el tipo de reporte");
+			result.addError(error1);
+		}
 		if(result.hasErrors()) {
+			if(report.getReportType() == null) {
+				modelMap.addAttribute("errorReportType", true);
+			}else {
+				modelMap.addAttribute("errorReportType", false);
+			}
 			
-			modelMap.put("report", report);
 			return VIEW_EDIT_REPORT;
 		}
 		
 		// Si al validarlo, no hallamos ningún error:
 		
 		else { 
+			
 			report.setReportStatus(ReportStatus.PENDING);
+			report.setDate(LocalDate.now());
 			Chapter chapter = this.chapterService.findChapterById(chapterId);
 			report.setChapter(chapter);
 			reportService.saveReport(report);
+			
 			modelMap.addAttribute("messageSuccess", "¡El reporte se ha enviado con éxito!");
+			return "redirect:/stories/{storyId}/chapters/{chapterId}";
 		
 		}
 		
-		return "redirect:/";
+		
 		}
 	
 	

@@ -17,13 +17,16 @@
 
             <div class="form-group has-feedback">
           
+          <c:if test="${errorReportType}">
+					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You must indicate type of report.</h3>
+				</c:if>
              &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<label>Report type</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Hateful content&emsp;<form:radiobutton path="reportType" value="HATEFUL_CONTENT"/>
                 &emsp;&emsp;&emsp;Copyright infringement&emsp;<form:radiobutton path="reportType" value="COPYRIGHT_INFRINGEMENT"/>
                 &emsp;&emsp;&emsp;Wrong tag&emsp;<form:radiobutton path="reportType" value="WRONG_TAG"/>
                 &emsp;&emsp;&emsp;Adult content&emsp;<form:radiobutton path="reportType" value="ADULT_CONTENT"/>
                 &emsp;&emsp;&emsp;Other&emsp;<form:radiobutton path="reportType" value="OTHER"/>
             	
-                <petclinic:inputField label="Date" name="date"/>
+                
                 <petclinic:inputField label="Text" name="text"/>
 				
 				<%--                &emsp sirve para implementar espacios --%>
@@ -37,15 +40,16 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
-                    	<c:when test="${buttonCreate}"> <%-- Comprobamos si la variable buttonCreate esta activada o no --%>
+                    	<c:when test="${buttonCreate}">
                             <button class="btn btn-default" type="submit">Create Report</button>
-                            <a class="btn btn-default" href="/authors/${authorId}" >Return</a>
+                            <a class="btn btn-default" href="/" >Return</a>
                         </c:when>
                         
                         </c:choose>
                         
                 </div>
             </div>
+            
         </form:form>
     </jsp:body>
 

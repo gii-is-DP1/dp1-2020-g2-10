@@ -37,6 +37,9 @@
 				</tr>
 			</c:forEach>
 		</tbody>
-	</table>        
+	</table>
+	
+	<a class="btn btn-default" href= "/stories/${storyId}/chapters/new">Create Chapter</a>    
+ 	<a class="btn btn-default" href="/" >Return</a>  
 	<!--<a class="btn btn-default" href="/stories/${storyId}" >Return</a>-->
 </petclinic:layout>
