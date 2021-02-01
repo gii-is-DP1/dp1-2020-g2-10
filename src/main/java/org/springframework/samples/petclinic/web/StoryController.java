@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,7 +71,7 @@ public class StoryController {
 	}
 	
 	@GetMapping(value = "/new")
-	public String initCreationForm(Author author, ModelMap model) {
+	public String initCreationForm(ModelMap model) {
 
 		Story story = storyService.createStory();
 		model.put("story", story);		
@@ -94,6 +95,44 @@ public class StoryController {
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
+			storyService.saveStory(story);
+            return "redirect:/stories/list";
+
+		}
+	}
+	
+	@GetMapping(value = "/{storyId}/edit")
+	public String editCreationForm(@PathVariable int storyId, ModelMap model) {
+
+		Story story = storyService.findStory(storyId);
+		model.put("story", story);		
+		
+//		Aqui la idea es meterle al modelo los generos.
+//		Tambien se puede hacer como dijiste, poniendo los generos en el jsp
+//		realmente no veo el problema, lo malo es que habria que escribirlos otra vez y que habria que indicar
+//		el valor enumerado al que se refiere cada opcion.
+//		
+	    model.put("genres", Arrays.asList(Genre.values()));
+//		Lo mismo con storyStatus
+		model.put("storyStatus", Arrays.asList(StoryStatus.values()));
+		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+	}
+	
+	@PostMapping(value = "/{storyId}/edit")
+	public String processEditCreationForm(@PathVariable int storyId, @Valid Story story, BindingResult result, ModelMap model,
+			@RequestParam(value = "version", required=false) Integer version) {		
+		if (result.hasErrors()) {
+			model.put("story", story);
+			System.out.println(result);
+			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+		}
+		else {
+			Story storyToUpdate = storyService.findStoryById(story.getId());
+			if(storyToUpdate.getVersion()!=version) {
+				model.put("message","Concurrent modification of story! Try again!");
+				model.put("messageType","warning");
+				return editCreationForm(story.getId(),model);
+				}
 			storyService.saveStory(story);
             return "redirect:/stories/list";
 
