@@ -24,7 +24,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @WebMvcTest(value = ReviewController.class, excludeAutoConfiguration = SecurityConfiguration.class)
- class ReviewControllerTests {
+class ReviewControllerTests {
 
 	
 	private static final int TEST_REVIEW_ID = 1;
