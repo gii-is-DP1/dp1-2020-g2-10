@@ -22,51 +22,65 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Pet;
-import org.springframework.samples.petclinic.model.PetType;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
-import org.springframework.samples.petclinic.service.OwnerService;
-import org.springframework.samples.petclinic.service.PetService;
 import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+//import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
-@WebMvcTest(value = PetController.class, includeFilters = @ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE), excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+@WebMvcTest(value = StoryController.class, includeFilters = @ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE), excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
+//@WebMvcTest(value = StoryController.class, excludeAutoConfiguration = SecurityConfiguration.class)
+//@ContextConfiguration(locations = "classpath:test-app-context.xml")
 class StoryControllerTests {
 
 	private static final int TEST_AUTHOR_ID = 1;
 
 	private static final int TEST_STORY_ID = 1;
 
-//	@Autowired
-//	private StoryController storyController;
-//
-//	@MockBean
-//	private StoryService storyService;
-//
-//	@MockBean
-//	private AuthorService authorService;
-//
-//	@Autowired
-//	private MockMvc mockMvc;
-//
-//	@BeforeEach
-//	void setup() {
-//		Story story = new Story();
-//		story.setTitle("La prueba positiva");
-//		story.setGenre(Genre.CHILDREN_STORY);
-//		story.setDescription("Espero que funcione");
-//		story.setIsAdult(false);
-//		story.setStoryStatus(StoryStatus.PUBLISHED);
-//		story.setUpdatedDate(Date.valueOf(LocalDate.of(03, 05, 2020)));
-//		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
-//		given(this.authorService.findAuthorById(TEST_AUTHOR_ID)).willReturn(new Author());
-//		given(this.storyService.findStoryById(TEST_STORY_ID)).willReturn(new Story());
-//	}
+	@Autowired
+	private StoryController storyController;
+
+	@MockBean
+	private StoryService storyService;
+
+	@MockBean
+	private AuthorService authorService;
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@BeforeEach
+	void setup() {
+		Story story = new Story();
+		story.setTitle("La prueba positiva");
+		story.setGenre(Genre.CHILDREN_STORY);
+		story.setDescription("Espero que funcione");
+		story.setIsAdult(false);
+		story.setStoryStatus(StoryStatus.PUBLISHED);
+		story.setUpdatedDate(Date.valueOf(LocalDate.of(03, 05, 2020)));
+		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
+		given(this.authorService.findAuthorById(TEST_AUTHOR_ID)).willReturn(new Author());
+		given(this.storyService.findStoryById(TEST_STORY_ID)).willReturn(new Story());
+	}
+	
+	
+	@WithMockUser(value = "spring")
+    @Test
+	void testListStory() throws Exception {
+		mockMvc.perform(get("/stories/list", TEST_STORY_ID)).andExpect(status().isOk())
+				.andExpect(model().attributeExists("stories")).andExpect(view().name("stories/storiesList"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowStory() throws Exception {
+	    mockMvc.perform(get("stories/{storyId}/show", TEST_STORY_ID)).andExpect(status().isOk())
+	            .andExpect(model().attributeExists("story")).andExpect(view().name("stories/showStory"));
+	}
+	
 //	
 //	
 //
