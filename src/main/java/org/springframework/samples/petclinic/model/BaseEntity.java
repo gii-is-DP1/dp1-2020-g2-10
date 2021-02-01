@@ -46,6 +46,14 @@ public class BaseEntity {
 		this.id = id;
 	}
 
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
+	}
+
 	public boolean isNew() {
 		return this.id == null;
 	}
