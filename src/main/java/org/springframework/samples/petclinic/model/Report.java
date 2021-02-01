@@ -7,12 +7,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import com.sun.istack.NotNull;
+
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,10 +26,10 @@ public @Data class Report extends BaseEntity{
 	@NotNull
 	private ReportType reportType;
 	
-	@NotNull
+	
 	private ReportStatus reportStatus;
 	
-	@NotNull
+	
 	@FutureOrPresent
 	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 	private LocalDate date;
@@ -36,8 +37,8 @@ public @Data class Report extends BaseEntity{
 	@NotEmpty
 	private String text;
 	
-	@NotNull
-	@ManyToOne(optional=true)
+
+	@ManyToOne(optional=false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Chapter chapter;
 	

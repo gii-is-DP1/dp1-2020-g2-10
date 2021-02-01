@@ -16,15 +16,16 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
-import static org.mockito.Mockito.verify;
-import static org.mockito.ArgumentMatchers.any;
 
 import java.time.LocalDate;
+import java.util.Collection;
 
-import org.assertj.core.api.ThrowableTypeAssert;
+import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -68,6 +69,7 @@ class ReportServiceTests {
 		// H13+E1 - Añadir reporte a capítulo que incumple las reglas de la comunidad.
 		
 	@Test
+	@Transactional
 	public void shouldInsertReport() {
 		
 		// Creamos un capítulo nuevo.
@@ -103,23 +105,29 @@ class ReportServiceTests {
 		
 		
 	@Test
+	@Transactional
 	public void shouldInsertReportEmpty() {
 		
+		
+		Chapter c = chapterService.findChapterById(1);
+		Collection<Report> reports = this.reportService.findReportByChapterId(1);
 		// Creamos un capítulo nuevo.
 					Report report = new Report();
-				
+					report.setChapter(c);
 					when(reportRepository.save(report)).thenReturn(report);
 					
-					this.reportService.saveReport(report);
-					this.reportService.saveReport(report);
-					
-					
-					assertThat(report.getId()).isNull();
-		
+					Exception exception = assertThrows(ConstraintViolationException.class, () -> {
 
+						this.reportService.saveReport(report);
+						
+					
+
+					   });
+
+					assertThat(report.getId()).isNull();
+					assertEquals(exception.getMessage(), true);
 		
 	}
-	
 			
 
 			
