@@ -77,7 +77,7 @@ public class ChapterController {
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/chapters/new")
-	public String processNewChapter(@PathVariable("storyId") int storyId, @Valid Chapter chapter, BindingResult result, ModelMap modelMap) {
+	public String processNewChapter(@Valid Chapter chapter, BindingResult result, @PathVariable("storyId") int storyId,  ModelMap modelMap) {
 		
 		modelMap.put("buttonCreate", true);
 
@@ -87,17 +87,29 @@ public class ChapterController {
 			ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
 			result.addError(error1);
 		}
+		
+		if(!(chapter.getIsPublished() != null)) {
+			ObjectError error1 = new ObjectError("isPublished", "Debes indicar si va a ser público o no");
+			result.addError(error1);
+		}
 		//----
 		
 		// Si al validarlo, encontramos errores:
 		
 		if (result.hasErrors()) {
-			if(chapter.getIsPublished().equals(true)) {
+			
+			if(chapter.getIsPublished() == null) {
+				modelMap.addAttribute("errorNullPublish", true);	
+			}
+		
+			else {
+				modelMap.addAttribute("errorNullPublish", false);	
+			if(chapter.getIsPublished().equals(true) ) {
 				modelMap.addAttribute("errorPublished", true);
 			}else {
 				modelMap.addAttribute("errorPublished", false);
 			}
-			
+			}
 			return VISTA_EDICION_chapter;
 		}
 		
