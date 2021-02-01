@@ -73,7 +73,7 @@ public class ContractController {
 		return VIEW_LIST_CONTRACTS;
 	}
 	
-	// HU-08 Envío de un contrato
+	// HU-08 Envío de un contrato de una empresa a un autor
 	
 	@GetMapping(value = "/new")
 	public String initCreationContractForm(Author author,Company company , ModelMap model) {
