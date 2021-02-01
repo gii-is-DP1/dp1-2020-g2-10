@@ -72,7 +72,20 @@ public class ContractService {
 		return findByCompanyAndStatus(principalCompany, status);
 	}
 	
+	private Collection<Contract> findAcceptedByAuthorAndDatesAndExclusivity(Author author, Date queryStartDate, Date queryEndDate, Boolean isExclusive){
+		return contractRepository.findAcceptedByAuthorAndDateAndExclusivity(author.getId(), queryStartDate, queryEndDate, isExclusive);
+	}
 	
+	public Collection<Contract> findConflictingContractsByPrincipalAuthor(Author author, Contract contract){
+		// Query parameters
+		Author principal = authorService.getPrincipal();
+		Boolean isExclusiveQuery = contract.getIsExclusive()? null: true; 
+			/* Si el nuevo contrato:
+			 	* es exclusivo -> cualquier contrato causará conflicto (null como parametro de la query)
+			 	* no es exclusivo -> solo causarían conflicto los contratos los contratos EXCLUSIVOS
+			 * */
+		return findAcceptedByAuthorAndDatesAndExclusivity(principal, contract.getStartDate(), contract.getEndDate(), isExclusiveQuery);
+	}
 	
 	public Collection<Contract> findByPrincipalAndStatus(ContractStatus status){
 		String principalRole = userService.getPrincipalRole();
@@ -153,7 +166,10 @@ public class ContractService {
 				originalContract.getStartDate().after(new Date()));
 		
 		if(updatedStatus.equals(ContractStatus.ACCEPTED)) {
-			//TODO: Restricciones respecto a la exclusividad y conflictos con otros contratos (Queries)
+			//TODO: RN1 Restricciones respecto a la exclusividad y conflictos con otros contratos (Queries)
+			Collection<Contract> currentExclusiveContracts = findConflictingContractsByPrincipalAuthor(principal, originalContract);
+			assertTrue("The contract cannot be accepted for EXCLUSIVITY conflicts for the date range provided."
+					, currentExclusiveContracts.isEmpty());
 		}
 		
 		originalContract.setContractStatus(updatedStatus);
