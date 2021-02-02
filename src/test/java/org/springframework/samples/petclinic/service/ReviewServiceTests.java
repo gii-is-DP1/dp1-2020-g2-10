@@ -2,7 +2,7 @@ package org.springframework.samples.petclinic.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class ReviewServiceTests {
+class ReviewServiceTests {
 
 	@Autowired
 	protected StoryService storyService;

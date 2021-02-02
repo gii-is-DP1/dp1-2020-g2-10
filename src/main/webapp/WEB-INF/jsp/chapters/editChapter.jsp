@@ -19,9 +19,15 @@
             	<petclinic:inputField label="Index" name="index"/>
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Body" name="body"/>
+                
+                <c:if test="${errorNullPublish}">
+					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You must indicate state of this story.</h3>
+				</c:if>
 				<c:if test="${errorPublished}">
 					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You cannot publish your chapter because your story is not.</h3>
 				</c:if>
+				
+				
 				<%--                &emsp sirve para implementar espacios --%>
 				
 				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Published&emsp;<form:radiobutton path="isPublished" value="true"/>
