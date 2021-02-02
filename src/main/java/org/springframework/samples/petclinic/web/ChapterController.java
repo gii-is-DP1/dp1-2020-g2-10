@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("stories/{storyId}")
@@ -26,17 +27,17 @@ public class ChapterController {
 	
 	private final ChapterService chapterService;
 	private final StoryService storyService;
-	private final AuthorService authorService;
+	
 	private static final String VISTA_EDICION_chapter= "chapters/editChapter";
 	private static final String VIEW_LIST_CHAPTERS="chapters/listChapters";
 	private static final String VIEW_SHOW_CHAPTER="chapters/showChapter";
 	
 	@Autowired
-	public ChapterController(ChapterService chapterService, StoryService storyService,AuthorService authorService) {
+	public ChapterController(ChapterService chapterService, StoryService storyService) {
 
 		this.chapterService = chapterService;
 		this.storyService = storyService;
-		this.authorService = authorService;
+		
 	}
 	
 	@InitBinder
@@ -82,6 +83,8 @@ public class ChapterController {
 		modelMap.put("buttonCreate", true);
 
 		Story story = this.storyService.findStory(storyId);
+		
+		
 		//No puedes hacer público un capítulo si las historia no esta publicada
 		if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
 			ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
@@ -143,8 +146,14 @@ public class ChapterController {
 			@PostMapping(value = "/chapters/{chapterId}/edit")
 			public String processUpdateChapterForm(@Valid Chapter chapter, BindingResult result,
 					@PathVariable("chapterId") int chapterId, 
-					@PathVariable("storyId") int storyId, ModelMap model) {
+					@PathVariable("storyId") int storyId, ModelMap model, 
+					@RequestParam(value = "version", required=false) Integer version) {
 				Story story = this.storyService.findStory(storyId);
+				Chapter chapterToUpdate = this.chapterService.findChapterById(chapterId);
+				if(chapterToUpdate.getVersion() != version) {
+					model.put("message", "Concurrent modification of chapter! Try again!");
+					return initUpdateChapterForm(chapterId, storyId, model);
+				}
 				//No puedes hacer público un capítulo si las historia no esta publicada
 				if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
 					ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");

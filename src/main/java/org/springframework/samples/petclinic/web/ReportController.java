@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Report;
 import org.springframework.samples.petclinic.model.ReportStatus;
+import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.ChapterService;
 import org.springframework.samples.petclinic.service.ReportService;
@@ -29,16 +30,17 @@ public class ReportController {
 	
 	private final ReportService reportService;
 	private final ChapterService chapterService;
+	private final StoryService storyService;
 	
 	
 	private static final String VIEW_EDIT_REPORT= "reports/editReport";
 	
 	@Autowired
-	public ReportController(ReportService reportService, ChapterService chapterService) {
+	public ReportController(ReportService reportService, ChapterService chapterService, StoryService storyService) {
 
 		this.reportService = reportService;
 		this.chapterService = chapterService;
-		
+		this.storyService = storyService;
 		
 	}
 	
@@ -75,6 +77,9 @@ public class ReportController {
 			ObjectError error1 = new ObjectError("reportType", "Debe señalar el tipo de reporte");
 			result.addError(error1);
 		}
+		
+		
+		
 		if(result.hasErrors()) {
 			if(report.getReportType() == null) {
 				modelMap.addAttribute("errorReportType", true);
@@ -93,13 +98,17 @@ public class ReportController {
 			report.setDate(LocalDate.now());
 			Chapter chapter = this.chapterService.findChapterById(chapterId);
 			report.setChapter(chapter);
-			reportService.saveReport(report);
+			reportService.saveReport(report, storyId);
 			
 			modelMap.addAttribute("messageSuccess", "¡El reporte se ha enviado con éxito!");
 			return "redirect:/stories/{storyId}/chapters/{chapterId}";
 		
 		}
 		
+		
+		
+		
+			
 		
 		}
 	

@@ -105,7 +105,7 @@ class ChapterServiceTests {
 				
 				@Test
 				@Transactional
-				public void attempInsertChapterWithEmpty() {
+				public void attempInsertChapterEmpty() {
 					
 					Story s = storyService.findStoryById(1);
 					Collection<Chapter> chapters = this.chapterService.findChapterByStoryId(1);

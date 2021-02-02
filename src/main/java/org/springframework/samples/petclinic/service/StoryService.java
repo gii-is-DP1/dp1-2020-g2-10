@@ -15,6 +15,9 @@ import org.springframework.samples.petclinic.repository.StoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class StoryService {
 	
@@ -69,7 +72,7 @@ public class StoryService {
 		
 	}
 	
-	@Transactional
+	@Transactional(readOnly=true)
 	public Story findStory (int storyId) throws DataAccessException{
 		return storyRepository.findById(storyId).get();
 	}
@@ -100,5 +103,15 @@ public class StoryService {
 	
 	public Collection<Story> getStoriesFromAuthorId(int authorId) {
 		return storyRepository.getStoriesFromAuthorId(authorId);
+	}
+	
+	
+	public void updateStory(int storyId) {
+		
+	
+		storyRepository.setStoryStatus(StoryStatus.REVIEW, storyId);
+		Story s = findStory(storyId);
+		System.out.println("Estado historia actualizado" + s.getStoryStatus());
+		
 	}
 }

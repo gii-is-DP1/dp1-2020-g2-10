@@ -37,6 +37,7 @@ import org.springframework.samples.petclinic.model.ReportStatus;
 import org.springframework.samples.petclinic.model.ReportType;
 import org.springframework.samples.petclinic.repository.ChapterRepository;
 import org.springframework.samples.petclinic.repository.ReportRepository;
+import org.springframework.samples.petclinic.repository.StoryRepository;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -55,12 +56,18 @@ class ReportServiceTests {
 	protected ChapterService chapterService;
 	
 	@Mock
+	private StoryRepository storyRepository;
+	
+	
+	protected StoryService storyService;
+	
+	@Mock
 	protected AuthorService authorService;
 	
 	
 	@BeforeEach
 	void setup() {
-		reportService = new ReportService(reportRepository);
+		reportService = new ReportService(reportRepository, storyService);
 		chapterService = new ChapterService(chapterRepository, authorService);
 	}
     
@@ -86,10 +93,11 @@ class ReportServiceTests {
 					Chapter c = chapterService.findChapterById(1);
 					report.setChapter(c);
 					
+					Integer storyId = c.getStory().getId();
 					when(reportRepository.save(report)).thenReturn(report);
 					
 					
-					this.reportService.saveReport(report);
+					this.reportService.saveReport(report, storyId);
 					
 					//verify(reportService).saveReport(report);
 					assertThat(report.getId()).isNotNull();
@@ -110,6 +118,7 @@ class ReportServiceTests {
 		
 		
 		Chapter c = chapterService.findChapterById(1);
+		int storyId  = c.getStory().getId();
 		Collection<Report> reports = this.reportService.findReportByChapterId(1);
 		// Creamos un capítulo nuevo.
 					Report report = new Report();
@@ -118,7 +127,7 @@ class ReportServiceTests {
 					
 					Exception exception = assertThrows(ConstraintViolationException.class, () -> {
 
-						this.reportService.saveReport(report);
+						this.reportService.saveReport(report, storyId);
 						
 					
 

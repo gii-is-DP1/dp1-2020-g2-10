@@ -1,43 +1,33 @@
 package org.springframework.samples.petclinic.web;
 
-import org.assertj.core.util.Lists;
-import org.junit.Ignore;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
-import org.springframework.samples.petclinic.model.Chapter;
-import org.springframework.samples.petclinic.model.Owner;
-import org.springframework.samples.petclinic.model.Review;
-import org.springframework.samples.petclinic.model.Story;
-import org.springframework.samples.petclinic.service.VetService;
-import org.springframework.test.context.junit.jupiter.web.SpringJUnitWebConfig;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import static org.hamcrest.Matchers.hasProperty;
-import static org.hamcrest.Matchers.is;
-import static org.mockito.BDDMockito.given;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.samples.petclinic.service.AuthoritiesService;
+import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
+import org.springframework.samples.petclinic.model.Chapter;
+import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.service.ChapterService;
-import org.springframework.samples.petclinic.service.OwnerService;
 import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-
-@WebMvcTest(controllers=ChapterController.class,
+import org.springframework.test.web.servlet.MockMvc;
+@WebMvcTest(controllers= {ChapterController.class, AlexandriaErrorController.class, AlexandriaControllerAdvice.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
-@Ignore class ChapterControllerTests {
+class ChapterControllerTests {
 	
 	private static final int TEST_CHAPTER_ID    = 1;
 	private static final int TEST_STORY_ID = 1;
@@ -46,15 +36,22 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 	private ChapterController chapterController;
 	
 	@Autowired
-	private MockMvc mockMvc;
-
+	private AlexandriaErrorController alexandriaErrorController;
+	
+	@Autowired
+	private AlexandriaControllerAdvice alexandriaControllerAdvice;
+	
 	@MockBean
 	private ChapterService chapterService;
 	
 	@MockBean
 	private StoryService storyService;
 	
+	@MockBean
+	private UserService userService;
 	
+	@Autowired
+	private MockMvc mockMvc;
 	
 	@BeforeEach
 	void setup() {
@@ -81,7 +78,7 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 	@WithMockUser(value = "spring")
     @Test
 	void testInitNewChapterForm() throws Exception {
-		mockMvc.perform(get("/stories/{storyId}/chapters/new")).andExpect(status().isOk()).andExpect(model().attributeExists("chapter"))
+		mockMvc.perform(get("/stories/{storyId}/chapters/new", TEST_STORY_ID)).andExpect(status().isOk())
 				.andExpect(view().name("chapters/editChapter"));
 	      
 	}
@@ -97,7 +94,7 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 								.param("body", "Otra prueba más para probar la prueba que prueba la funcionalidad a prueba")
 								.param("isPublished", "true")
 								.param("story.id", "1"))
-			.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/stories/{storyId}/chapters"));;
+			.andExpect(status().is2xxSuccessful()).andExpect(view().name("chapters/editChapter"));
 		}
 
 		@WithMockUser(value = "spring")
@@ -105,10 +102,10 @@ excludeAutoConfiguration= SecurityConfiguration.class)
 	void testProcessCreationChapterHasErrors() throws Exception {
 		mockMvc.perform(post("/stories/{storyId}/chapters/new",TEST_STORY_ID)
 							.with(csrf())
-							.param("index", "1")
-							.param("title", "Prueba")
-							.param("body", "Otra prueba más para probar la prueba que prueba la funcionalidad a prueba")
-							.param("isPublished", "true")
+							.param("index", "")
+							.param("title", "")
+							.param("body", "")
+							.param("isPublished", "")
 							.param("story.id", ""))
 							
 				.andExpect(status().isOk())

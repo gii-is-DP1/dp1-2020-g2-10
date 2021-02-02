@@ -13,9 +13,10 @@
             
     	<h2>Panel for editing your chapter</h2>
         <br></br>
-                <form:form modelAttribute="chapter" class="form-horizontal">
+         <form:form modelAttribute="chapter" class="form-horizontal">
 
             <div class="form-group has-feedback">
+            	<input type="hidden" name="version" value="${chapter.version}"/>
             	<petclinic:inputField label="Index" name="index"/>
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Body" name="body"/>
