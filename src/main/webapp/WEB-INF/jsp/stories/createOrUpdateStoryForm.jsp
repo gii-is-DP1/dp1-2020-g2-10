@@ -15,6 +15,7 @@
         <form:form modelAttribute="story"
                     class="form-horizontal">
             <input type="hidden" name="id" value="${story.id}"/>
+            <input type="hidden" name="version" value="${story.version}"/>
             <input type="hidden" name="authorId" value="${story.author.id}"/>
             <fmt:formatDate value="${story.updatedDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedUpdatedDate"/>
             <input type="hidden" name="updatedDate" value="${parsedUpdatedDate}"/>
