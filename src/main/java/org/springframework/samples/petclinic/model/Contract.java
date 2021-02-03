@@ -24,7 +24,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "contracts")
-public class Contract extends BaseEntity {
+public @Data class Contract extends BaseEntity {
 
 // Atributos
 	
@@ -32,66 +32,55 @@ public class Contract extends BaseEntity {
 @PastOrPresent
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "offer_date")
-@Getter @Setter
 private Date offerDate;
 	
 @NotBlank
 @Column(columnDefinition = "TEXT")
-@Getter @Setter
 private String header;
 
 @NotBlank
 @Column(columnDefinition = "TEXT")
-@Getter @Setter
 private String body;
 
 @NotNull
 @Digits(fraction=2, integer = 8)
 //@Column(columnDefinition = "NUMBER")
-@Getter @Setter
 private Double remuneration;
 
 
 @DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
 @Column(name = "answer_date")
-@Getter @Setter
 private Date answerDate;
 
 @NotNull
 @Enumerated(EnumType.STRING)
 @Column(name = "contract_status")
-@Getter @Setter
 private ContractStatus contractStatus;
 
 @NotNull
 @Future
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd")
 @Column(name = "start_date")
-@Getter @Setter
 private Date startDate;
 
 @NotNull
 @Future
-@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+@DateTimeFormat(pattern = "yyyy/MM/dd")
 @Column(name = "end_date")
-@Getter @Setter
 private Date endDate;
 
 @NotNull
 @Column(name = "is_exclusive")
-@Getter @Setter
 private Boolean isExclusive;
 
 // Relaciones
 
 @ManyToOne(optional=false)
 @JoinColumn(name = "author_id")
-@Getter @Setter
 private Author author;
 
 @ManyToOne(optional=false)
 @JoinColumn(name = "company_id")
-@Getter @Setter
 private Company company;
 
 

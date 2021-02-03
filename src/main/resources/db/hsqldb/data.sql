@@ -315,7 +315,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 						author_id, company_id) 
 						VALUES ('2020-09-15 09:28', 'DIRECTOR CREATIVO ASOCIADO para FILMIN OCT-2020 a JUN-2021',
 						'La parte empleadora FILMIN contrata a Marco Medina Sandoval como DIRECTOR CREATIVO ASOCIADO. La parte contratada se compromete a trabajar solo en proyectos de FILMIN S.A en el periodo de vigencia del contrato y solo aceptando representar a FILMIN y marcas asociadas.',
-						60782.95, '2020-09-15 12:54', 'REJECTED' ,'2020-10-01 00:00', '2021-06-30 23:59', true,
+						60782.95, '2020-09-15 12:54', 'REJECTED' ,'2020-10-01', '2021-06-30', true,
 						1,3);
 		
 				-- Contract8 with Author3 ( EXCLUSIVO - VIGENTE )--------------------
@@ -323,7 +323,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 						author_id, company_id) 
 						VALUES ('2020-08-19 11:40', 'SCRIPTWRITER DIRECTOR FILMIN SEPTEMBER 2020 to SEPTEMBER 2021',
 						'The employer part FILMIN and the employee Julio Pineda Ceja accept to stablish a work relationship. Salary for the employee part for this period is stated in the contract. General labour legislation in this field is applied.',
-						250600.00, '2020-08-24 08:30', 'ACCEPTED' ,'2020-09-01 00:00', '2021-09-30 23:59', true,
+						250600.00, '2020-08-24 08:30', 'ACCEPTED' ,'2020-09-01', '2021-09-30', true,
 						3,3);
 				
 	-- Company4 ----------------------------------------------------------------------
@@ -342,14 +342,14 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 						author_id, company_id) 
 						VALUES ('2020-11-05', 'PUBLIC EXCLUSIVE SPONSORSHIP 2021 from NEWS SECTOR',
 						'NEWS SECTOR offers Marco Medina Sandoval to be the public face of the aforementioned company. The sponsorhip that all the work produced in that period by the author will be associated with the NEWS SECTOR trademark. A compensation will be given as stated in this contract.',
-						140420.49, null, 'PENDING' ,'2021-03-01 00:00', '2021-12-31 23:59', true,
+						140420.49, null, 'PENDING' ,'2021-03-01', '2021-12-31', true,
 						1,4);
 						
 				-- Contract10 with Author3 ( EXCLUSIVO - PENDIENTE ) ----------------------
 					INSERT INTO contracts(offer_date, header ,body,remuneration , answer_date, contract_status, start_date,end_date,is_exclusive,
 					author_id,company_id) 
 					VALUES ('2020-12-08 15:00','Oferta de contrato 10','Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
-					6.89,'2020-12-15 12:00', 'PENDING', '2021-03-01 14:00','2021-06-02 14:00', true,
+					6.89,'2020-12-15', 'PENDING', '2021-03-01 14:00','2021-06-02', true,
 					3,4);
 
 -- 7. Reports -----------------------------------------------------------------------------
