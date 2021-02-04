@@ -16,6 +16,7 @@
                 <form:form modelAttribute="chapter" class="form-horizontal">
 
             <div class="form-group has-feedback">
+                <input type="hidden" name="version" value="${chapter.version}"/>
             	<petclinic:inputField label="Index" name="index"/>
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Body" name="body"/>
@@ -46,8 +47,7 @@
                         </c:when>
                         <c:otherwise>
                             <button class="btn btn-default" type="submit">Update Chapter</button>
-<!--                             Aún no implementada la vista de return -->
- 								 <a class="btn btn-default" href="/"<%--authors/${authorId}/stories/${storyId}/chapters"--%> >Return</a> 
+ 								 <a class="btn btn-default" href="/stories/${storyId}/chapters/${chapterId}">Return</a> 
                         </c:otherwise>
                         </c:choose>
                         

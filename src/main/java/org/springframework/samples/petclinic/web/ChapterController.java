@@ -3,12 +3,14 @@ package org.springframework.samples.petclinic.web;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.ChapterService;
 import org.springframework.samples.petclinic.service.StoryService;
+import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("stories/{storyId}")
@@ -78,6 +81,7 @@ public class ChapterController {
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/chapters/new")
 	public String processNewChapter(@Valid Chapter chapter, BindingResult result, @PathVariable("storyId") int storyId,  ModelMap modelMap) {
+	//throws CannotPublishException{
 		
 		modelMap.put("buttonCreate", true);
 
@@ -118,7 +122,14 @@ public class ChapterController {
 		else { 
 			
 			chapter.setStory(story);
-			chapterService.saveChapter(chapter);
+			//Intentamos capturar la excepcion de la Regla de Negocio 2
+//			try {
+//				this.chapterService.saveChapter(chapter);
+//			} catch (CannotPublishException ex) {
+//				result.rejectValue("isPublished","banned" ,"You have 3 stories in review");
+//				return VISTA_EDICION_chapter;
+//			}
+			this.chapterService.saveChapter(chapter);
 			modelMap.addAttribute("messageSuccess", "¡El capítulo se ha añadido con éxito!");
 			return "redirect:/stories/{storyId}/chapters";
 		
@@ -137,14 +148,24 @@ public class ChapterController {
 				Chapter chapter = this.chapterService.findChapterById(chapterId);
 				model.addAttribute("chapter", chapter);
 				model.addAttribute("storyId", storyId);
+				model.addAttribute("chapterId", chapterId);
 				return VISTA_EDICION_chapter;
 			}
 			
 			@PostMapping(value = "/chapters/{chapterId}/edit")
 			public String processUpdateChapterForm(@Valid Chapter chapter, BindingResult result,
 					@PathVariable("chapterId") int chapterId, 
-					@PathVariable("storyId") int storyId, ModelMap model) {
+					@PathVariable("storyId") int storyId,
+					@RequestParam(value = "version", required=false) Integer version,
+					ModelMap model) throws DataAccessException{
+					//,CannotPublishException{
 				Story story = this.storyService.findStory(storyId);
+				Chapter chapterToUpdate = this.chapterService.findChapterById(chapterId);
+				//VERSIONADO
+				if(chapterToUpdate.getVersion() != version) {
+					model.put("message", "Concurrent modification of chapter! Try again!");
+					return initUpdateChapterForm(chapterId, storyId, model);
+				}
 				//No puedes hacer público un capítulo si las historia no esta publicada
 				if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
 					ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
@@ -162,9 +183,15 @@ public class ChapterController {
 				else {
 					chapter.setId(chapterId);
 					chapter.setStory(story);
+					//Intentamos capturar la excepcion de la Regla de Negocio 2
+//					try { 
+//						this.chapterService.saveChapter(chapter);
+//					} catch (CannotPublishException ex) {
+//						result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
+//						return VISTA_EDICION_chapter;
+//					}
 					this.chapterService.saveChapter(chapter);
-//					return "redirect:/chapters/{chapterId}"; Aún no existe esta funcionalidad
-					return "redirect:/";
+					return "redirect:/stories/{storyId}/chapters/{chapterId}";
 				}
 			}
 			
