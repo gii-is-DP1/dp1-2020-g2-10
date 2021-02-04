@@ -15,6 +15,7 @@
  */
 package org.springframework.samples.petclinic.model;
 
+import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -36,6 +37,7 @@ public class BaseEntity {
 	protected Integer id;
 	
 	@Version
+	@Column(columnDefinition = "integer DEFAULT 0", nullable = false)
 	private Integer version;
 
 	public Integer getId() {

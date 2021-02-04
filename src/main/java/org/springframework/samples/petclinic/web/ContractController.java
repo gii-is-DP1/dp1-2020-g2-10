@@ -35,6 +35,9 @@ public class ContractController {
 	@Autowired
 	CompanyService companyService;
 	
+	@Autowired
+	AuthorService authorService;
+	
 	// TODO: Si peta, crear el constructor exlicitamente y poner private final para los atributos
 	
 	private static final String VIEW_LIST_CONTRACTS="contracts/listContracts";
@@ -86,7 +89,7 @@ public class ContractController {
 	}
 	
 	@PostMapping(value = "/new")
-	public String processCreationForm(Author author,Company company, @Valid Contract contract, BindingResult result, ModelMap model) {		
+	public String processCreationForm(@Valid Contract contract, BindingResult result, ModelMap model) {		
 		if (result.hasErrors()) {
 			model.put("contract", contract);
 			System.out.println(result);
@@ -94,6 +97,8 @@ public class ContractController {
 		}
 		else {
 			System.out.println(contract);
+			contract.setAuthor(authorService.findAuthorById(contract.getAuthor().getId()));
+			contract.setCompany(companyService.getPrincipal());
 			contractService.saveContract(contract);
 			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
 			return "redirect:/contracts/list";
