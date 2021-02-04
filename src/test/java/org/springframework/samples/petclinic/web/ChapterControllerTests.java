@@ -84,6 +84,19 @@ class ChapterControllerTests {
          given(this.storyService.findStory(TEST_STORY_ID)).willReturn(s);
     }
 
+    @WithMockUser(value = "spring")
+    @Test
+	void testListChapter() throws Exception {
+		mockMvc.perform(get("/stories/{storyId}/chapters", TEST_STORY_ID)).andExpect(status().isOk())
+				.andExpect(model().attributeExists("chapters")).andExpect(view().name("chapters/listChapters"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowChapter() throws Exception {
+	    mockMvc.perform(get("/stories/{storyId}/chapters/{chapterId}", TEST_STORY_ID, TEST_CHAPTER_ID)).andExpect(status().isOk())
+	            .andExpect(model().attributeExists("chapter")).andExpect(view().name("chapters/showChapter"));
+	}
 	
 	@WithMockUser(value = "spring")
 	@Test
