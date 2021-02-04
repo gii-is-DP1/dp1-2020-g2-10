@@ -13,10 +13,13 @@
             
     	<h2>Panel for editing your chapter</h2>
         <br></br>
-                <form:form modelAttribute="chapter" class="form-horizontal">
+         		<form:form modelAttribute="chapter" class="form-horizontal">
 
             <div class="form-group has-feedback">
-                <input type="hidden" name="version" value="${chapter.version}"/>
+
+            	<input type="hidden" name="id" value="${chapter.id}"/>
+            	<input type="hidden" name="version" value="${chapter.version}"/>	               
+
             	<petclinic:inputField label="Index" name="index"/>
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Body" name="body"/>
@@ -31,7 +34,7 @@
 				
 				<%--                &emsp sirve para implementar espacios --%>
 				
-				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Published&emsp;<form:radiobutton path="isPublished" value="true"/>
+				&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<label>State</label>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;Published&emsp;<form:radiobutton path="isPublished" value="true"/>
                 &emsp;&emsp;&emsp;Draft&emsp;<form:radiobutton path="isPublished" value="false"/>
                 
            	</div>
