@@ -18,12 +18,8 @@ package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 
 import java.util.Collection;
-
-import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,15 +95,15 @@ class ChapterServiceTests {
 		}
 		
 		
-		
+
 		// Escenarios negativos:
 				// H5-E1 - No añadir un nuevo capítulo vacio.
 				
 				@Test
 				@Transactional
 				public void attempInsertChapterEmpty() {
-					
-					Story s = storyService.findStoryById(1);
+
+			Story s = storyService.findStoryById(1);
 					Collection<Chapter> chapters = this.chapterService.findChapterByStoryId(1);
 								// Creamos un capítulo nuevo.
 								Chapter chapter = new Chapter();
@@ -134,7 +130,10 @@ class ChapterServiceTests {
 				   
 				}
 	
-	//----------------------------------------------------------------------------------------------------------------	
+	
+
+	
+	// ------- H6+E1 - Escenario positivo ---------
 	@Test
 	@Transactional
 	void shouldUpdateChapter() {
@@ -142,13 +141,29 @@ class ChapterServiceTests {
 		Chapter chapter = this.chapterService.findChapterById(1);
 		String oldTitle = chapter.getTitle();
 		String newTitle = oldTitle + " un cambio cualquiera";
-
 		chapter.setTitle(newTitle); //Cambiamos el titulo
+		this.chapterService.saveChapter(chapter);
+		Chapter chapterCambiado = this.chapterService.findChapterById(1);
+		assertThat(chapterCambiado.getTitle()).isEqualTo(newTitle);
+	}
+	
+	// ------- H6+E2 - Escenario positivo ---------
+	@Test
+	@Transactional
+	void shouldPublishDraftChapter() {
+		Chapter chapter = this.chapterService.findChapterById(3);
+		Boolean chapterIsPublished = chapter.getIsPublished();
+		Boolean storyIsPublished = chapter.getStory().getStoryStatus().equals(StoryStatus.PUBLISHED);
+		
+		assertThat(storyIsPublished).isEqualTo(true);
+		assertThat(chapterIsPublished).isEqualTo(false);
+
+		chapter.setIsPublished(true); //Lo hacemos público, y nos debería dejar guardar puesto que la historia tambien lo es
 		
 		this.chapterService.saveChapter(chapter);
 
-		chapter = this.chapterService.findChapterById(1);
-		assertThat(chapter.getTitle()).isEqualTo(newTitle);
+		Chapter chapterCambiado = this.chapterService.findChapterById(3); //capítulo guardado en BD
+		assertThat(chapterCambiado.getIsPublished()).isEqualTo(true);
 	}
 	
 	//Tests HU16

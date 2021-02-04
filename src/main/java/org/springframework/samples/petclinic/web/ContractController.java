@@ -125,7 +125,7 @@ public class ContractController {
 	
 	@GetMapping(value = { "/company/list" })
 	public String listContractsOfCompany(ModelMap modelMap) {
-		Iterable<Contract> contracts = this.contractService.findContractsByCompanyId();
+		Collection<Contract> contracts = this.contractService.findContractsByCompanyId();
 		modelMap.put("contracts", contracts);
 		return VIEW_LIST_CONTRACTS;
 	}

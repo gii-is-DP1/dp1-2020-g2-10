@@ -12,6 +12,7 @@ import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.repository.StoryRepository;
+import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,9 +48,12 @@ public class StoryService {
 		return storyRepository.findById(storyId).orElseGet(null);
 	}
 	
+	public Integer countReviewStories(StoryStatus review, Integer authorId) {
+		return this.storyRepository.countReviewStories(review, authorId);
+	}
 	
-	@Transactional
-	public void saveStory(Story story){
+	@Transactional(rollbackFor = CannotPublishException.class)
+	public void saveStory(Story story) throws CannotPublishException{
 		Story oldStory = null;
 		
 		if(story.getId()!=null) {
@@ -59,17 +63,20 @@ public class StoryService {
 		story.setAuthor(authorService.getPrincipal());
 		story.setUpdatedDate(new Date());
 		
-		
-		
 		if(story.getStoryStatus().equals(StoryStatus.PUBLISHED) 
 				&& (oldStory == null || oldStory.getStoryStatus().equals(StoryStatus.DRAFT)) ) {
 			//TODO Asignar un moderador de forma mas "inteligente", distribuyendo las historias
 			// entre los distintos moderadores de forma más o menos equitativa
 			story.setModerator(moderatorService.findModeratorById(1));
 		}
-		
+		//REGLA DE NEGOCIO 2
+		Integer authorId = this.authorService.getPrincipal().getId();
+		Integer reviewStories = countReviewStories(StoryStatus.REVIEW, authorId);
+		if(reviewStories>=3) {
+			throw new CannotPublishException();
+		}else {
 		storyRepository.save(story);		
-		
+		}
 	}
 	
 	@Transactional(readOnly=true)
@@ -104,6 +111,7 @@ public class StoryService {
 	public Collection<Story> getStoriesFromAuthorId(int authorId) {
 		return storyRepository.getStoriesFromAuthorId(authorId);
 	}
+
 	
 	@Transactional
 	public void updateStory(int storyId) {
@@ -114,4 +122,5 @@ public class StoryService {
 		System.out.println("Estado historia actualizado" + s.getStoryStatus());
 		
 	}
+
 }

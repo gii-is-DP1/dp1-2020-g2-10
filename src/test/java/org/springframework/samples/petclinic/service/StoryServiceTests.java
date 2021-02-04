@@ -24,6 +24,7 @@ import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
+import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
@@ -42,7 +43,7 @@ class StoryServiceTests {
     
 	//@Test
 	@Transactional
-	public void shouldInsertStoryIntoDatabaseAndGenerateId() {
+	public void shouldInsertStoryIntoDatabaseAndGenerateId() throws CannotPublishException {
 		Author author1 = this.authorService.findAuthorById(1);
 //		List<Story> storiesA1 = author1.getStories();
 		int found = 2;
