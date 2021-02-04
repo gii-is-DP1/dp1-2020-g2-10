@@ -105,7 +105,7 @@ public class StoryService {
 		return storyRepository.getStoriesFromAuthorId(authorId);
 	}
 	
-	
+	@Transactional
 	public void updateStory(int storyId) {
 		
 	

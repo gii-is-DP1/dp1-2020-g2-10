@@ -1,5 +1,6 @@
 package org.springframework.samples.petclinic.service;
 
+import java.time.LocalDate;
 import java.util.Collection;
 
 import javax.validation.Valid;
@@ -7,9 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Report;
-import org.springframework.samples.petclinic.model.StoryStatus;
+import org.springframework.samples.petclinic.model.ReportStatus;
 import org.springframework.samples.petclinic.repository.ReportRepository;
-import org.springframework.samples.petclinic.web.StoryController;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,17 +38,19 @@ public class ReportService {
 		return reportRepository.countReportOfStoryId(storyId);
 	}
 
-	
+	@Transactional
 	public void saveReport(@Valid Report report, int storyId) throws DataAccessException {
 		
 		// Creamos el reporte
+		report.setReportStatus(ReportStatus.PENDING);
+		report.setDate(LocalDate.now());
 		reportRepository.save(report);	
 		int numeroReportesHistoria = reportRepository.countReportOfStoryId(storyId);
-		System.out.println("Número reportes historia: " + numeroReportesHistoria);
+		
 		if(numeroReportesHistoria == 3) {
 
-		System.out.println("Entra en el if: " + numeroReportesHistoria);
-		//storyService.updateStory(storyId);
+		
+		storyService.updateStory(storyId);
 		
 		}
 		

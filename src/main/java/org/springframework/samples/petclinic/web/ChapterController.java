@@ -14,6 +14,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,17 +28,17 @@ public class ChapterController {
 	
 	private final ChapterService chapterService;
 	private final StoryService storyService;
-	
+	private final AuthorService authorService;
 	private static final String VISTA_EDICION_chapter= "chapters/editChapter";
 	private static final String VIEW_LIST_CHAPTERS="chapters/listChapters";
 	private static final String VIEW_SHOW_CHAPTER="chapters/showChapter";
 	
 	@Autowired
-	public ChapterController(ChapterService chapterService, StoryService storyService) {
+	public ChapterController(ChapterService chapterService, StoryService storyService, AuthorService authorService) {
 
 		this.chapterService = chapterService;
 		this.storyService = storyService;
-		
+		this.authorService = authorService;
 	}
 	
 	@InitBinder
@@ -66,11 +67,11 @@ public class ChapterController {
 	
 	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
 	@GetMapping("/chapters/new")
-	public String initAddChapter(ModelMap modelMap) {
-		modelMap.put("buttonCreate", true);
+	public String initAddChapter(@PathVariable("storyId") int storyId, ModelMap modelMap) {
+		modelMap.addAttribute("buttonCreate", true);
 		Chapter chapter = new Chapter();
-		modelMap.put("chapter", chapter);
-		
+		modelMap.addAttribute("chapter", chapter);
+		modelMap.addAttribute("storyId", storyId);
 		
 		return VISTA_EDICION_chapter;
 		
@@ -78,12 +79,10 @@ public class ChapterController {
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/chapters/new")
-	public String processNewChapter(@Valid Chapter chapter, BindingResult result, @PathVariable("storyId") int storyId,  ModelMap modelMap) {
+	public String processNewChapter(@PathVariable("storyId") int storyId, @Valid Chapter chapter, BindingResult result, ModelMap modelMap) {
 		
-		modelMap.put("buttonCreate", true);
-
+		modelMap.addAttribute("buttonCreate", true);
 		Story story = this.storyService.findStory(storyId);
-		
 		
 		//No puedes hacer público un capítulo si las historia no esta publicada
 		if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
@@ -100,6 +99,7 @@ public class ChapterController {
 		// Si al validarlo, encontramos errores:
 		
 		if (result.hasErrors()) {
+			modelMap.addAttribute("chapter", chapter);
 			
 			if(chapter.getIsPublished() == null) {
 				modelMap.addAttribute("errorNullPublish", true);	

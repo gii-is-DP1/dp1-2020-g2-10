@@ -94,8 +94,7 @@ public class ReportController {
 		
 		else { 
 			
-			report.setReportStatus(ReportStatus.PENDING);
-			report.setDate(LocalDate.now());
+			
 			Chapter chapter = this.chapterService.findChapterById(chapterId);
 			report.setChapter(chapter);
 			reportService.saveReport(report, storyId);

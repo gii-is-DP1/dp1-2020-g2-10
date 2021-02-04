@@ -2,11 +2,15 @@ package org.springframework.samples.petclinic.web;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.mockito.Mockito.mock;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,12 +22,15 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.samples.petclinic.configuration.SecurityConfiguration;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Story;
+import org.springframework.samples.petclinic.model.StoryStatus;
+import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.ChapterService;
 import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
 @WebMvcTest(controllers= {ChapterController.class, AlexandriaErrorController.class, AlexandriaControllerAdvice.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
@@ -31,6 +38,7 @@ class ChapterControllerTests {
 	
 	private static final int TEST_CHAPTER_ID    = 1;
 	private static final int TEST_STORY_ID = 1;
+	private static final int TEST_AUTHOR_ID = 1;
 
 	@Autowired
 	private ChapterController chapterController;
@@ -48,6 +56,9 @@ class ChapterControllerTests {
 	private StoryService storyService;
 	
 	@MockBean
+	private AuthorService authorService;
+	
+	@MockBean
 	private UserService userService;
 	
 	@Autowired
@@ -55,10 +66,25 @@ class ChapterControllerTests {
 	
 	@BeforeEach
 	void setup() {
+		
 
-		given(this.storyService.findStoryById(TEST_STORY_ID)).willReturn(new Story());
-		given(this.chapterService.findChapterById(TEST_CHAPTER_ID)).willReturn(new Chapter());
+        Story s = new Story();
+            s.setId(TEST_STORY_ID);
+            s.setStoryStatus(StoryStatus.DRAFT);
 
+         Chapter c = new Chapter();
+         c.setId(1);
+         c.setIndex(1);
+         c.setTitle("Prueba");
+         c.setBody("Otra prueba más para probar la prueba que prueba la funcionalidad a prueba");
+         c.setIsPublished(false);
+         c.setStory(s);
+
+
+         given(this.chapterService.findChapterById(TEST_CHAPTER_ID)).willReturn(new Chapter());
+         given(this.storyService.findStory(TEST_STORY_ID)).willReturn(s);
+		
+			
 	}
 	
 	@WithMockUser(value = "spring")
@@ -79,38 +105,40 @@ class ChapterControllerTests {
     @Test
 	void testInitNewChapterForm() throws Exception {
 		mockMvc.perform(get("/stories/{storyId}/chapters/new", TEST_STORY_ID)).andExpect(status().isOk())
-				.andExpect(view().name("chapters/editChapter"));
+				.andExpect(model().attributeExists("chapter")).andExpect(view().name("chapters/editChapter"));
 	      
 	}
 	  
-		@WithMockUser(value = "spring")
-		@Test
-		void testProcessCreationChapterFormSuccess() throws Exception {
-			mockMvc.perform(post("/stories/{storyId}/chapters/new", TEST_STORY_ID)
-								.with(csrf())
-								.param("id", "10")
-								.param("index", "1")
-								.param("title", "Prueba")
-								.param("body", "Otra prueba más para probar la prueba que prueba la funcionalidad a prueba")
-								.param("isPublished", "true")
-								.param("story.id", "1"))
-			.andExpect(status().is2xxSuccessful()).andExpect(view().name("chapters/editChapter"));
-		}
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessCreationChapterFormSuccess() throws Exception {
+		mockMvc.perform(post("/stories/{storyId}/chapters/new", TEST_STORY_ID)
+							.with(csrf())
+							.param("index", "1")
+							.param("title", "Prueba")
+							.param("body", "Prueba que funciona")
+							.param("isPublished", "false")
+							.param("story.id", "1"))
+		
+		.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/stories/{storyId}/chapters"));
+	}
 
 		@WithMockUser(value = "spring")
 	    @Test
-	void testProcessCreationChapterHasErrors() throws Exception {
+	void testProcessCreationChapterHasTrueErrorPublished() throws Exception {
 		mockMvc.perform(post("/stories/{storyId}/chapters/new",TEST_STORY_ID)
 							.with(csrf())
-							.param("index", "")
+							.param("index", "2")
 							.param("title", "")
 							.param("body", "")
-							.param("isPublished", "")
-							.param("story.id", ""))
+							.param("isPublished", "true")
+							.param("story.id", "1"))
 							
-				.andExpect(status().isOk())
 				.andExpect(model().attributeHasErrors("chapter"))
+				.andExpect(model().attributeExists("errorPublished"))
 				.andExpect(view().name("chapters/editChapter"));
 		}
+		
+		
 
 }
