@@ -134,6 +134,24 @@ public class ContractControllerTests {
 
 	}
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testListContractsOfCompany() throws Exception {
+		mockMvc.perform(get("/contracts/company/list"))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("contracts"))
+				.andExpect(model().size(2))
+				.andExpect(view().name("contracts/listContracts"));
+	}
+
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowContractOfCompany() throws Exception {
+	    mockMvc.perform(get("/contracts/{contractId}/show", TEST_CONTRACT_ID)).andExpect(status().isOk())
+	            .andExpect(model().attributeExists("contract")).andExpect(view().name("contracts/showContracts"));
+	}
+
+	
 	//Pruebas de controlador HU-08
 	
 	@WithMockUser(value = "spring")
@@ -207,24 +225,8 @@ public class ContractControllerTests {
 	}
 	
 
-}
-	
-	@WithMockUser(value = "spring")
-	@Test
-	void testListContractsOfCompany() throws Exception {
-		mockMvc.perform(get("/contracts/company/list"))
-				.andExpect(status().isOk()).andExpect(model().attributeExists("contracts"))
-				.andExpect(model().size(2))
-				.andExpect(view().name("contracts/listContracts"));
-	}
 
 	
-	@WithMockUser(value = "spring")
-	@Test
-	void testShowContractOfCompany() throws Exception {
-	    mockMvc.perform(get("/contracts/{contractId}/show", TEST_CONTRACT_ID)).andExpect(status().isOk())
-	            .andExpect(model().attributeExists("contract")).andExpect(view().name("contracts/showContracts"));
-	}
-
+	
 
 }
