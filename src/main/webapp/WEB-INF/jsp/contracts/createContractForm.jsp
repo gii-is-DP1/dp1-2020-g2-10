@@ -46,6 +46,16 @@
                 
            		<alexandria:inputField label= "Fecha de inicio" name= "startDate" />
            		<alexandria:inputField label="Fecha fin" name= "endDate"  />
+           		
+           		 <c:if test="${idAuthor}">
+					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You must put the author's id.</h3>
+				</c:if>
+           		 
+           		  <c:if test="${endDateIsBeforeStartDate}">
+					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;The endDate must be after startDate.</h3>
+				</c:if> 
+				
+			
             	</div>
             
             <div class="form-group">
