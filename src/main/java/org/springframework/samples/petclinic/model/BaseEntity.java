@@ -37,7 +37,7 @@ public class BaseEntity {
 	protected Integer id;
 	
 	@Version
-	//@Column(columnDefinition = "integer DEFAULT 0", nullable = false)
+	@Column(columnDefinition = "integer DEFAULT 0", nullable = false)
 	private Integer version;
 
 	public Integer getId() {
