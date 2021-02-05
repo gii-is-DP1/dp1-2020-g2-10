@@ -38,8 +38,6 @@ class StoryServiceTests {
     @Autowired
 	protected AuthorService authorService;	
 
-    
-    
 	//@Test
 	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() {

@@ -16,22 +16,24 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.model.Contract;
 import org.springframework.samples.petclinic.model.ContractStatus;
-import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,9 @@ class ContractServiceTests {
 	@Autowired
     protected CompanyService companyService;
 	
+	@Autowired
+	protected AuthorService authorService;
+
 	//Tests HU11
 	@Test
 	@Transactional
@@ -82,4 +87,104 @@ class ContractServiceTests {
 		assertThat(contract.getIsExclusive()).isEqualTo(true);
 		assertThat(contract.getContractStatus()).isEqualTo(ContractStatus.ACCEPTED);
 	}
+	
+// Test HU8+E1 - Envío del contrato relleno con éxito
+	
+	//Escenario positivo
+
+	@SuppressWarnings("deprecation")
+	@Test
+	@Transactional
+	@WithMockUser(value = "company1", authorities = {
+	        "company"
+	    })
+	public void shouldInsertContract() {
+			 
+Contract contract = new Contract();
+		
+		Date moment; 
+		
+		Date moment2;
+		
+		Date moment3;
+		
+        moment = new Date(System.currentTimeMillis() - 1);
+        moment2 = new Date(2022, 06, 30, 23, 59, 00);
+        moment3 = new Date(2023, 05, 30, 23, 59, 00);
+
+        
+		contract.setId(1);
+		contract.setAnswerDate(moment);
+		contract.setBody("Contrato DP");
+		contract.setContractStatus(ContractStatus.ACCEPTED);
+		contract.setEndDate(moment2);
+		
+		contract.setHeader("Contrato milenario");
+		contract.setIsExclusive(true);
+		contract.setOfferDate(moment3);
+		contract.setRemuneration(5.67);
+		contract.setStartDate(moment);
+		
+		Author a = this.authorService.findAuthorById(1);
+		contract.setAuthor(a);
+		
+		Optional<Company> c = this.companyService.findCompanyById(1);
+		Company opCom =c.get();
+		contract.setCompany((opCom));
+						
+		this.contractService.saveContract(contract);
+					
+		assertThat(contract.getId()).isNotNull();
+		
+	}
+	
+	//Escenario Negativo 
+
+	@Test
+	@Transactional
+	@WithMockUser(value = "company1", authorities = {
+	        "company"
+	    })
+	public void shouldInsertContractEmpty() {
+		
+		Contract contract = new Contract();
+		
+		contract.setId(null);
+		contract.setAnswerDate(null);
+		contract.setBody(null);
+		contract.setContractStatus(ContractStatus.ACCEPTED);
+		contract.setEndDate(null);
+		
+		contract.setHeader(null);
+		contract.setIsExclusive(true);
+		contract.setOfferDate(null);
+		contract.setRemuneration(null);
+		contract.setStartDate(null);
+		
+		Author a = this.authorService.findAuthorById(1);
+		contract.setAuthor(a);
+		
+		Optional<Company> c = this.companyService.findCompanyById(1);
+		Company opCom =c.get();
+		contract.setCompany((opCom));
+
+		Exception exception = assertThrows(ConstraintViolationException.class, () -> {
+
+			this.contractService.saveContract(contract);
+		});
+		
+		assertThat(contract.getId()).isNull();
+		assertThat(contract.getBody()).isNull();
+		assertThat(contract.getHeader()).isNull();
+		assertThat(contract.getAnswerDate()).isNull();
+		
+		//assertEquals(exception.toString(), "java.lang.NullPointerException");
+
+		assertEquals(exception.getMessage(), true);
+
+	}
+
+
+	
+	
 }

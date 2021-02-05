@@ -8,8 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.util.Date;
 
-import javax.validation.ConstraintViolationException;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -64,8 +62,6 @@ public void shouldInsertContract() {
 		 
 		Contract contract = new Contract();
 		
-		Boolean b=false;
-		
 		Date moment; 
 		
 		Date moment2;
@@ -84,7 +80,7 @@ public void shouldInsertContract() {
 		contract.setEndDate(moment2);
 		
 		contract.setHeader("Contrato milenario");
-		contract.setIsExclusive(b.TRUE);
+		contract.setIsExclusive(true);
 		contract.setOfferDate(moment3);
 		contract.setRemuneration(5.67);
 		contract.setStartDate(moment);
@@ -278,67 +274,70 @@ public void shouldAcceptOrRejectContract() {
 //Escenario Negativo
 
 
-@SuppressWarnings("deprecation")
-@Test
-@Transactional
-@WithMockUser(value = "company1", authorities = {
-     "company"
- })
-public void shouldDifferentAuthorContract() {
-	
+
+
+
+//@SuppressWarnings("deprecation")
+//@Test
+//@Transactional
+//@WithMockUser(value = "company1", authorities = {
+//     "company"
+// })
+//public void shouldDifferentAuthorContract() {
+//	
 //Primer contrato
-
-Contract contract = new Contract();
-	
-	Boolean b=false;
-	
-	Date moment; 
-	
-	Date moment2;
-	
-	Date moment3;
-	
-    moment = new Date(System.currentTimeMillis() - 1);
-    moment2 = new Date(2022, 06, 30, 23, 59, 00);
-    moment3 = new Date(2023, 05, 30, 23, 59, 00);
-
-    
-	contract.setId(1);
-	contract.setAnswerDate(moment);
-	contract.setBody("Contrato DP");
-	contract.setContractStatus(ContractStatus.PENDING);
-	contract.setEndDate(moment2);
-	
-	contract.setHeader("Contrato milenario");
-	contract.setIsExclusive(b.TRUE);
-	contract.setOfferDate(moment3);
-	contract.setRemuneration(5.67);
-	contract.setStartDate(moment);
+//
+//Contract contract = new Contract();
+//	
+//	Boolean b=false;
+//	
+//	Date moment; 
+//	
+//	Date moment2;
+//	
+//	Date moment3;
+//	
+//    moment = new Date(System.currentTimeMillis() - 1);
+//    moment2 = new Date(2022, 06, 30, 23, 59, 00);
+//    moment3 = new Date(2023, 05, 30, 23, 59, 00);
+//
+//    
+//	contract.setId(1);
+//	contract.setAnswerDate(moment);
+//	contract.setBody("Contrato DP");
+//	contract.setContractStatus(ContractStatus.PENDING);
+//	contract.setEndDate(moment2);
+//	
+//	contract.setHeader("Contrato milenario");
+//	contract.setIsExclusive(b.TRUE);
+//	contract.setOfferDate(moment3);
+//	contract.setRemuneration(5.67);
+//	contract.setStartDate(moment);
 	
 //	Author a = new Author();
 //	contract.setAuthor(a);
 //	
 //	Author a2 = new Author();
 //	
-	Company c = new Company();
-	contract.setCompany(c);
+//	Company c = new Company();
+//	contract.setCompany(c);
 	
 //	if(contractService.answerContract(1, ContractStatus.ACCEPTED)) {
 //		
 //	}
 	
-	Author principal = authorService.getPrincipal();
-	contract.setAuthor(principal);
+//	Author principal = authorService.getPrincipal();
+//	contract.setAuthor(principal);
+//	
+//	assertTrue("Only the author recipient of the contract can provide an answer to the contract.",
+//			contract.getAuthor().equals(principal));
+//		
+//	when(contractRepository.save(contract)).thenReturn(contract);
+//	 
+//	this.contractService.saveContract(contract);
+//	
 	
-	assertTrue("Only the author recipient of the contract can provide an answer to the contract.",
-			contract.getAuthor().equals(principal));
-		
-	when(contractRepository.save(contract)).thenReturn(contract);
-	 
-	this.contractService.saveContract(contract);
-	
-	
-}
+//}
 
 
 }
