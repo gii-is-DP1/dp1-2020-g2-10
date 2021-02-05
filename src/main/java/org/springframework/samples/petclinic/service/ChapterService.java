@@ -12,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Chapter;
+import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.repository.ChapterRepository;
+import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +24,8 @@ public class ChapterService {
 	private ChapterRepository chapterRepository;
 	
 	private AuthorService authorService;
+	
+	private StoryService storyService;
 	
 	@Autowired
 	public ChapterService(ChapterRepository chapterRepository, AuthorService authorService) {
@@ -40,11 +44,20 @@ public class ChapterService {
 		return chapter;
 	}
 
-	@Transactional
-	public void saveChapter(@Valid Chapter chapter) throws DataAccessException {
+	@Transactional//(rollbackFor = CannotPublishException.class)
+	public void saveChapter(@Valid Chapter chapter) throws DataAccessException{//, CannotPublishException {
 		
 		// Creamos el capítulo
-		chapterRepository.save(chapter);		
+		
+		//REGLA DE NEGOCIO 2
+//		Integer authorId = this.authorService.getPrincipal().getId();
+//		Integer reviewStories = this.storyService.countReviewStories(StoryStatus.REVIEW, authorId);
+//		if(reviewStories>=3) {
+//			throw new CannotPublishException();
+//		}else {
+			chapterRepository.save(chapter);		
+//		}
+		
 		
 	}
 	

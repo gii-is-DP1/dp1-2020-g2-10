@@ -16,4 +16,6 @@ public interface ReportRepository extends CrudRepository<Report, Integer>{
 		@Query("SELECT report FROM Report report WHERE report.id  =:id")
 		public Report findReportById(@Param("id") int id);
 
+		@Query("SELECT COUNT(*) FROM Report report WHERE report.chapter.story.id  =:id")
+		public int countReportOfStoryId(@Param("id") int id);
 }

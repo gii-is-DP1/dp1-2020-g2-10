@@ -37,7 +37,7 @@ public @Data class Report extends BaseEntity{
 	@NotEmpty
 	private String text;
 	
-
+	
 	@ManyToOne(optional=false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Chapter chapter;

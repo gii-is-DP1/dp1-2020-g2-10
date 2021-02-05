@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +30,18 @@ import org.springframework.samples.petclinic.service.ContractService;
 import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
+
 import org.springframework.test.web.servlet.MockMvc;
 import static org.mockito.Mockito.mock;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @WebMvcTest(controllers= {ContractController.class, AlexandriaErrorController.class, AlexandriaControllerAdvice.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
+
 public class ContractControllerTests {
 
 	private static final int TEST_CONTRACT_ID = 1;
@@ -46,7 +50,6 @@ public class ContractControllerTests {
 	
 	private static final int TEST_AUTHOR_ID = 1;
 
-	
 	@Autowired
 	private ContractController contractController;
 	
@@ -54,6 +57,7 @@ public class ContractControllerTests {
 	private ContractService contractService;
 	
 	@MockBean
+
 	private CompanyService companyService;
 	
 	@MockBean
@@ -67,6 +71,7 @@ public class ContractControllerTests {
 
     @Autowired
     private AlexandriaControllerAdvice alexandriaControllerAdvice;
+
     
     @MockBean
     private UserService userService;
@@ -106,7 +111,7 @@ public class ContractControllerTests {
 		contrato1.setOfferDate(moment3);
 		contrato1.setRemuneration(5.67);
 		contrato1.setStartDate(moment);
-		
+
 		Contract contrato2 = mock(Contract.class);
 		contrato2.setId(2);
 		contrato2.setCompany(company1);
@@ -202,7 +207,24 @@ public class ContractControllerTests {
 	}
 	
 
+}
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testListContractsOfCompany() throws Exception {
+		mockMvc.perform(get("/contracts/company/list"))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("contracts"))
+				.andExpect(model().size(2))
+				.andExpect(view().name("contracts/listContracts"));
+	}
+
 	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowContractOfCompany() throws Exception {
+	    mockMvc.perform(get("/contracts/{contractId}/show", TEST_CONTRACT_ID)).andExpect(status().isOk())
+	            .andExpect(model().attributeExists("contract")).andExpect(view().name("contracts/showContracts"));
+	}
+
 
 }
