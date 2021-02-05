@@ -10,6 +10,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Report;
 import org.springframework.samples.petclinic.model.ReportStatus;
 import org.springframework.samples.petclinic.repository.ReportRepository;
+import org.springframework.samples.petclinic.service.exceptions.ReportLimitException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,21 +40,25 @@ public class ReportService {
 	}
 
 	@Transactional
-	public void saveReport(@Valid Report report, int storyId) throws DataAccessException {
+	public void saveReport(@Valid Report report, int storyId) throws DataAccessException, ReportLimitException {
 		
-		// Creamos el reporte
-		report.setReportStatus(ReportStatus.PENDING);
-		report.setDate(LocalDate.now());
-		reportRepository.save(report);	
-		int numeroReportesHistoria = reportRepository.countReportOfStoryId(storyId);
-		
-		if(numeroReportesHistoria == 3) {
+		if(reportRepository.countReportOfStoryId(storyId) < 3) {
+			
+			// Creamos el reporte
+			report.setReportStatus(ReportStatus.PENDING);
+			report.setDate(LocalDate.now());
+			reportRepository.save(report);	
+			int numeroReportesHistoria = reportRepository.countReportOfStoryId(storyId);
+			
+			if(numeroReportesHistoria == 3) {
 
-		
-		storyService.updateStory(storyId);
-		
+				storyService.updateStory(storyId);
+			
+			}
+			
+		} else{
+			throw new ReportLimitException();
 		}
-		
 		
 	}		
 	

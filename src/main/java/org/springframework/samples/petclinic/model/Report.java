@@ -31,7 +31,7 @@ public @Data class Report extends BaseEntity{
 	
 	
 	@FutureOrPresent
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
 	@NotEmpty

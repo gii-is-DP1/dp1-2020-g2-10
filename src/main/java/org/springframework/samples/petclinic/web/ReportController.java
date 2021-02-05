@@ -13,6 +13,7 @@ import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.ChapterService;
 import org.springframework.samples.petclinic.service.ReportService;
 import org.springframework.samples.petclinic.service.StoryService;
+import org.springframework.samples.petclinic.service.exceptions.ReportLimitException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/stories/{storyId}/chapters/{chapterId}")
@@ -68,7 +70,8 @@ public class ReportController {
 	
 	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
 	@PostMapping("/reports/new")
-	public String processNewReport(@PathVariable("storyId") int storyId, @PathVariable("chapterId") int chapterId, @Valid Report report, BindingResult result, ModelMap modelMap) {
+	public String processNewReport(@PathVariable("storyId") int storyId, @PathVariable("chapterId") int chapterId, @Valid Report report, 
+			BindingResult result, ModelMap modelMap, RedirectAttributes redirectAttributes) throws ReportLimitException{
 		
 		modelMap.put("buttonCreate", true);
 		
@@ -93,15 +96,18 @@ public class ReportController {
 		// Si al validarlo, no hallamos ningún error:
 		
 		else { 
+			try {
+				Chapter chapter = this.chapterService.findChapterById(chapterId);
+				report.setChapter(chapter);
+				reportService.saveReport(report, storyId);
 			
-			
-			Chapter chapter = this.chapterService.findChapterById(chapterId);
-			report.setChapter(chapter);
-			reportService.saveReport(report, storyId);
-			
-			modelMap.addAttribute("messageSuccess", "¡El reporte se ha enviado con éxito!");
-			return "redirect:/stories/{storyId}/chapters/{chapterId}";
-		
+				modelMap.addAttribute("messageSuccess", "¡El reporte se ha enviado con éxito!");
+				return "redirect:/stories/{storyId}/chapters/{chapterId}";
+				
+			} catch (ReportLimitException ex) {
+				result.rejectValue("text", "TooManyReports" ,"The story associated to this chapter has already been reported 3 times.");
+				return VIEW_EDIT_REPORT;
+			}
 		}
 		
 		
