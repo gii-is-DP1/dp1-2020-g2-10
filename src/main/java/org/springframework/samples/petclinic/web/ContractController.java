@@ -97,13 +97,12 @@ public class ContractController {
 		
 		//Validación de que la fecha fin no puede ser ni igual ni anterior a la fecha de inicio del contrato
 		
-		//|| !(contract.getEndDate().equals(contract.getStartDate())
-//		if (!(contract.getEndDate().after(contract.getStartDate()))) {
-//			
-//			ObjectError error1 = new ObjectError("endDateIsBeforeOrEqualsStartDate", "EndDate is equal or before startDate");
-//            result.addError(error1);
-//		}
-//		
+		if (contract.getEndDate()!=null && contract.getStartDate()!=null && !(contract.getEndDate().after(contract.getStartDate()))) {
+			
+			ObjectError error1 = new ObjectError("endDateIsBeforeStartDate", "EndDate is  before startDate");
+            result.addError(error1);
+		}
+		
 		//Validación: el id del author no puede ser nulo, la solicitud del contrato tiene que tener una id del autor
 		
 		Integer auId= contract.getAuthor().getId();
@@ -123,16 +122,16 @@ public class ContractController {
 				model.addAttribute("idAuthor", false);
 
 			}
-			//|| !(contract.getEndDate().equals(contract.getStartDate())
 			
-//			if((contract.getEndDate().before(contract.getStartDate()))){
-//				
-//				model.addAttribute("endDateIsBeforeOrEqualsStartDate", true);
-//			}else {
-//				model.addAttribute("endDateIsBeforeOrEqualsStartDate", false);
-//
-//			}
-//			
+	
+			if(contract.getEndDate()!=null && contract.getStartDate()!=null && (contract.getEndDate().before(contract.getStartDate()))){
+				model.addAttribute("endDateIsBeforeStartDate", true);
+				
+			}else  if ((contract.getEndDate()!=null && contract.getStartDate()!=null) && (contract.getEndDate().after(contract.getStartDate())
+					)){
+				model.addAttribute("endDateIsBeforeStartDate", false);
+			}
+			
 			System.out.println(result);
 			return VIEWS_CONTRACT_CREATE_FORM;
 		}
@@ -155,6 +154,7 @@ public class ContractController {
 //
 //			}
 			//}
+			
 			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
 			return "redirect:/contracts/list";
 

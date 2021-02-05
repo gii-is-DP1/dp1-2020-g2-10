@@ -51,8 +51,8 @@
 					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You must put the author's id.</h3>
 				</c:if>
            		 
-           		  <c:if test="${endDateIsBeforeOrEqualsStartDate}">
-					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;The endDate must be distinct and after startDate.</h3>
+           		  <c:if test="${endDateIsBeforeStartDate}">
+					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;The endDate must be after startDate.</h3>
 				</c:if> 
 				
 			
