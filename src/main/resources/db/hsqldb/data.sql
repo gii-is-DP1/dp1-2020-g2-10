@@ -13,7 +13,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
 -- INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
 -- INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
--- 
+ 
 -- INSERT INTO specialties VALUES (1, 'radiology');
 -- INSERT INTO specialties VALUES (2, 'surgery');
 -- INSERT INTO specialties VALUES (3, 'dentistry');
@@ -29,7 +29,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- INSERT INTO types VALUES (3, 'lizard');
 -- INSERT INTO types VALUES (4, 'snake');
 -- INSERT INTO types VALUES (5, 'bird');
--- INSERT INTO types VALUES (6, 'hamster');
+--INSERT INTO types VALUES (6, 'hamster');
 -- 
 -- INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 -- INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
@@ -45,12 +45,11 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- INSERT INTO owners VALUES (12, 'Pabcalper', 'Calle', 'Dirección desconocida', 'Sevilla', '6301785873', 'pabcalper');
 -- INSERT INTO owners VALUES (13, 'Felix', 'Conde', 'Reina Mercedes', 'Sevilla', '636123456', 'felconmar');
 -- INSERT INTO owners VALUES (14, 'David', 'Ganan', 'Anonima', 'Sevilla', '656874579', 'davgangar1');
-
 -- INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
--- 
+ 
 --  INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
-
-
+--
+--
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
@@ -227,6 +226,13 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 
 -- 5. Reviews -----------------------------------------------------------------------------
 
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 1', 5, 'Comment 1','2020-09-01 11:11',1,1);
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 2', 3, 'Comment 2', '2020-11-10 10:13',1,1);
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 3', 4, 'Comment 3', '2018-10-01 01:06',2,3);		
+
 -- 6. Companies y Contracts ---------------------------------------------------------------
 
 
@@ -354,6 +360,8 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 
 -- 7. Reports -----------------------------------------------------------------------------
 
+-- INSERT INTO reports(id, version, date, report_status, report_type, text, chapter_id) 
+-- VALUES (0, 0, '2021/11/15 10:28', 'DONE', 'OTHER', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', 1);
 
 --Habría que descomentarlo cuando se creen los ejemplos de story, company y algunos más de author
 
