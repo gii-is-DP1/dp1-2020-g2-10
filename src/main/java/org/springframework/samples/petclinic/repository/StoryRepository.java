@@ -11,15 +11,17 @@ import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 
 
+
 import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
+
 
 
 public interface StoryRepository extends CrudRepository<Story, Integer>{
 	
-//	@Query("SELECT story FROM Story story WHERE story.id  =:id")
-//	public Story findStoryById(@Param("id") int id);
+	@Query("SELECT story FROM Story story WHERE story.storyStatus  =:published or story.storyStatus =:draft")
+	public Collection<Story> findStory(@Param("published") StoryStatus storyStatus1, @Param("draft") StoryStatus storyStatus2);
 
-	public Collection<Story> findAll() throws DataAccessException;
+	//public Collection<Story> findAll() throws DataAccessException;
 	
 	@Query("SELECT story FROM Story story WHERE author.id  =:authorId")
 	public Collection<Story> getStoriesFromAuthorId(@Param("authorId") int authorId) throws DataAccessException;
