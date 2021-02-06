@@ -14,18 +14,18 @@
  * limitations under the License.
  */
 package org.springframework.samples.petclinic.service;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Locale;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +37,7 @@ import org.springframework.samples.petclinic.model.ReportStatus;
 import org.springframework.samples.petclinic.model.ReportType;
 import org.springframework.samples.petclinic.repository.ChapterRepository;
 import org.springframework.samples.petclinic.repository.ReportRepository;
+import org.springframework.samples.petclinic.repository.StoryRepository;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -45,7 +46,7 @@ class ReportServiceTests {
 	@Mock
 	private ReportRepository reportRepository;
 	
-	
+
 	protected ReportService reportService;
 	
 	@Mock
@@ -55,12 +56,18 @@ class ReportServiceTests {
 	protected ChapterService chapterService;
 	
 	@Mock
+	private StoryRepository storyRepository;
+	
+	
+	protected StoryService storyService;
+	
+	@Mock
 	protected AuthorService authorService;
 	
 	
 	@BeforeEach
 	void setup() {
-		reportService = new ReportService(reportRepository);
+		reportService = new ReportService(reportRepository, storyService);
 		chapterService = new ChapterService(chapterRepository, authorService);
 	}
     
@@ -72,7 +79,7 @@ class ReportServiceTests {
 	@Transactional
 	public void shouldInsertReport() {
 		
-		// Creamos un capítulo nuevo.
+		
 					Report report = new Report();
 					report.setId(1);
 					report.setReportType(ReportType.COPYRIGHT_INFRINGEMENT);
@@ -81,17 +88,16 @@ class ReportServiceTests {
 					report.setText("Te copias del rubiuh");
 					
 				
-					// Instauramos capítulo para emplearla en la prueba.
+					
 
 					Chapter c = chapterService.findChapterById(1);
 					report.setChapter(c);
 					
+					Integer storyId = 1;
+					
 					when(reportRepository.save(report)).thenReturn(report);
-					
-					
-					this.reportService.saveReport(report);
-					
-					//verify(reportService).saveReport(report);
+					this.reportService.saveReport(report, storyId);
+					verify(reportRepository).save(report);
 					assertThat(report.getId()).isNotNull();
 		
 
@@ -101,31 +107,26 @@ class ReportServiceTests {
 		
 		
 		
-		// H13-E2 - Añadir reporte vacío.
+		// H13-E1 - Añadir reporte vacío.
 		
 		
 	@Test
 	@Transactional
 	public void shouldInsertReportEmpty() {
 		
-		
 		Chapter c = chapterService.findChapterById(1);
-		Collection<Report> reports = this.reportService.findReportByChapterId(1);
-		// Creamos un capítulo nuevo.
-					Report report = new Report();
-					report.setChapter(c);
-					when(reportRepository.save(report)).thenReturn(report);
+		
+		Report report = new Report();
+		
+	
+		Integer storyId = 1;
+		when(reportRepository.save(report)).thenReturn(report);
+		this.reportService.saveReport(report, storyId);
+		assertThat(report.getId()).isNull();
+		assertThat(report.getReportType()).isNull();
+		verify(reportRepository).save(report);
 					
-					Exception exception = assertThrows(ConstraintViolationException.class, () -> {
-
-						this.reportService.saveReport(report);
-						
 					
-
-					   });
-
-					assertThat(report.getId()).isNull();
-					assertEquals(exception.getMessage(), true);
 		
 	}
 			

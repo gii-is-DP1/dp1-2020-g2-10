@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.model.Contract;
@@ -20,6 +21,11 @@ import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.repository.AuthorRepository;
 import org.springframework.samples.petclinic.repository.CompanyRepository;
 import org.springframework.samples.petclinic.repository.ContractRepository;
+
+import org.springframework.samples.petclinic.service.exceptions.AuthorIdNullException;
+import org.springframework.samples.petclinic.service.exceptions.EndDateBeforeStartDateException;
+import org.springframework.security.test.context.support.WithMockUser;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +61,7 @@ void setup() {
 @Test
 @Transactional
 public void shouldInsertContract() {
+
 		 
 		Contract contract = new Contract();
 		

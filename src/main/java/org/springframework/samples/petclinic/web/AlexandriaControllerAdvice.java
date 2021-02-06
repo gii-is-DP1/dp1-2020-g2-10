@@ -14,9 +14,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @ControllerAdvice
 public class AlexandriaControllerAdvice {
 	
-	@Autowired
+	
 	private UserService userService;
 	
+	@Autowired
+	public AlexandriaControllerAdvice(UserService userService) {
+
+		this.userService = userService;
+		
+	}
 	/* Devuelve el usuario loguado, o null si no lo está*/
 	@ModelAttribute("principal")
 	public User populatePrincipal() {

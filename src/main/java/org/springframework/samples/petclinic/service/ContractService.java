@@ -20,6 +20,8 @@ import org.springframework.samples.petclinic.model.Contract;
 import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.ContractRepository;
+import org.springframework.samples.petclinic.service.exceptions.AuthorIdNullException;
+import org.springframework.samples.petclinic.service.exceptions.EndDateBeforeStartDateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -72,7 +74,20 @@ public class ContractService {
 		return findByCompanyAndStatus(principalCompany, status);
 	}
 	
+	private Collection<Contract> findAcceptedByAuthorAndDatesAndExclusivity(Author author, Date queryStartDate, Date queryEndDate, Boolean isExclusive){
+		return contractRepository.findAcceptedByAuthorAndDateAndExclusivity(author.getId(), queryStartDate, queryEndDate, isExclusive);
+	}
 	
+	public Collection<Contract> findConflictingContractsByPrincipalAuthor(Author author, Contract contract){
+		// Query parameters
+		Author principal = authorService.getPrincipal();
+		Boolean isExclusiveQuery = contract.getIsExclusive()? null: true; 
+			/* Si el nuevo contrato:
+			 	* es exclusivo -> cualquier contrato causará conflicto (null como parametro de la query)
+			 	* no es exclusivo -> solo causarían conflicto los contratos los contratos EXCLUSIVOS
+			 * */
+		return findAcceptedByAuthorAndDatesAndExclusivity(principal, contract.getStartDate(), contract.getEndDate(), isExclusiveQuery);
+	}
 	
 	public Collection<Contract> findByPrincipalAndStatus(ContractStatus status){
 		String principalRole = userService.getPrincipalRole();
@@ -128,13 +143,31 @@ public class ContractService {
 		
         moment = new Date(System.currentTimeMillis() - 1);
         res.setOfferDate(moment);
+        
 		return res;
 	}
 	
-	@Transactional
-	public void saveContract(@Valid Contract contract) throws DataAccessException{
-		contractRepository.save(contract);		
+	@Transactional //(rollbackFor = AuthorIdNullException.class)
+	public void saveContract(@Valid Contract contract) throws DataAccessException {
 		
+//		Integer auId= contract.getAuthor().getId();
+//		System.out.println("======================================"+auId+"==========================");
+		
+//		 if (contract.getAuthor().getId()==null || contract.getAuthor().getId().toString().equals("")) {
+//			 
+//				 throw new AuthorIdNullException();
+//	        	
+//		 }
+//	        }else if (contract.getEndDate().before(contract.getStartDate())) {
+//	        	
+//	        		throw new EndDateBeforeStartDateException();
+//	        	
+//	        }
+				// else {
+	    		contractRepository.save(contract);		
+
+	       // }
+	        	
 	}
 	
 	@Transactional
@@ -153,7 +186,10 @@ public class ContractService {
 				originalContract.getStartDate().after(new Date()));
 		
 		if(updatedStatus.equals(ContractStatus.ACCEPTED)) {
-			//TODO: Restricciones respecto a la exclusividad y conflictos con otros contratos (Queries)
+			//TODO: RN1 Restricciones respecto a la exclusividad y conflictos con otros contratos (Queries)
+			Collection<Contract> currentExclusiveContracts = findConflictingContractsByPrincipalAuthor(principal, originalContract);
+			assertTrue("The contract cannot be accepted for EXCLUSIVITY conflicts for the date range provided."
+					, currentExclusiveContracts.isEmpty());
 		}
 		
 		originalContract.setContractStatus(updatedStatus);

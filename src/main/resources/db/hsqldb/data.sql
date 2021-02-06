@@ -13,7 +13,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
 -- INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
 -- INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
--- 
+ 
 -- INSERT INTO specialties VALUES (1, 'radiology');
 -- INSERT INTO specialties VALUES (2, 'surgery');
 -- INSERT INTO specialties VALUES (3, 'dentistry');
@@ -29,7 +29,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- INSERT INTO types VALUES (3, 'lizard');
 -- INSERT INTO types VALUES (4, 'snake');
 -- INSERT INTO types VALUES (5, 'bird');
--- INSERT INTO types VALUES (6, 'hamster');
+--INSERT INTO types VALUES (6, 'hamster');
 -- 
 -- INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 -- INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
@@ -45,12 +45,11 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 -- INSERT INTO owners VALUES (12, 'Pabcalper', 'Calle', 'Dirección desconocida', 'Sevilla', '6301785873', 'pabcalper');
 -- INSERT INTO owners VALUES (13, 'Felix', 'Conde', 'Reina Mercedes', 'Sevilla', '636123456', 'felconmar');
 -- INSERT INTO owners VALUES (14, 'David', 'Ganan', 'Anonima', 'Sevilla', '656874579', 'davgangar1');
-
 -- INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
--- 
+ 
 --  INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
-
-
+--
+--
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
@@ -227,6 +226,13 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 
 -- 5. Reviews -----------------------------------------------------------------------------
 
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 1', 5, 'Comment 1','2020-09-01 11:11',1,1);
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 2', 3, 'Comment 2', '2020-11-10 10:13',1,1);
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 3', 4, 'Comment 3', '2018-10-01 01:06',2,3);		
+
 -- 6. Companies y Contracts ---------------------------------------------------------------
 
 
@@ -315,7 +321,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 						author_id, company_id) 
 						VALUES ('2020-09-15 09:28', 'DIRECTOR CREATIVO ASOCIADO para FILMIN OCT-2020 a JUN-2021',
 						'La parte empleadora FILMIN contrata a Marco Medina Sandoval como DIRECTOR CREATIVO ASOCIADO. La parte contratada se compromete a trabajar solo en proyectos de FILMIN S.A en el periodo de vigencia del contrato y solo aceptando representar a FILMIN y marcas asociadas.',
-						60782.95, '2020-09-15 12:54', 'REJECTED' ,'2020-10-01 00:00', '2021-06-30 23:59', true,
+						60782.95, '2020-09-15 12:54', 'REJECTED' ,'2020-10-01', '2021-06-30', true,
 						1,3);
 		
 				-- Contract8 with Author3 ( EXCLUSIVO - VIGENTE )--------------------
@@ -323,7 +329,7 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 						author_id, company_id) 
 						VALUES ('2020-08-19 11:40', 'SCRIPTWRITER DIRECTOR FILMIN SEPTEMBER 2020 to SEPTEMBER 2021',
 						'The employer part FILMIN and the employee Julio Pineda Ceja accept to stablish a work relationship. Salary for the employee part for this period is stated in the contract. General labour legislation in this field is applied.',
-						250600.00, '2020-08-24 08:30', 'ACCEPTED' ,'2020-09-01 00:00', '2021-09-30 23:59', true,
+						250600.00, '2020-08-24 08:30', 'ACCEPTED' ,'2020-09-01', '2021-09-30', true,
 						3,3);
 				
 	-- Company4 ----------------------------------------------------------------------
@@ -342,18 +348,20 @@ INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
 						author_id, company_id) 
 						VALUES ('2020-11-05', 'PUBLIC EXCLUSIVE SPONSORSHIP 2021 from NEWS SECTOR',
 						'NEWS SECTOR offers Marco Medina Sandoval to be the public face of the aforementioned company. The sponsorhip that all the work produced in that period by the author will be associated with the NEWS SECTOR trademark. A compensation will be given as stated in this contract.',
-						140420.49, null, 'PENDING' ,'2021-03-01 00:00', '2021-12-31 23:59', true,
+						140420.49, null, 'PENDING' ,'2021-03-01', '2021-12-31', true,
 						1,4);
 						
 				-- Contract10 with Author3 ( EXCLUSIVO - PENDIENTE ) ----------------------
 					INSERT INTO contracts(offer_date, header ,body,remuneration , answer_date, contract_status, start_date,end_date,is_exclusive,
 					author_id,company_id) 
 					VALUES ('2020-12-08 15:00','Oferta de contrato 10','Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
-					6.89,'2020-12-15 12:00', 'PENDING', '2021-03-01 14:00','2021-06-02 14:00', true,
+					6.89,'2020-12-15', 'PENDING', '2021-03-01 14:00','2021-06-02', true,
 					3,4);
 
 -- 7. Reports -----------------------------------------------------------------------------
 
+-- INSERT INTO reports(id, version, date, report_status, report_type, text, chapter_id) 
+-- VALUES (0, 0, '2021/11/15 10:28', 'DONE', 'OTHER', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', 1);
 
 --Habría que descomentarlo cuando se creen los ejemplos de story, company y algunos más de author
 

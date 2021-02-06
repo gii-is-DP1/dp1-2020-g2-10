@@ -31,13 +31,13 @@ public @Data class Report extends BaseEntity{
 	
 	
 	@FutureOrPresent
-	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
 	
 	@NotEmpty
 	private String text;
 	
-
+	
 	@ManyToOne(optional=false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Chapter chapter;
