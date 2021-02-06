@@ -1,9 +1,9 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.Date;
@@ -20,7 +20,6 @@ import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.repository.AuthorRepository;
 import org.springframework.samples.petclinic.repository.CompanyRepository;
 import org.springframework.samples.petclinic.repository.ContractRepository;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,9 +54,6 @@ void setup() {
 @SuppressWarnings("deprecation")
 @Test
 @Transactional
-@WithMockUser(value = "company1", authorities = {
-        "company"
-    })
 public void shouldInsertContract() {
 		 
 		Contract contract = new Contract();
@@ -94,6 +90,8 @@ public void shouldInsertContract() {
 		when(contractRepository.save(contract)).thenReturn(contract);
 		
 		this.contractService.saveContract(contract);
+		
+		verify(contractRepository).save(contract);
 				
 		assertThat(contract.getId()).isNotNull();
 		
@@ -102,15 +100,12 @@ public void shouldInsertContract() {
 
 //Escenario Negativo 
 
+
 @Test
 @Transactional
-@WithMockUser(value = "company1", authorities = {
-        "company"
-    })
 public void shouldInsertContractEmpty() {
 	
 	Contract contract = new Contract();
-	Boolean b=false;
 	
 	contract.setId(null);
 	contract.setAnswerDate(null);
@@ -119,32 +114,20 @@ public void shouldInsertContractEmpty() {
 	contract.setEndDate(null);
 	
 	contract.setHeader(null);
-	contract.setIsExclusive(b.TRUE);
+	contract.setIsExclusive(true);
 	contract.setOfferDate(null);
-	contract.setRemuneration(null);
-	contract.setStartDate(null);
 	
-	Author a = new Author();
-	contract.setAuthor(null);
-		
-	Company c = new Company();
-	contract.setCompany(null);
 	
 	when(contractRepository.save(contract)).thenReturn(contract);
-
-	Exception exception = assertThrows(NullPointerException.class, () -> {
-
-		this.contractService.saveContract(contract);
-	});
+	this.contractService.saveContract(contract);
 	
 	assertThat(contract.getId()).isNull();
 	assertThat(contract.getBody()).isNull();
 	assertThat(contract.getHeader()).isNull();
 	assertThat(contract.getAnswerDate()).isNull();
 	
-	assertEquals(exception.toString(), "java.lang.NullPointerException");
+	verify(contractRepository).save(contract);
 
-	//assertEquals(exception.getMessage(), true);
 
 }
 
@@ -158,16 +141,11 @@ public void shouldInsertContractEmpty() {
 @SuppressWarnings("deprecation")
 @Test
 @Transactional
-@WithMockUser(value = "company1", authorities = {
-     "company"
- })
 public void shouldAcceptOrRejectContract() {
 	
 	//Primer contrato con ContractStatus igual a ACCEPTED
 
 	Contract contract = new Contract();
-	
-	Boolean b=false;
 	
 	Date moment; 
 	
@@ -187,7 +165,7 @@ public void shouldAcceptOrRejectContract() {
 	contract.setEndDate(moment2);
 	
 	contract.setHeader("Contrato milenario");
-	contract.setIsExclusive(b.TRUE);
+	contract.setIsExclusive(true);
 	contract.setOfferDate(moment3);
 	contract.setRemuneration(5.67);
 	contract.setStartDate(moment);
@@ -215,7 +193,7 @@ public void shouldAcceptOrRejectContract() {
     contract2.setEndDate(moment2);
 	
     contract2.setHeader("Contrato milenario");
-    contract2.setIsExclusive(b.TRUE);
+    contract2.setIsExclusive(true);
     contract2.setOfferDate(moment3);
     contract2.setRemuneration(5.67);
     contract2.setStartDate(moment);
@@ -239,7 +217,7 @@ public void shouldAcceptOrRejectContract() {
 	    contract3.setEndDate(moment2);
 		
 	    contract3.setHeader("Contrato milenario");
-	    contract3.setIsExclusive(b.TRUE);
+	    contract3.setIsExclusive(true);
 	    contract3.setOfferDate(moment3);
 	    contract3.setRemuneration(5.67);
 	    contract3.setStartDate(moment);
@@ -271,73 +249,6 @@ public void shouldAcceptOrRejectContract() {
 
 }
 
-//Escenario Negativo
-
-
-
-
-
-//@SuppressWarnings("deprecation")
-//@Test
-//@Transactional
-//@WithMockUser(value = "company1", authorities = {
-//     "company"
-// })
-//public void shouldDifferentAuthorContract() {
-//	
-//Primer contrato
-//
-//Contract contract = new Contract();
-//	
-//	Boolean b=false;
-//	
-//	Date moment; 
-//	
-//	Date moment2;
-//	
-//	Date moment3;
-//	
-//    moment = new Date(System.currentTimeMillis() - 1);
-//    moment2 = new Date(2022, 06, 30, 23, 59, 00);
-//    moment3 = new Date(2023, 05, 30, 23, 59, 00);
-//
-//    
-//	contract.setId(1);
-//	contract.setAnswerDate(moment);
-//	contract.setBody("Contrato DP");
-//	contract.setContractStatus(ContractStatus.PENDING);
-//	contract.setEndDate(moment2);
-//	
-//	contract.setHeader("Contrato milenario");
-//	contract.setIsExclusive(b.TRUE);
-//	contract.setOfferDate(moment3);
-//	contract.setRemuneration(5.67);
-//	contract.setStartDate(moment);
-	
-//	Author a = new Author();
-//	contract.setAuthor(a);
-//	
-//	Author a2 = new Author();
-//	
-//	Company c = new Company();
-//	contract.setCompany(c);
-	
-//	if(contractService.answerContract(1, ContractStatus.ACCEPTED)) {
-//		
-//	}
-	
-//	Author principal = authorService.getPrincipal();
-//	contract.setAuthor(principal);
-//	
-//	assertTrue("Only the author recipient of the contract can provide an answer to the contract.",
-//			contract.getAuthor().equals(principal));
-//		
-//	when(contractRepository.save(contract)).thenReturn(contract);
-//	 
-//	this.contractService.saveContract(contract);
-//	
-	
-//}
-
+//No hay escenario negativo, al tener que aplicar una nueva regla de negocio.
 
 }
