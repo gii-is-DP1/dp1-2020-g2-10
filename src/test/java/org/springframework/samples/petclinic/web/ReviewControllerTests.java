@@ -30,7 +30,6 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.sun.tools.sjavac.Log;
 
 import lombok.extern.slf4j.Slf4j;
 
