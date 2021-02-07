@@ -31,6 +31,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Report;
 import org.springframework.samples.petclinic.model.ReportStatus;
@@ -38,6 +39,7 @@ import org.springframework.samples.petclinic.model.ReportType;
 import org.springframework.samples.petclinic.repository.ChapterRepository;
 import org.springframework.samples.petclinic.repository.ReportRepository;
 import org.springframework.samples.petclinic.repository.StoryRepository;
+import org.springframework.samples.petclinic.service.exceptions.ReportLimitException;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -77,7 +79,7 @@ class ReportServiceTests {
 		
 	@Test
 	@Transactional
-	public void shouldInsertReport() {
+	public void shouldInsertReport() throws DataAccessException, ReportLimitException {
 		
 		
 					Report report = new Report();
@@ -112,7 +114,7 @@ class ReportServiceTests {
 		
 	@Test
 	@Transactional
-	public void shouldInsertReportEmpty() {
+	public void shouldInsertReportEmpty()throws DataAccessException, ReportLimitException {
 		
 		Chapter c = chapterService.findChapterById(1);
 		

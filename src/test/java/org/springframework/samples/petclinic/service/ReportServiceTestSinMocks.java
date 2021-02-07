@@ -28,12 +28,14 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Report;
 import org.springframework.samples.petclinic.model.ReportStatus;
 import org.springframework.samples.petclinic.model.ReportType;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
+import org.springframework.samples.petclinic.service.exceptions.ReportLimitException;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -60,7 +62,7 @@ class ReportServiceTestSinMocks {
 		
 		@Test
 		@Transactional
-		public void shouldInsertReport() {
+		public void shouldInsertReport() throws DataAccessException, ReportLimitException{
 			
 			Integer storyId = 1;
 			
@@ -101,7 +103,7 @@ class ReportServiceTestSinMocks {
 				
 		@Test
 		@Transactional
-		public void attempInsertReportEmpty() {
+		public void attempInsertReportEmpty() throws DataAccessException, ReportLimitException{
 			
 			Integer storyId = 1;
 			
