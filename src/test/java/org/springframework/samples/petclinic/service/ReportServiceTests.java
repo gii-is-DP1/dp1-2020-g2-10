@@ -14,24 +14,24 @@
  * limitations under the License.
  */
 package org.springframework.samples.petclinic.service;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Locale;
 
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolationException;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Report;
 import org.springframework.samples.petclinic.model.ReportStatus;
@@ -39,6 +39,7 @@ import org.springframework.samples.petclinic.model.ReportType;
 import org.springframework.samples.petclinic.repository.ChapterRepository;
 import org.springframework.samples.petclinic.repository.ReportRepository;
 import org.springframework.samples.petclinic.repository.StoryRepository;
+import org.springframework.samples.petclinic.service.exceptions.ReportLimitException;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -47,19 +48,19 @@ class ReportServiceTests {
 	@Mock
 	private ReportRepository reportRepository;
 	
-	@Autowired
+
 	protected ReportService reportService;
 	
 	@Mock
 	private ChapterRepository chapterRepository;
 	
-	@Mock
+	
 	protected ChapterService chapterService;
 	
 	@Mock
 	private StoryRepository storyRepository;
 	
-	@Mock
+	
 	protected StoryService storyService;
 	
 	@Mock
@@ -78,9 +79,9 @@ class ReportServiceTests {
 		
 	@Test
 	@Transactional
-	public void shouldInsertReport() {
+	public void shouldInsertReport() throws DataAccessException, ReportLimitException {
 		
-		// Creamos un capítulo nuevo.
+		
 					Report report = new Report();
 					report.setId(1);
 					report.setReportType(ReportType.COPYRIGHT_INFRINGEMENT);
@@ -89,18 +90,16 @@ class ReportServiceTests {
 					report.setText("Te copias del rubiuh");
 					
 				
-					// Instauramos capítulo para emplearla en la prueba.
+					
 
 					Chapter c = chapterService.findChapterById(1);
 					report.setChapter(c);
 					
 					Integer storyId = 1;
+					
 					when(reportRepository.save(report)).thenReturn(report);
-					
-					
 					this.reportService.saveReport(report, storyId);
-					
-					//verify(reportService).saveReport(report);
+					verify(reportRepository).save(report);
 					assertThat(report.getId()).isNotNull();
 		
 
@@ -110,36 +109,26 @@ class ReportServiceTests {
 		
 		
 		
-		// H13-E2 - Añadir reporte vacío.
+		// H13-E1 - Añadir reporte vacío.
 		
 		
 	@Test
 	@Transactional
-	public void shouldInsertReportEmpty() {
-		
+	public void shouldInsertReportEmpty()throws DataAccessException, ReportLimitException {
 		
 		Chapter c = chapterService.findChapterById(1);
-		int storyId  = 1;
-		Collection<Report> reports = this.reportService.findReportByChapterId(1);
-		// Creamos un capítulo nuevo.
-					Report report = new Report();
-					report.setId(null);
-					report.setReportType(null);
-					report.setReportStatus(null);
-					report.setDate(null);
-					report.setChapter(null);
-					when(reportRepository.save(report)).thenReturn(report);
+		
+		Report report = new Report();
+		
+	
+		Integer storyId = 1;
+		when(reportRepository.save(report)).thenReturn(report);
+		this.reportService.saveReport(report, storyId);
+		assertThat(report.getId()).isNull();
+		assertThat(report.getReportType()).isNull();
+		verify(reportRepository).save(report);
 					
-					Exception exception = assertThrows(ConstraintViolationException.class, () -> {
-
-						this.reportService.saveReport(report, storyId);
-						
 					
-
-					   });
-
-					assertThat(report.getId()).isNull();
-					assertEquals(exception.getMessage().contains("no puede estar vacio"), true);
 		
 	}
 			
