@@ -7,20 +7,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
@@ -29,8 +22,10 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class StoryServiceTests {        
     @Autowired
@@ -40,34 +35,24 @@ class StoryServiceTests {
 	protected AuthorService authorService;	
 
 	@Test
-	@Transactional
+  @WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+  @Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() throws CannotPublishException {
-		Author author1 = this.authorService.findAuthorById(1);
-//		List<Story> storiesA1 = author1.getStories();
-		int found = 2;
 
 		Story story = new Story();
 		story.setTitle("La prueba positiva");
 		story.setGenre(Genre.CHILDREN_STORY);
-		story.setDescription("Espero que funcione");
+		story.setDescription("Espero que funcioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 		story.setIsAdult(false);
 		story.setStoryStatus(StoryStatus.PUBLISHED);
 		story.setUpdatedDate(new Date());
-		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
 
         this.storyService.saveStory(story);
-		this.authorService.saveAuthor(author1);
 
-		author1 = this.authorService.findAuthorById(1);
 		// checks that id has been generated
 		assertThat(story.getId()).isNotNull();
-	}
-	
-	private Validator createValidator() {
-		LocalValidatorFactoryBean localValidatorFactoryBean =
-				new LocalValidatorFactoryBean();
-		localValidatorFactoryBean.afterPropertiesSet();
-		return localValidatorFactoryBean;
 	}
 	
 	@Test
@@ -76,9 +61,6 @@ class StoryServiceTests {
 	    })
 	@Transactional
 	public void shouldNotInsertStoryIntoDatabaseBecauseTittleIsEmpty() {
-		Author author1 = this.authorService.findAuthorById(1);
-		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
-		int found = storiesA1.size();
 
 		Story story = new Story();
 		story.setTitle("");
@@ -92,7 +74,7 @@ class StoryServiceTests {
 			this.storyService.saveStory(story);
 
 		   });
-//		System.out.println(exception.getMessage());
+		log.debug(exception.getMessage());
 		assertEquals(exception.getMessage().contains("no puede estar vacío"), true);
 	}
 	
@@ -102,9 +84,6 @@ class StoryServiceTests {
 	    })
 	@Transactional
 	public void shouldNotInsertStoryIntoDatabaseBecauseEverythingExceptTitleIsNull() {
-		Author author1 = this.authorService.findAuthorById(1);
-		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
-		int found = storiesA1.size();
 
 		Story story = new Story();
 		story.setTitle("Los demas campos vacios");
@@ -118,10 +97,9 @@ class StoryServiceTests {
 			this.storyService.saveStory(story);
 
 		   });
-//		System.out.println("========================================================================================================================");
-//		System.out.println(exception);
+		log.debug("========================================================================================================================");
+		log.debug(exception.getMessage());
 		assertEquals(exception.toString(), "java.lang.NullPointerException");
-//		assertEquals(exception.getMessage().contains("null"), true);
 	}
 	
 	
