@@ -26,10 +26,10 @@ public @Data class Report extends BaseEntity{
 	@NotNull
 	private ReportType reportType;
 	
-	
+	@NotNull
 	private ReportStatus reportStatus;
 	
-	
+	@NotNull
 	@FutureOrPresent
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
