@@ -30,8 +30,10 @@
 	
                         
                  
-
+	<c:if test="${!chapter.isPublished}">
 	<a class="btn btn-default" href= "/stories/${chapter.story.id}/chapters/${chapter.id}/edit">Edit</a>
+	</c:if>
+	
 	<a class="btn btn-default" href= "/stories/${chapter.story.id}/chapters/${chapter.id}/delete">Delete</a>  
    <a class="btn btn-default" href="/stories/${chapter.story.id}/chapters/${chapter.id}/reports/new">Report</a>
    <a class="btn btn-default" href="/stories/${chapter.story.id}/chapters/" >Return</a>
