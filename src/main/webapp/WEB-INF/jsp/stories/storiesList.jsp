@@ -55,14 +55,20 @@
 						</p>
 					</td>			
 					<td><a href="/stories/<c:out value="${story.id}" />/show">Show</a>&nbsp
+					<sec:authorize access="hasAnyAuthority('author')">
 						<c:if test="${not empty principal 
 						and principal.username eq story.author.user.username 
 						and story.storyStatus eq 'DRAFT'}">
 							<spring:url value="/stories/{storyId}/delete" var="deleteUrl">
 								<spring:param name="storyId" value="${story.id}"/>
 							</spring:url>
+							<spring:url value="/stories/{storyId}/edit" var="editUrl">
+								<spring:param name="storyId" value="${story.id}"/>
+							</spring:url>
+							<a href="${fn:escapeXml(editUrl)}" class="btn btn-default">Edit</a>
 							<a href="${fn:escapeXml(deleteUrl)}" class="btn btn-danger">Delete</a>
 						</c:if>
+					</sec:authorize>
 					</td>
 
 				</tr>

@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.web;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -12,16 +13,13 @@ import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Genre;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
-import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.StoryService;
-import org.springframework.samples.petclinic.service.UserService;
 import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,7 +82,7 @@ public class StoryController {
 //		
 	    model.put("genres", Arrays.asList(Genre.values()));
 //		Lo mismo con storyStatus
-		model.put("storyStatus", Arrays.asList(StoryStatus.values()));
+		model.put("storyStatus", getAvailableStoryStatus());
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -110,16 +108,10 @@ public class StoryController {
 	public String editCreationForm(@PathVariable int storyId, ModelMap model) {
 
 		Story story = storyService.findStory(storyId);
-		model.put("story", story);		
-		
-//		Aqui la idea es meterle al modelo los generos.
-//		Tambien se puede hacer como dijiste, poniendo los generos en el jsp
-//		realmente no veo el problema, lo malo es que habria que escribirlos otra vez y que habria que indicar
-//		el valor enumerado al que se refiere cada opcion.
-//		
+		model.put("story", story);				
 	    model.put("genres", Arrays.asList(Genre.values()));
 //		Lo mismo con storyStatus
-		model.put("storyStatus", Arrays.asList(StoryStatus.values()));
+		model.put("storyStatus", getAvailableStoryStatus());
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 	}
 	
@@ -154,6 +146,14 @@ public class StoryController {
 		redirectAttributes.addFlashAttribute("message", String.format("The story with storyId=%d was deleted.", storyId));
 		redirectAttributes.addFlashAttribute("messageType", "success");
 		return "redirect:/stories/list";
+	}
+	
+	private Collection<StoryStatus> getAvailableStoryStatus(){
+		Collection<StoryStatus> res = new HashSet<StoryStatus>();
+		res.add(StoryStatus.DRAFT);
+		res.add(StoryStatus.PUBLISHED);
+		
+		return res;
 	}
 	
 	
