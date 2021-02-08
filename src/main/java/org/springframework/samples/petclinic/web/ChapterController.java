@@ -187,13 +187,7 @@ public class ChapterController {
 				else {
 					chapter.setId(chapterId);
 					chapter.setStory(story);
-					//Intentamos capturar la excepcion de la Regla de Negocio 2
-//					try { 
-//						this.chapterService.saveChapter(chapter);
-//					} catch (CannotPublishException ex) {
-//						result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
-//						return VISTA_EDICION_chapter;
-//					}
+					
 					this.chapterService.saveChapter(chapter);
 					return "redirect:/stories/{storyId}/chapters/{chapterId}";
 				}

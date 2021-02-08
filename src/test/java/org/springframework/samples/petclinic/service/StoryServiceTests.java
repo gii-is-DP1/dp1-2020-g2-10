@@ -35,10 +35,10 @@ class StoryServiceTests {
 	protected AuthorService authorService;	
 
 	@Test
-	@WithMockUser(value = "author1", authorities = {
+  @WithMockUser(value = "author1", authorities = {
 	        "author"
 	    })
-	@Transactional
+  @Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() throws CannotPublishException {
 
 		Story story = new Story();
