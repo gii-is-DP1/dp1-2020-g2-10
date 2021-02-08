@@ -42,7 +42,7 @@
                 <alexandria:textareaField label="Body" name="body"/>
                 <alexandria:textareaField label="Remuneration" name="remuneration"/>
                 <alexandria:selectEnumField options="${contractStatus}" label="Status" name="contractStatus"/>
-                <alexandria:checkboxField label="Exlusivity" name="isExclusive"/>
+                <alexandria:checkboxField label="Exclusivity" name="isExclusive"/>
                 
            		<alexandria:inputField label= "Fecha de inicio" name= "startDate" />
            		<alexandria:inputField label="Fecha fin" name= "endDate"  />

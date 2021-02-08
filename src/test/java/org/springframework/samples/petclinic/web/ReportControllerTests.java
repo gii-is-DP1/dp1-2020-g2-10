@@ -108,7 +108,7 @@ class ReportControllerTests {
 								.param("id", "1")
 								.param("reportType", "HATEFUL_CONTENT")
 								.param("reportStatus", "PENDING")
-								.param("date", "2022/04/26 13:05")
+								.param("date", "2022-04-26")
 								.param("text", "No me gusta nada esta obra la verdad y por eso emito este reporte")
 								.param("chapter.id", "1"))
 			.andExpect(status().is3xxRedirection()).andExpect(view().name("redirect:/stories/{storyId}/chapters/{chapterId}"));

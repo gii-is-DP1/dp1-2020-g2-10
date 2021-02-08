@@ -29,7 +29,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
-public class ContractServiceTest {
+public class ContractServiceTestWithMocks {
 
 @Mock
 private ContractRepository contractRepository;

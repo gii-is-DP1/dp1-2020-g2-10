@@ -39,7 +39,7 @@ class StoryServiceTests {
     @Autowired
 	protected AuthorService authorService;	
 
-	//@Test
+	@Test
 	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() throws CannotPublishException {
 		Author author1 = this.authorService.findAuthorById(1);

@@ -183,7 +183,6 @@ public class ContractControllerTests {
 							.param("author.id","1")
 							.param("company.id", "1"))
 				.andExpect(status().is3xxRedirection())
-			//  .andExpect(model().attributeHasErrors("contract"))
 				.andExpect(view().name("redirect:/contracts/list"));
 	}
 
