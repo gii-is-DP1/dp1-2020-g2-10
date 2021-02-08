@@ -12,14 +12,10 @@ import org.springframework.samples.petclinic.model.StoryStatus;
 
 
 
-import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
-
-
-
 public interface StoryRepository extends CrudRepository<Story, Integer>{
 	
-	@Query("SELECT story FROM Story story WHERE story.storyStatus  =:published or story.storyStatus =:draft")
-	public Collection<Story> findStory(@Param("published") StoryStatus storyStatus1, @Param("draft") StoryStatus storyStatus2);
+	@Query("SELECT story FROM Story story WHERE story.storyStatus  like 'PUBLISHED' or (:authorId is not null and story.author.id  =:authorId and story.storyStatus like 'DRAFT')")
+	public Collection<Story> findStory(@Param("authorId") Integer authorId);
 
 	//public Collection<Story> findAll() throws DataAccessException;
 	

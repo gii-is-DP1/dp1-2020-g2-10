@@ -107,6 +107,9 @@ class StoryServiceTests {
 	//Test HU-01: listado y mostrado de storys
 	
 	@Test
+	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
 	@Transactional
 	void shouldFindStories()  {
 		Collection<Story> stories = this.storyService.findStories();

@@ -59,8 +59,6 @@ public class ContractControllerTests {
 	private ContractService contractService;
 	
 	@MockBean
-
-
 	private CompanyService companyService;
 	
 	@MockBean
@@ -106,7 +104,7 @@ public class ContractControllerTests {
 		contrato1.setAuthor(autor1);
 		contrato1.setAnswerDate(moment);
 		contrato1.setBody("Contrato DP");
-		contrato1.setContractStatus(ContractStatus.ACCEPTED);
+		contrato1.setContractStatus(ContractStatus.PENDING);
 		contrato1.setEndDate(moment2);
 		
 		contrato1.setHeader("Contrato milenario");
@@ -134,6 +132,8 @@ public class ContractControllerTests {
 		given(this.companyService.findCompanyById(TEST_COMPANY_ID)).willReturn(opCom);
 		given(this.companyService.getPrincipal()).willReturn(new Company());
 		given(this.authorService.findAuthorById(TEST_AUTHOR_ID)).willReturn(autor1);
+		given(this.contractService.createContract()).willReturn(new Contract());
+
 
 	}
 	
@@ -176,7 +176,7 @@ public class ContractControllerTests {
 							.param("body", "Contrato DP")
 							.param("remuneration", "5.67")
 							.param("answerDate", "2021/05/06 20:52")
-							.param("contractStatus", "ACCEPTED")
+							.param("contractStatus", "PENDING")
 							.param("startDate", "2021/06/09 20:52")
 							.param("endDate", "2022/06/30 23:59")
 							.param("isExclusive", "true")

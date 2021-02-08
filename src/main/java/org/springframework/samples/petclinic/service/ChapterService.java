@@ -46,13 +46,10 @@ public class ChapterService {
 
 	@Transactional
 	public void saveChapter(@Valid Chapter chapter) throws DataAccessException{
-		
-		// Creamos el capítulo
-		
-		
-		
-			chapterRepository.save(chapter);		
 
+		// Creamos el capítulo
+
+			chapterRepository.save(chapter);	
 		
 	}
 	

@@ -147,23 +147,20 @@ public class ChapterController {
 					@PathVariable("storyId") int storyId,
 					@RequestParam(value = "version", required=false) Integer version,
 					ModelMap model) throws DataAccessException{
-					//,CannotPublishException{
 				Story story = this.storyService.findStory(storyId);
 				Chapter chapterToUpdate = this.chapterService.findChapterById(chapterId);
 				//VERSIONADO
-
 				if(chapterToUpdate.getVersion() != version) {
 					model.put("message", "Concurrent modification of chapter! Try again!");
 					return initUpdateChapterForm(chapterId, storyId, model);
 				}
 				//No puedes hacer público un capítulo si las historia no esta publicada
+				ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
 				if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
-					ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
 					result.addError(error1);
 				}
-				//----
 				if (result.hasErrors()) {
-					if(chapter.getIsPublished().equals(true)) {
+					if(chapter.getIsPublished().equals(true) && result.getAllErrors().contains(error1)) {
 						model.addAttribute("errorPublished", true);
 					}else {
 						model.addAttribute("errorPublished", false);

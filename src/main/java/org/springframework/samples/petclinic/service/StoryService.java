@@ -41,7 +41,8 @@ public class StoryService {
 
 	@Transactional(readOnly = true)	
 	public Collection<Story> findStories() throws DataAccessException {
-		return storyRepository.findStory(StoryStatus.PUBLISHED, StoryStatus.DRAFT);
+		Author principalAuthor = authorService.getPrincipal(); 
+		return storyRepository.findStory(principalAuthor!=null?  principalAuthor.getId():null);
 	}	
 	
 	public Story findStoryById(int storyId) {
