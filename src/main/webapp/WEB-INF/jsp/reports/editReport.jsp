@@ -14,7 +14,8 @@
     	<h2>Panel for editing your report</h2>
         <br></br>
                 <form:form modelAttribute="report" class="form-horizontal">
-
+			<input type="hidden" name="reportStatus" value="${report.reportStatus}"/>
+            <input type="hidden"  name= "date" value="${report.date}" />
             <div class="form-group has-feedback">
           
           <c:if test="${errorReportType}">

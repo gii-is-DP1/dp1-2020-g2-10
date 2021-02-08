@@ -16,6 +16,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +36,7 @@ public class ChapterController {
 	private static final String VIEW_SHOW_CHAPTER="chapters/showChapter";
 	
 	@Autowired
-	public ChapterController(ChapterService chapterService, StoryService storyService,AuthorService authorService) {
+	public ChapterController(ChapterService chapterService, StoryService storyService, AuthorService authorService) {
 
 		this.chapterService = chapterService;
 		this.storyService = storyService;
@@ -68,11 +69,11 @@ public class ChapterController {
 	
 	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
 	@GetMapping("/chapters/new")
-	public String initAddChapter(ModelMap modelMap) {
-		modelMap.put("buttonCreate", true);
+	public String initAddChapter(@PathVariable("storyId") int storyId, ModelMap modelMap) {
+		modelMap.addAttribute("buttonCreate", true);
 		Chapter chapter = new Chapter();
-		modelMap.put("chapter", chapter);
-		
+		modelMap.addAttribute("chapter", chapter);
+		modelMap.addAttribute("storyId", storyId);
 		
 		return VISTA_EDICION_chapter;
 		
@@ -82,10 +83,11 @@ public class ChapterController {
 	@PostMapping("/chapters/new")
 	public String processNewChapter(@Valid Chapter chapter, BindingResult result, @PathVariable("storyId") int storyId,  ModelMap modelMap) {
 	//throws CannotPublishException{
-		
-		modelMap.put("buttonCreate", true);
 
+		
+		modelMap.addAttribute("buttonCreate", true);
 		Story story = this.storyService.findStory(storyId);
+		
 		//No puedes hacer público un capítulo si las historia no esta publicada
 		if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
 			ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
@@ -101,6 +103,7 @@ public class ChapterController {
 		// Si al validarlo, encontramos errores:
 		
 		if (result.hasErrors()) {
+			modelMap.addAttribute("chapter", chapter);
 			
 			if(chapter.getIsPublished() == null) {
 				modelMap.addAttribute("errorNullPublish", true);	
@@ -162,6 +165,7 @@ public class ChapterController {
 				Story story = this.storyService.findStory(storyId);
 				Chapter chapterToUpdate = this.chapterService.findChapterById(chapterId);
 				//VERSIONADO
+
 				if(chapterToUpdate.getVersion() != version) {
 					model.put("message", "Concurrent modification of chapter! Try again!");
 					return initUpdateChapterForm(chapterId, storyId, model);
@@ -183,13 +187,7 @@ public class ChapterController {
 				else {
 					chapter.setId(chapterId);
 					chapter.setStory(story);
-					//Intentamos capturar la excepcion de la Regla de Negocio 2
-//					try { 
-//						this.chapterService.saveChapter(chapter);
-//					} catch (CannotPublishException ex) {
-//						result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
-//						return VISTA_EDICION_chapter;
-//					}
+					
 					this.chapterService.saveChapter(chapter);
 					return "redirect:/stories/{storyId}/chapters/{chapterId}";
 				}

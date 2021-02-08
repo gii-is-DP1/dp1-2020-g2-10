@@ -16,22 +16,24 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Optional;
+
+import javax.validation.ConstraintViolationException;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.model.Contract;
 import org.springframework.samples.petclinic.model.ContractStatus;
-import org.springframework.samples.petclinic.model.Genre;
-import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
@@ -47,6 +49,9 @@ class ContractServiceTests {
 	@Autowired
     protected CompanyService companyService;
 	
+	@Autowired
+	protected AuthorService authorService;
+
 	//Tests HU11
 	@Test
 	@Transactional
@@ -82,4 +87,6 @@ class ContractServiceTests {
 		assertThat(contract.getIsExclusive()).isEqualTo(true);
 		assertThat(contract.getContractStatus()).isEqualTo(ContractStatus.ACCEPTED);
 	}
+	
+	
 }
