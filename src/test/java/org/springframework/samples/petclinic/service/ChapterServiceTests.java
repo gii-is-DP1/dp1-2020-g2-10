@@ -163,6 +163,29 @@ class ChapterServiceTests {
 		assertThat(chapterCambiado.getIsPublished()).isEqualTo(true);
 	}
 	
+	// ------- H6-E1 - Escenario negativo ---------
+	@Test
+	@Transactional
+	void shouldNotUpdateChapter() {
+		// Cambiamos ciertos valores del chapter a vacio, para generar errores
+		Story s = storyService.findStoryById(1);
+		Chapter chapter = new Chapter();
+		chapter.setId(1); //Intentamos sobreescribir sobre el capítulo 1
+		chapter.setIndex(null);
+		chapter.setTitle("");
+		chapter.setBody("");
+		chapter.setIsPublished(null);
+		chapter.setStory(s);
+		Exception exception = assertThrows(ConstraintViolationException.class, () -> {
+
+			this.chapterService.saveChapter(chapter);
+
+		   });
+
+		assertEquals(exception.getMessage().contains("no puede estar vacío"), true);
+		
+	}
+	
 	//Tests HU16
 	@Test
 	void shouldFindChapters() {
