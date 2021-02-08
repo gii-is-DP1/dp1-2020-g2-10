@@ -44,21 +44,10 @@ public class ChapterService {
 		return chapter;
 	}
 
-	@Transactional//(rollbackFor = CannotPublishException.class)
-	public void saveChapter(@Valid Chapter chapter) throws DataAccessException{//, CannotPublishException {
-		
-		// Creamos el capítulo
-		
-		//REGLA DE NEGOCIO 2
-//		Integer authorId = this.authorService.getPrincipal().getId();
-//		Integer reviewStories = this.storyService.countReviewStories(StoryStatus.REVIEW, authorId);
-//		if(reviewStories>=3) {
-//			throw new CannotPublishException();
-//		}else {
-			chapterRepository.save(chapter);		
-//		}
-		
-		
+	@Transactional
+	public void saveChapter(@Valid Chapter chapter) throws DataAccessException{
+
+			chapterRepository.save(chapter);			
 	}
 	
 	@Transactional

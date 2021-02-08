@@ -69,7 +69,7 @@ class ChapterControllerTests {
 
         Story s = new Story();
             s.setId(TEST_STORY_ID);
-            s.setStoryStatus(StoryStatus.DRAFT);
+            s.setStoryStatus(StoryStatus.PUBLISHED);
 
          Chapter c = new Chapter();
          c.setId(1);
@@ -108,9 +108,11 @@ class ChapterControllerTests {
 				.andExpect(view().name("chapters/editChapter"));
 	}
 	
+	// ------- H6+E1 - Escenario positivo ---------
+	
 	@WithMockUser(value = "spring")
 	@Test
-	void testProcessUpdateFormSuccess() throws Exception {
+	void testProcessUpdateFormSuccessE1() throws Exception {
 		mockMvc.perform(post("/stories/{storyId}/chapters/{chapterId}/edit", TEST_STORY_ID, TEST_CHAPTER_ID)
 							.with(csrf())
 							.param("index", "2")
@@ -121,6 +123,39 @@ class ChapterControllerTests {
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/stories/{storyId}/chapters/{chapterId}"));
 	}
+	
+	// ------- H6+E2 - Escenario positivo ---------
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testProcessUpdateFormSuccessE2() throws Exception {
+		mockMvc.perform(post("/stories/{storyId}/chapters/{chapterId}/edit", TEST_STORY_ID, TEST_CHAPTER_ID)
+							.with(csrf())
+							.param("index", "2")
+							.param("title", "Titulo Actualizado Success")
+							.param("body", "Esto es un capítulo que se actualiza bien")
+							.param("isPublished", "true")
+							.param("story.id", "1"))
+				.andExpect(status().is3xxRedirection())
+				.andExpect(view().name("redirect:/stories/{storyId}/chapters/{chapterId}"));
+	}
+	
+	// ------- H6-E1 - Escenario negativo ---------
+	
+	  @WithMockUser(value = "spring")
+	  @Test
+		void testProcessUpdateFormHasErrorsE1() throws Exception {
+			mockMvc.perform(post("/stories/{storyId}/chapters/{chapterId}/edit", TEST_STORY_ID, TEST_CHAPTER_ID)
+								.with(csrf())
+								.param("index", "2")
+								.param("title", "")
+								.param("body", "")
+								.param("isPublished", "true")
+								.param("story.id", "1"))
+					.andExpect(model().attributeHasErrors("chapter"))
+					.andExpect(model().attributeHasFieldErrors("chapter", "title","body"))
+					.andExpect(view().name("chapters/editChapter"));
+		}
 	
 	@WithMockUser(value = "spring")
   @Test
@@ -161,21 +196,7 @@ class ChapterControllerTests {
 		}
 		
 		
-  @WithMockUser(value = "spring")
-  @Test
-	void testProcessUpdateFormHasErrors() throws Exception {
-		mockMvc.perform(post("/stories/{storyId}/chapters/{chapterId}/edit", TEST_STORY_ID, TEST_CHAPTER_ID)
-							.with(csrf())
-							.param("index", "2")
-							.param("title", "")
-							.param("body", "")
-							.param("isPublished", "true")
-              .param("story.id", "1"))
-				.andExpect(model().attributeHasErrors("chapter"))
-				.andExpect(model().attributeExists("errorPublished"))
-				.andExpect(model().attributeHasFieldErrors("chapter", "title","body")) //¿Como poner el error?
-				.andExpect(view().name("chapters/editChapter"));
-	}
+
 	
 	
 
