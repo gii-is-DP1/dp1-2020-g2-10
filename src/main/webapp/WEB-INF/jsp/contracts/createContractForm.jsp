@@ -32,18 +32,16 @@
             <input type="hidden" name="company.id" value="${contract.company.id}"/>
             <fmt:formatDate value="${contract.offerDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedOfferDate"/>
             <input type="hidden"  name= "offerDate" value="${parsedOfferDate}" />
+            <input type="hidden"  name= "contractStatus" value="${contract.contractStatus}" />
            
            
             <div class="form-group has-feedback">
             	
 				<alexandria:inputField label="Author ID" name="author.id"/>
-         
                 <alexandria:inputField label="Header" name="header"/>
                 <alexandria:textareaField label="Body" name="body"/>
                 <alexandria:textareaField label="Remuneration" name="remuneration"/>
-                <alexandria:selectEnumField options="${contractStatus}" label="Status" name="contractStatus"/>
                 <alexandria:checkboxField label="Exlusivity" name="isExclusive"/>
-                
            		<alexandria:inputField label= "Fecha de inicio" name= "startDate" />
            		<alexandria:inputField label="Fecha fin" name= "endDate"  />
            		

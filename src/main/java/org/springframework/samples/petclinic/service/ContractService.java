@@ -144,29 +144,15 @@ public class ContractService {
         moment = new Date(System.currentTimeMillis() - 1);
         res.setOfferDate(moment);
         
+		res.setContractStatus(ContractStatus.PENDING);
+
 		return res;
 	}
 	
-	@Transactional //(rollbackFor = AuthorIdNullException.class)
+	@Transactional 
 	public void saveContract(@Valid Contract contract) throws DataAccessException {
-		
-//		Integer auId= contract.getAuthor().getId();
-//		System.out.println("======================================"+auId+"==========================");
-		
-//		 if (contract.getAuthor().getId()==null || contract.getAuthor().getId().toString().equals("")) {
-//			 
-//				 throw new AuthorIdNullException();
-//	        	
-//		 }
-//	        }else if (contract.getEndDate().before(contract.getStartDate())) {
-//	        	
-//	        		throw new EndDateBeforeStartDateException();
-//	        	
-//	        }
-				// else {
-	    		contractRepository.save(contract);		
-
-	       // }
+	
+		contractRepository.save(contract);		
 	        	
 	}
 	
