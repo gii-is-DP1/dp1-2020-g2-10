@@ -43,7 +43,7 @@
                     <c:choose>
                     	<c:when test="${buttonCreate}">
                             <button class="btn btn-default" type="submit">Create Report</button>
-                            <a class="btn btn-default" href="/" >Return</a>
+                            <a class="btn btn-default" href="/stories/list">Return</a> 
                         </c:when>
                         
                         </c:choose>
