@@ -71,8 +71,9 @@
                     	</spring:url>
                     	<a href="${fn:escapeXml(showChaptersUrl)}">  Show chapters</a>
                  		</div>
-                    	
-		</div>
+       <button class="btn btn-default" type="reset" onclick="location.href = '/stories/list';">Return</button>
+     
+     
 	</div>      
 
 </petclinic:layout>

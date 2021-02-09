@@ -17,7 +17,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -37,8 +36,10 @@ import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
 class StoryServiceTests {        
     @Autowired
@@ -75,36 +76,26 @@ class StoryServiceTests {
     	assertThat(createdStory.getAuthor()).isEqualTo(expectedAuthor);
     	assertThat(createdStory.getUpdatedDate()).isBefore(new Date());	
     }
-
-	//@Test
-	@Transactional
+    
+    	@Test
+    	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+    	@Transactional
 	public void shouldInsertStoryIntoDatabaseAndGenerateId() throws CannotPublishException, UnauthorizedStoryUpdateException, PublishedStoryUpdateExeption {
-		Author author1 = this.authorService.findAuthorById(1);
-//		List<Story> storiesA1 = author1.getStories();
-		int found = 2;
 
 		Story story = new Story();
 		story.setTitle("La prueba positiva");
 		story.setGenre(Genre.CHILDREN_STORY);
-		story.setDescription("Espero que funcione");
+		story.setDescription("Espero que funcioneeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 		story.setIsAdult(false);
 		story.setStoryStatus(StoryStatus.PUBLISHED);
 		story.setUpdatedDate(new Date());
-		story.setUrlCover("/resources/images/author-pictures/author1.jpg");
 
         this.storyService.saveStory(story);
-		this.authorService.saveAuthor(author1);
 
-		author1 = this.authorService.findAuthorById(1);
 		// checks that id has been generated
 		assertThat(story.getId()).isNotNull();
-	}
-	
-	private Validator createValidator() {
-		LocalValidatorFactoryBean localValidatorFactoryBean =
-				new LocalValidatorFactoryBean();
-		localValidatorFactoryBean.afterPropertiesSet();
-		return localValidatorFactoryBean;
 	}
 	
 	@Test
@@ -112,10 +103,7 @@ class StoryServiceTests {
 	        "author"
 	    })
 	@Transactional
-	public void shouldNotInsertStoryIntoDatabaseBecauseTitleIsEmpty() {
-		Author author1 = this.authorService.findAuthorById(1);
-		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
-		int found = storiesA1.size();
+	public void shouldNotInsertStoryIntoDatabaseBecauseTittleIsEmpty() {
 
 		Story story = new Story();
 		story.setTitle("");
@@ -137,9 +125,6 @@ class StoryServiceTests {
 	    })
 	@Transactional
 	public void shouldNotInsertStoryIntoDatabaseBecauseEverythingExceptTitleIsNull() {
-		Author author1 = this.authorService.findAuthorById(1);
-		List<Story> storiesA1 = storyService.getStoriesFromAuthorId(author1.getId()).stream().collect(Collectors.toList());
-		int found = storiesA1.size();
 
 		Story story = new Story();
 		story.setTitle("Los demas campos vacios");

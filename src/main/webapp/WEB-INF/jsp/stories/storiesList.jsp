@@ -14,11 +14,12 @@
     <sec:authorize access="hasAnyAuthority('author')">
     <div class="row spaced">
     	<div class="col-md-12">
-    		<button class="btn btn-default" onclick="location.href = '/stories/new';">Create</button>
+    		<button class="btn btn-default" onclick="location.href = '/stories/new';">Create</button>    		
     	</div>
     </div>
     </sec:authorize>
-    
+    	
+    	
 	<table id="storiesTable" class="table table-striped">
 		<thead>
 			<tr>
@@ -73,6 +74,10 @@
 
 				</tr>
 			</c:forEach>
+									
 		</tbody>
-	</table>        
-</alexandria:layout>
+	</table>   
+   
+ 	<button class="btn btn-default" onclick="location.href = '/';"> Return</button>    		
+ 
+ </alexandria:layout>

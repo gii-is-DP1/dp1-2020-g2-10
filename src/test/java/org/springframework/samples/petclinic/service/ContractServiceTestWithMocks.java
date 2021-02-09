@@ -1,6 +1,8 @@
 package org.springframework.samples.petclinic.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -11,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.model.Contract;
@@ -18,11 +21,15 @@ import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.repository.AuthorRepository;
 import org.springframework.samples.petclinic.repository.CompanyRepository;
 import org.springframework.samples.petclinic.repository.ContractRepository;
+
+import org.springframework.samples.petclinic.service.exceptions.AuthorIdNullException;
+import org.springframework.samples.petclinic.service.exceptions.EndDateBeforeStartDateException;
 import org.springframework.security.test.context.support.WithMockUser;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @ExtendWith(MockitoExtension.class)
-public class ContractServiceTest {
+public class ContractServiceTestWithMocks {
 
 @Mock
 private ContractRepository contractRepository;
@@ -52,9 +59,6 @@ void setup() {
 
 @SuppressWarnings("deprecation")
 @Test
-@WithMockUser(value = "company1", authorities = {
-        "company"
-    })
 @Transactional
 public void shouldInsertContract() {
 
@@ -75,7 +79,7 @@ public void shouldInsertContract() {
 		contract.setId(1);
 		contract.setAnswerDate(moment);
 		contract.setBody("Contrato DP");
-		contract.setContractStatus(ContractStatus.PENDING);
+		contract.setContractStatus(ContractStatus.ACCEPTED);
 		contract.setEndDate(moment2);
 		
 		contract.setHeader("Contrato milenario");
@@ -105,9 +109,6 @@ public void shouldInsertContract() {
 
 
 @Test
-@WithMockUser(value = "company1", authorities = {
-        "company"
-    })
 @Transactional
 public void shouldInsertContractEmpty() {
 	
@@ -116,9 +117,11 @@ public void shouldInsertContractEmpty() {
 	contract.setId(null);
 	contract.setAnswerDate(null);
 	contract.setBody(null);
+	contract.setContractStatus(ContractStatus.ACCEPTED);
 	contract.setEndDate(null);
 	
 	contract.setHeader(null);
+	contract.setIsExclusive(true);
 	contract.setOfferDate(null);
 	
 	
@@ -129,8 +132,6 @@ public void shouldInsertContractEmpty() {
 	assertThat(contract.getBody()).isNull();
 	assertThat(contract.getHeader()).isNull();
 	assertThat(contract.getAnswerDate()).isNull();
-	assertThat(contract.getContractStatus()).isNull();
-
 	
 	verify(contractRepository).save(contract);
 
@@ -146,9 +147,6 @@ public void shouldInsertContractEmpty() {
 
 @SuppressWarnings("deprecation")
 @Test
-@WithMockUser(value = "author1", authorities = {
-        "author"
-    })
 @Transactional
 public void shouldAcceptOrRejectContract() {
 	
@@ -258,6 +256,6 @@ public void shouldAcceptOrRejectContract() {
 
 }
 
-//No hay escenario negativo, al tener que aplicar una nueva regla de negocio, 
+//No hay escenario negativo, al tener que aplicar una nueva regla de negocio.
 
 }

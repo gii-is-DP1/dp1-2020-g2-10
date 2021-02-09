@@ -15,6 +15,8 @@
  */
 package org.springframework.samples.petclinic.service;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -126,8 +128,7 @@ class ReportServiceTests {
 		this.reportService.saveReport(report, storyId);
 		assertThat(report.getId()).isNull();
 		assertThat(report.getReportType()).isNull();
-		verify(reportRepository).save(report);
-					
+		verify(reportRepository).save(report);					
 					
 		
 	}

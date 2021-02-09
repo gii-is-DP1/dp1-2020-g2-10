@@ -72,6 +72,7 @@ public class ChapterController {
 	public String initAddChapter(@PathVariable("storyId") int storyId, ModelMap modelMap) {
 		modelMap.addAttribute("buttonCreate", true);
 		Chapter chapter = new Chapter();
+		chapter.setIsPublished(false);
 		modelMap.addAttribute("chapter", chapter);
 		modelMap.addAttribute("storyId", storyId);
 		
@@ -89,15 +90,14 @@ public class ChapterController {
 		Story story = this.storyService.findStory(storyId);
 		
 		//No puedes hacer público un capítulo si las historia no esta publicada
-		if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
-			ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
-			result.addError(error1);
-		}
 		
-		if(!(chapter.getIsPublished() != null)) {
-			ObjectError error1 = new ObjectError("isPublished", "Debes indicar si va a ser público o no");
-			result.addError(error1);
-		}
+			ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
+			if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
+				
+				result.addError(error1);
+			}
+		
+		
 		//----
 		
 		// Si al validarlo, encontramos errores:
@@ -105,17 +105,10 @@ public class ChapterController {
 		if (result.hasErrors()) {
 			modelMap.addAttribute("chapter", chapter);
 			
-			if(chapter.getIsPublished() == null) {
-				modelMap.addAttribute("errorNullPublish", true);	
-			}
-		
-			else {
-				modelMap.addAttribute("errorNullPublish", false);	
-			if(chapter.getIsPublished().equals(true) ) {
+			if(chapter.getIsPublished().equals(true) && result.getAllErrors().contains(error1)) {
 				modelMap.addAttribute("errorPublished", true);
 			}else {
 				modelMap.addAttribute("errorPublished", false);
-			}
 			}
 			return VISTA_EDICION_chapter;
 		}
@@ -125,13 +118,6 @@ public class ChapterController {
 		else { 
 			
 			chapter.setStory(story);
-			//Intentamos capturar la excepcion de la Regla de Negocio 2
-//			try {
-//				this.chapterService.saveChapter(chapter);
-//			} catch (CannotPublishException ex) {
-//				result.rejectValue("isPublished","banned" ,"You have 3 stories in review");
-//				return VISTA_EDICION_chapter;
-//			}
 			this.chapterService.saveChapter(chapter);
 			modelMap.addAttribute("messageSuccess", "¡El capítulo se ha añadido con éxito!");
 			return "redirect:/stories/{storyId}/chapters";
@@ -161,23 +147,20 @@ public class ChapterController {
 					@PathVariable("storyId") int storyId,
 					@RequestParam(value = "version", required=false) Integer version,
 					ModelMap model) throws DataAccessException{
-					//,CannotPublishException{
 				Story story = this.storyService.findStory(storyId);
 				Chapter chapterToUpdate = this.chapterService.findChapterById(chapterId);
 				//VERSIONADO
-
 				if(chapterToUpdate.getVersion() != version) {
 					model.put("message", "Concurrent modification of chapter! Try again!");
 					return initUpdateChapterForm(chapterId, storyId, model);
 				}
 				//No puedes hacer público un capítulo si las historia no esta publicada
+				ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
 				if(!(story.getStoryStatus().equals(StoryStatus.PUBLISHED)) && chapter.getIsPublished()) {
-					ObjectError error1 = new ObjectError("isPublished", "No puedes publicar un capítulo si tu historia aún no lo está.");
 					result.addError(error1);
 				}
-				//----
 				if (result.hasErrors()) {
-					if(chapter.getIsPublished().equals(true)) {
+					if(chapter.getIsPublished().equals(true) && result.getAllErrors().contains(error1)) {
 						model.addAttribute("errorPublished", true);
 					}else {
 						model.addAttribute("errorPublished", false);
@@ -187,13 +170,7 @@ public class ChapterController {
 				else {
 					chapter.setId(chapterId);
 					chapter.setStory(story);
-					//Intentamos capturar la excepcion de la Regla de Negocio 2
-//					try { 
-//						this.chapterService.saveChapter(chapter);
-//					} catch (CannotPublishException ex) {
-//						result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
-//						return VISTA_EDICION_chapter;
-//					}
+					
 					this.chapterService.saveChapter(chapter);
 					return "redirect:/stories/{storyId}/chapters/{chapterId}";
 				}

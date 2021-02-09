@@ -14,7 +14,8 @@
     	<h2>Panel for editing your report</h2>
         <br></br>
                 <form:form modelAttribute="report" class="form-horizontal">
-
+			<input type="hidden" name="reportStatus" value="${report.reportStatus}"/>
+            <input type="hidden"  name= "date" value="${report.date}" />
             <div class="form-group has-feedback">
           
           <c:if test="${errorReportType}">
@@ -42,7 +43,7 @@
                     <c:choose>
                     	<c:when test="${buttonCreate}">
                             <button class="btn btn-default" type="submit">Create Report</button>
-                            <a class="btn btn-default" href="/" >Return</a>
+                            <a class="btn btn-default" href="/stories/list">Return</a> 
                         </c:when>
                         
                         </c:choose>

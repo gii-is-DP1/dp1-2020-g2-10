@@ -52,15 +52,12 @@ public class ReportController {
  	}
 			
 	
-		
-	
-	// HU-05: Añadir un capítulo a una historia.
-	
-	// En el primer método get, mostramos el formulario de edición del nuevo capítulo:
 	@GetMapping("/reports/new")
 	public String initAddReport(ModelMap modelMap) {
 		modelMap.put("buttonCreate", true);
 		Report report = new Report();
+		report.setReportStatus(ReportStatus.PENDING);
+		report.setDate(LocalDate.now());
 		modelMap.put("report", report);
 		
 		
@@ -68,23 +65,23 @@ public class ReportController {
 		
 	}
 	
-	// En este último post procesamos el capítulo recién creado. Lo validamos y se añade al listado de capítulos, si es correcto:
+	
 	@PostMapping("/reports/new")
 	public String processNewReport(@PathVariable("storyId") int storyId, @PathVariable("chapterId") int chapterId, @Valid Report report, 
 			BindingResult result, ModelMap modelMap, RedirectAttributes redirectAttributes) throws ReportLimitException{
 		
 		modelMap.put("buttonCreate", true);
 		
-		// Si al validarlo, encontramos errores:
+		ObjectError error1 = new ObjectError("reportType", "Debe señalar el tipo de reporte");
 		if(!(report.getReportType() != null)) {
-			ObjectError error1 = new ObjectError("reportType", "Debe señalar el tipo de reporte");
+			
 			result.addError(error1);
 		}
 		
 		
 		
 		if(result.hasErrors()) {
-			if(report.getReportType() == null) {
+			if(report.getReportType() == null && result.getAllErrors().contains(error1)) {
 				modelMap.addAttribute("errorReportType", true);
 			}else {
 				modelMap.addAttribute("errorReportType", false);
@@ -93,11 +90,11 @@ public class ReportController {
 			return VIEW_EDIT_REPORT;
 		}
 		
-		// Si al validarlo, no hallamos ningún error:
 		
 		else { 
 			try {
 				Chapter chapter = this.chapterService.findChapterById(chapterId);
+				
 				report.setChapter(chapter);
 				reportService.saveReport(report, storyId);
 			
