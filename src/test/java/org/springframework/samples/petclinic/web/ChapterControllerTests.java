@@ -194,8 +194,18 @@ class ChapterControllerTests {
 				.andExpect(model().attributeExists("errorPublished"))
 				.andExpect(view().name("chapters/editChapter"));
 		}
-		
-		
+ 
+	//------HU-7
+ 
+ @WithMockUser(value = "spring")
+ @Test
+ void testDeleteChapter() throws Exception {
+     mockMvc.perform(get("/stories/{storyId}/chapters/{chapterId}/delete", TEST_STORY_ID, TEST_CHAPTER_ID))
+         .andExpect(model().attributeDoesNotExist("chapter"))
+         .andExpect(view().name("redirect:/stories/{storyId}/chapters"));
+ }
+
+
 
 	
 	

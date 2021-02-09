@@ -31,6 +31,7 @@ import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.util.EntityUtils;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -185,6 +186,21 @@ class ChapterServiceTests {
 		assertEquals(exception.getMessage().contains("no puede estar vacío"), true);
 		
 	}
+	//--------------H7-E1-----------------------
+	
+	@Test
+	@WithMockUser(value = "author1", authorities = {
+	        "author"
+	    })
+    @Transactional
+    public void shouldDeleteChapter() throws Exception {
+        Chapter chapter = this.chapterService.findChapterById(1);
+        this.chapterService.deleteChapter(3);
+        Chapter chapterNew = this.chapterService.findChapterById(3);
+        assertThat(chapterNew).isEqualTo(null);
+    }
+	
+	
 	
 	//Tests HU16
 	@Test

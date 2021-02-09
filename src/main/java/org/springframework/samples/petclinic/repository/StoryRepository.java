@@ -32,5 +32,8 @@ public interface StoryRepository extends CrudRepository<Story, Integer>{
 	@Query("SELECT COUNT (*) FROM Story story WHERE (story.storyStatus = ?1 and story.author.id = ?2)")
 	public Integer countReviewStories(StoryStatus status, Integer authorId) throws DataAccessException;
 		
+	
+	@Query("SELECT story FROM Story story WHERE story.id  =:storyId")
+	public Story getStoryFromId(@Param("storyId") int soryId) throws DataAccessException;
 
 }
