@@ -5,6 +5,8 @@
 <%@ taglib prefix="alexandria" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <alexandria:layout pageName="contracts">
 
@@ -71,8 +73,10 @@
 		<alexandria:contractTable contractList="${allContracts}" tableId="allContracts" startHidden="true"/>
 		
 		<a class="btn btn-default" href="/" >Return</a>
-		<a class="btn btn-default" href="/contracts/new" >Create</a>          
+	    <sec:authorize access="hasAnyAuthority('company')">
 		
+			<a class="btn btn-default" href="/contracts/new" >Create</a>          
+		</sec:authorize>
 	</jsp:body>
 	
 </alexandria:layout>

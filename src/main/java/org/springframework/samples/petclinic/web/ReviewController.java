@@ -78,7 +78,7 @@ public class ReviewController {
 		
 		}
 		
-		return "redirect:/stories/{storyId}";
+		return "redirect:/stories/{storyId}/show";
 		}
 	
 	

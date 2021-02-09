@@ -24,9 +24,7 @@
                 <petclinic:inputField label="Title" name="title"/>
                 <petclinic:inputField label="Body" name="body"/>
                 
-                <c:if test="${errorNullPublish}">
-					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You must indicate state of this chapter.</h3>
-				</c:if>
+               
 				<c:if test="${errorPublished}">
 					<h3 style="color: DarkRed;">&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;You cannot publish your chapter because your story is not.</h3>
 				</c:if>
@@ -46,11 +44,11 @@
                     <c:choose>
                     	<c:when test="${buttonCreate}"> <%-- Comprobamos si la variable buttonCreate esta activada o no --%>
                             <button class="btn btn-default" type="submit">Create Chapter</button>
-                            <a class="btn btn-default" href="/authors/${authorId}" >Return</a>
+                            <a class="btn btn-default" href="/stories/${storyId}/chapters" >Return</a>
                         </c:when>
                         <c:otherwise>
                             <button class="btn btn-default" type="submit">Update Chapter</button>
- 								 <a class="btn btn-default" href="/stories/${storyId}/chapters/${chapterId}">Return</a> 
+ 								 <a class="btn btn-default" href="/stories/${storyId}/chapters">Return</a> 
                         </c:otherwise>
                         </c:choose>
                         

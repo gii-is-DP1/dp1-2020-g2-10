@@ -3,6 +3,8 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <petclinic:layout pageName="stories">
@@ -28,10 +30,12 @@
 		</h1>
 	 	 </div>
 	 	 <div class="col-sm-4 pull-right">
+	 	 <sec:authorize access="hasAnyAuthority('author')"> 
 	 		 <spring:url value="/stories/{storyId}/reviews/new" var="reviewStoryUrl">
              	<spring:param name="storyId" value="${story.id}"/>
              </spring:url>
              <a href="${fn:escapeXml(reviewStoryUrl)}">  Review story</a>
+           </sec:authorize> 
              <!--
              <button onclick="${fn:escapeXml(reviewStoryUrl)}">Review story</button>
              -->
@@ -71,8 +75,9 @@
                     	</spring:url>
                     	<a href="${fn:escapeXml(showChaptersUrl)}">  Show chapters</a>
                  		</div>
-                    	
-		</div>
+       <button class="btn btn-default" type="reset" onclick="location.href = '/stories/list';">Return</button>
+     
+     
 	</div>      
 
 </petclinic:layout>

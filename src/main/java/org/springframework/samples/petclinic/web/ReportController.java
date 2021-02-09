@@ -72,16 +72,16 @@ public class ReportController {
 		
 		modelMap.put("buttonCreate", true);
 		
-		
+		ObjectError error1 = new ObjectError("reportType", "Debe señalar el tipo de reporte");
 		if(!(report.getReportType() != null)) {
-			ObjectError error1 = new ObjectError("reportType", "Debe señalar el tipo de reporte");
+			
 			result.addError(error1);
 		}
 		
 		
 		
 		if(result.hasErrors()) {
-			if(report.getReportType() == null) {
+			if(report.getReportType() == null && result.getAllErrors().contains(error1)) {
 				modelMap.addAttribute("errorReportType", true);
 			}else {
 				modelMap.addAttribute("errorReportType", false);

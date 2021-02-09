@@ -13,17 +13,15 @@ import org.springframework.samples.petclinic.model.Author;
 import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.model.Contract;
 import org.springframework.samples.petclinic.model.ContractStatus;
+import org.springframework.samples.petclinic.service.AuthorService;
+import org.springframework.samples.petclinic.service.CompanyService;
 import org.springframework.samples.petclinic.service.ContractService;
-import org.springframework.samples.petclinic.service.exceptions.AuthorIdNullException;
-import org.springframework.samples.petclinic.service.exceptions.EndDateBeforeStartDateException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.samples.petclinic.service.AuthorService;
-import org.springframework.samples.petclinic.service.CompanyService;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -86,9 +84,9 @@ public class ContractController {
 	public String initCreationContractForm(Author author,Company company , ModelMap model) {
 
 		Contract contract = contractService.createContract();
+		contract.setContractStatus(ContractStatus.PENDING);
 		model.put("contract", contract);		
 			
-		model.put("contractStatus", Arrays.asList(ContractStatus.values()));
 		return VIEWS_CONTRACT_CREATE_FORM;
 	}
 	
@@ -137,24 +135,19 @@ public class ContractController {
 		}
 		else {
 			System.out.println(contract);
-			contract.setAuthor(authorService.findAuthorById(contract.getAuthor().getId()));
 			System.out.println("=================ID del Autor======================:" +contract.getAuthor().getId());
 			contract.setCompany(companyService.getPrincipal());
-			contractService.saveContract(contract);
-
-		//	try { 
-				
-//				contractService.saveContract(contract);
-//			} catch (AuthorIdNullException au) {
-//				result.rejectValue("author.id","notNull" ,"You dont put the author's Id");
-//				return VIEWS_CONTRACT_CREATE_FORM;
-//			} catch ( EndDateBeforeStartDateException dat) {
-//				result.rejectValue("endDate","afterDate" ,"EndDate is before startDate");
-//				return VIEWS_CONTRACT_CREATE_FORM;
-//
-//			}
-			//}
 			
+			try {
+				contract.setAuthor(authorService.findAuthorById(contract.getAuthor().getId()));
+				contractService.saveContract(contract);
+
+			}catch (DataAccessException ex) {
+				result.rejectValue("author.id","notExist" ,"You have to put an author that exists");
+				return VIEWS_CONTRACT_CREATE_FORM;
+			}
+			
+	
 			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
 			return "redirect:/contracts/list";
 
