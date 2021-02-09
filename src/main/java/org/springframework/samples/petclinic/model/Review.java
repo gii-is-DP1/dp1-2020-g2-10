@@ -29,7 +29,7 @@ private String title;
 
 @NotNull
 @Range(min=0, max=5)
-//@Column(columnDefinition = "NUMBER")
+@Column(columnDefinition = "NUMBER")
 private Integer rating;
 
 @NotEmpty

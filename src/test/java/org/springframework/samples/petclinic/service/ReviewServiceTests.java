@@ -4,19 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import javax.validation.ConstraintViolationException;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.samples.petclinic.model.Author;
-import org.springframework.samples.petclinic.model.Pet;
 import org.springframework.samples.petclinic.model.Review;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -48,8 +42,9 @@ class ReviewServiceTests {
 		@WithMockUser(value = "author1", authorities = {
 	        "author"
 	    })
-		public void shouldCreateReviewAndGenerateId() {
-
+		public void shouldCreateReview() {
+			
+			
 			Story s1 = this.storyService.findStoryById(1);
 			Review review = reviewService.createReview(s1);
 		
@@ -73,7 +68,7 @@ class ReviewServiceTests {
 			review.setRating(5);
 			Story s1 = storyService.findStoryById(1);
 			review.setStory(s1);
-	        this.reviewService.saveReview(review);;
+	        this.reviewService.saveReview(review);
 
 			// checks that id has been generated
 			log.debug("===================================================================");
@@ -114,7 +109,8 @@ class ReviewServiceTests {
 
 			Review review = new Review();
 			review.setTitle("La prueba negativa");
-			review.setText("Buah que pasada, de verdad, la leería hasta que me muriese y un poquito más porque tengo tendencias suicidas y es una basura.");
+			review.setText("Buah que pasada, de verdad, la leería hasta que me muriese y "
+					+ "un poquito más porque tengo tendencias suicidas y es una basura.");
 			review.setRating(0);
 					
 			Exception exception = assertThrows(DataIntegrityViolationException.class, () -> {

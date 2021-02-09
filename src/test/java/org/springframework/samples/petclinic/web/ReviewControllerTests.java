@@ -8,7 +8,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
@@ -35,7 +34,6 @@ import lombok.extern.slf4j.Slf4j;
 
 
 @WebMvcTest(controllers = {ReviewController.class, AlexandriaErrorController.class, AlexandriaControllerAdvice.class},
-//includeFilters = @ComponentScan.Filter(value = PetTypeFormatter.class, type = FilterType.ASSIGNABLE_TYPE),
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
 excludeAutoConfiguration= SecurityConfiguration.class)
 @Slf4j
@@ -46,10 +44,6 @@ class ReviewControllerTests {
 
 	private static final int TEST_STORY_ID = 1;
 	
-
-	@Autowired
-	private ReviewController reviewController;
-
 
 	@MockBean
 	private ReviewService reviewService;
@@ -63,11 +57,6 @@ class ReviewControllerTests {
 	@Autowired
 	private MockMvc mockMvc;
 	
-	@Autowired
-    private AlexandriaErrorController alexandriaErrorController;
-
-    @Autowired
-    private AlexandriaControllerAdvice alexandriaControllerAdvice;
     
     @MockBean
     private UserService userService;
@@ -81,7 +70,7 @@ class ReviewControllerTests {
 		review.setStory(story);
 		Author author = new Author();
 		author.setId(1);
-		given(this.storyService.findStoryById(TEST_STORY_ID)).willReturn(new Story());
+		given(this.storyService.findStoryById(TEST_STORY_ID)).willReturn(story);
 		given(this.reviewService.findReviewById(TEST_REVIEW_ID)).willReturn(new Review());
 		given(this.reviewService.createReview(story)).willReturn(review);
 		given(this.authorService.getPrincipal()).willReturn(author);
@@ -102,10 +91,10 @@ class ReviewControllerTests {
 		mockMvc.perform(post("/stories/{storyId}/reviews/new", TEST_STORY_ID)
 							.with(csrf())
 							.param("title", "Me ha gustado un huevo")
-							.param("text", "No te haces a la idea de lo que he disfrutado esta maravillosa historia de amor, celos y venganza.")
+							.param("text", "No te haces a la idea de lo que he disfrutado "
+									+ "esta maravillosa historia de amor, celos y venganza.")
 							.param("rating", "4")
-							.param("publicationDate", "2020/10/10 10:10")
-							.param("story.id", "1"))
+							.param("publicationDate", "2020/10/10 10:10"))
 				.andExpect(status().is3xxRedirection())
 				.andExpect(view().name("redirect:/stories/{storyId}/show"));
 	}
@@ -116,8 +105,9 @@ class ReviewControllerTests {
 		mockMvc.perform(post("/stories/{storyId}/reviews/new", TEST_STORY_ID)
 							.with(csrf())
 							.param("title", "Me ha gustado un huevo")
-							.param("text", "No te haces a la idea de lo que he disfrutado esta maravillosa historia de amor, celos y venganza."))
-				.andExpect(model().attributeHasNoErrors("story"))
+							.param("text", "No te haces a la idea de lo que he disfrutado "
+									+ "esta maravillosa historia de amor, celos y venganza.")
+							.param("publicationDate", "2020/10/10 10:10"))
 				.andExpect(model().attributeHasErrors("review"))
 				.andExpect(status().isOk())
 				.andExpect(view().name("review/editReview"));

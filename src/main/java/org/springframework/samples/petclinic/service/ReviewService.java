@@ -1,13 +1,12 @@
 package org.springframework.samples.petclinic.service;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.petclinic.model.Review;
 import org.springframework.samples.petclinic.model.Story;
-import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.repository.ReviewRepository;
-import org.springframework.samples.petclinic.repository.StoryRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +17,13 @@ public class ReviewService {
 	private ReviewRepository reviewRepository;
 	
 	@Autowired
-	private StoryRepository storyRepository;
-	
-	@Autowired
 	private AuthorService authorService;
+	
+	public ReviewService(ReviewRepository reviewRepository, AuthorService authorService) {
+		super();
+		this.reviewRepository = reviewRepository;
+		this.authorService = authorService;
+	}
 	
 	
 	@Transactional
@@ -46,5 +48,11 @@ public class ReviewService {
 	public Review findReviewById(int reviewId) {
 		return reviewRepository.findById(reviewId).orElseGet(null);
 	}
+	
+	public Collection<Review> findReviewsFromAuthorId(int authorId) {
+		
+		return reviewRepository.getReviewsFromAuthorId(authorId);
+	}
+	
 	
 }
