@@ -44,6 +44,9 @@
 							<c:if test="${now > contract.startDate}">
 								&nbsp<span class="label label-default">Expired</span>
 							</c:if>
+							<c:if test="${contract.contractStatus == 'REJECTED'}">
+								&nbsp<span class="label label-danger">Rejected</span>
+							</c:if>
 						</td>
 						<td>
 						<fmt:formatNumber type = "number" minFractionDigits="2" maxFractionDigits="2" groupingUsed="true" value = "${contract.remuneration}" />&euro;

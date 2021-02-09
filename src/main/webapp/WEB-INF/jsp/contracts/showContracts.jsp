@@ -4,6 +4,8 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 
 
@@ -21,13 +23,16 @@
 				<th style="width: 150px;">End Date</th>
 				<th style="width: 150px;">Exclusive</th>
 				<th style="width: 150px;">Contract Status</th>
-				
-
 			</tr>
 		</thead>
 		<tbody>
 				<tr>
-					<td><c:out value="${contract.offerDate}" /></td>
+					<td><c:out value="${contract.offerDate}" />
+						<jsp:useBean id="now" class="java.util.Date"/>
+							<c:if test="${now > contract.startDate}">
+						&nbsp<span class="label label-default">Expired</span>
+						</c:if>
+							</td>
 					<td><c:out value="${contract.body}" /></td>
 					<td><c:out value="${contract.remuneration}" /></td>
 					<td><c:out value="${contract.answerDate}" /></td>
@@ -47,6 +52,9 @@
 	<spring:url value="/contracts/{contractId}/reject" var="rejectUrl">
 		<spring:param name="contractId" value="${contract.id}"/>
 	</spring:url>
+	<sec:authorize access="hasAnyAuthority('author')">
+		<jsp:useBean id="today" class="java.util.Date"/>
+		<c:if test="${today < contract.startDate and contract.contractStatus == 'PENDING'}">
 		<div class="row">
 			<div class="center">
 				<div class="btn-group-wrap ">
@@ -57,5 +65,7 @@
 				</div>
 			</div>
 		</div>
+		</c:if>
+	</sec:authorize>
 		<a class="btn btn-default" href="/contracts/list" >Return</a>          
 </petclinic:layout>

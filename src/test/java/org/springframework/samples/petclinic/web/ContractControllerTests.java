@@ -139,6 +139,22 @@ public class ContractControllerTests {
 	
 	@WithMockUser(value = "spring")
 	@Test
+	void testListContractsOfAuthor() throws Exception {
+		mockMvc.perform(get("/contracts/list"))
+				.andExpect(status().isOk()).andExpect(model().attributeExists("allContracts"))
+				.andExpect(model().size(4))
+				.andExpect(view().name("contracts/listContracts"));
+	}
+	
+	@WithMockUser(value = "spring")
+	@Test
+	void testShowContractOfAuthor() throws Exception {
+	    mockMvc.perform(get("/contracts/{contractId}/show", TEST_CONTRACT_ID)).andExpect(status().isOk())
+	            .andExpect(model().attributeExists("contract")).andExpect(view().name("contracts/showContracts"));
+	}
+
+	@WithMockUser(value = "spring")
+	@Test
 	void testListContractsOfCompany() throws Exception {
 		mockMvc.perform(get("/contracts/company/list"))
 				.andExpect(status().isOk()).andExpect(model().attributeExists("contracts"))

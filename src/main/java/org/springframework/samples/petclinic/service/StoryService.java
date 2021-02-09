@@ -134,5 +134,9 @@ public class StoryService {
 		System.out.println("Estado historia actualizado" + s.getStoryStatus());
 		
 	}
+	
+	public Story findStoryByStoryId(int storyId) {
+		return storyRepository.getStoryFromId(storyId);
+	}
 
 }

@@ -199,7 +199,7 @@ public class ChapterController {
 		            error.printStackTrace();
 		            
 				}
-				return "redirect:/";
+				return "redirect:/stories/{storyId}/chapters";
 			}
 			
 	

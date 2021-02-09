@@ -11,6 +11,7 @@ import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -22,9 +23,13 @@ import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.ContractRepository;
 import org.springframework.samples.petclinic.service.exceptions.AuthorIdNullException;
 import org.springframework.samples.petclinic.service.exceptions.EndDateBeforeStartDateException;
+import org.springframework.samples.petclinic.service.exceptions.contract.ExclusivityContractConflict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ContractService {
 
@@ -81,7 +86,7 @@ public class ContractService {
 	public Collection<Contract> findConflictingContractsByPrincipalAuthor(Author author, Contract contract){
 		// Query parameters
 		Author principal = authorService.getPrincipal();
-		Boolean isExclusiveQuery = contract.getIsExclusive()? null: true; 
+		Boolean isExclusiveQuery = contract.getIsExclusive()? null: true;
 			/* Si el nuevo contrato:
 			 	* es exclusivo -> cualquier contrato causará conflicto (null como parametro de la query)
 			 	* no es exclusivo -> solo causarían conflicto los contratos los contratos EXCLUSIVOS
@@ -93,7 +98,6 @@ public class ContractService {
 		String principalRole = userService.getPrincipalRole();
 		
 		Collection<Contract> res;
-		System.out.println("-----------PrincipalRole is: " + principalRole);
 		switch(principalRole){
 		case "author":
 			res = findByAuthorPrincipalAndStatus(status);
@@ -117,14 +121,19 @@ public class ContractService {
 		Collection<Contract> contratos = contractRepository.findContractsByCompanyId(principalCompany.getId());
 		return contratos;
 	}	
+	
+	
+		@Transactional(readOnly = true)	//LIST
+		public Collection<Contract> findContractsByAuthorId() throws DataAccessException {
+			//Buscamos los contratos segun la id de la company logeada
+			Author principalAuthor = this.authorService.getPrincipal();
+			Collection<Contract> contratos = contractRepository.findContractsByAuthorId(principalAuthor.getId());
+			return contratos;
+		}	
 
 	public Contract findContractById(Integer contractId) throws DataAccessException {
 		System.out.println("contractService.findContractById(): " + contractId);
 		Optional<Contract> optContract = contractRepository.findById(contractId);
-		
-		System.out.println("Do I get here? ontractService.findContractById()");
-		System.out.println("Optional findContractById(): " + optContract);
-		System.out.println("Contract findContractById(): " + optContract.get());
 		// TODO: Los Autores tambien pueden ver los contratos, corregir para compañia y autor
 //		Company principalCompany = this.companyService.getPrincipal();
 //		Company contractCompany = contract.getCompany();
@@ -157,7 +166,7 @@ public class ContractService {
 	}
 	
 	@Transactional
-	public void answerContract(Integer contractId, ContractStatus updatedStatus) throws DataAccessException{
+	public void answerContract(Integer contractId, ContractStatus updatedStatus) throws DataAccessException, ExclusivityContractConflict{
 		assertTrue("Only an author can respond to contracts.", authorService.isPrincipalAuthor());
 		
 		Author principal = authorService.getPrincipal();
@@ -172,10 +181,14 @@ public class ContractService {
 				originalContract.getStartDate().after(new Date()));
 		
 		if(updatedStatus.equals(ContractStatus.ACCEPTED)) {
-			//TODO: RN1 Restricciones respecto a la exclusividad y conflictos con otros contratos (Queries)
-			Collection<Contract> currentExclusiveContracts = findConflictingContractsByPrincipalAuthor(principal, originalContract);
-			assertTrue("The contract cannot be accepted for EXCLUSIVITY conflicts for the date range provided."
-					, currentExclusiveContracts.isEmpty());
+			Collection<Contract> currentConflictingContracts = findConflictingContractsByPrincipalAuthor(principal, originalContract);
+			log.info("=========== Conflicting contracts ============ \n" 
+					+ currentConflictingContracts.stream().map(x -> "Title:" + x.getHeader() + ", Exclusive:" + x.getIsExclusive() + ", startDate:" + x.getStartDate() + ", endDate:" + x.getEndDate() + "\n").collect(Collectors.joining()));
+			if(!currentConflictingContracts.isEmpty()) {
+				throw new ExclusivityContractConflict(String.format("The Contract '%s' "
+						+ "contractId=%d cannot be accepted as there is conflicts for exclusivity reasons",
+						originalContract.getHeader(), contractId));
+			}
 		}
 		
 		originalContract.setContractStatus(updatedStatus);
