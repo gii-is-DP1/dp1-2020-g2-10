@@ -194,21 +194,6 @@ class ChapterControllerTests {
 				.andExpect(model().attributeExists("errorPublished"))
 				.andExpect(view().name("chapters/editChapter"));
 		}
-		
- @WithMockUser(value = "spring")
- @Test
-	void testdeleteChapter() throws Exception {
-		mockMvc.perform(post("/stories/{storyId}/chapters/new",TEST_STORY_ID)
-							.with(csrf())
-							.param("index", "2")
-							.param("title", "")
-							.param("body", "")
-							.param("isPublished", "true")
-							.param("story.id", "1"))
-				.andExpect(model().attributeHasErrors("chapter"))
-				.andExpect(model().attributeExists("errorPublished"))
-				.andExpect(view().name("chapters/editChapter"));
-		}
  
 	//------HU-7
  
