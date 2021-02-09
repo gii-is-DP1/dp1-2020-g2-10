@@ -42,14 +42,9 @@ public class ReviewController {
 		this.authorService = authorService;
 	}
 	
-//	@ModelAttribute("story")
-//	public Story findStory(@PathVariable("storyId") int storyId) {
-//		return this.storyService.findStoryById(storyId);
-//	}
 	
 	@GetMapping("/reviews/new")
 	public String initAddReview(@PathVariable("storyId") int storyId, ModelMap modelMap) {
-//		modelMap.put("buttonCreate", true);
 		Story story = this.storyService.findStoryById(storyId);
 		Review review = this.reviewService.createReview(story);
 		
@@ -61,21 +56,18 @@ public class ReviewController {
 	}
 	
 	@PostMapping("/reviews/new")
-	public String processNewReview(@PathVariable("storyId") int storyId, @Valid Review review,  BindingResult result, ModelMap modelMap, RedirectAttributes redirectAttributes) {
+	public String processNewReview(@PathVariable("storyId") int storyId, @Valid Review review,  BindingResult result,
+			ModelMap modelMap, RedirectAttributes redirectAttributes) {
 		
 		modelMap.put("buttonCreate", true);
 		
 		Story story = this.storyService.findStoryById(storyId);
 		// Si al validarlo, encontramos errores:
-		System.out.println("========================");
-		System.out.println(result);
-		System.out.println(result.hasErrors());
-		if(result.hasErrors() || review.getRating() == null || review.getRating() < 0 || review.getRating() > 5) {
+		if(result.hasErrors()) {
 			modelMap.put("review", review);
+			modelMap.put("story", story);
 			log.debug("====================================================================================");
 			log.debug(result.toString());
-			redirectAttributes.addFlashAttribute("message", String.format("The review with storyId=%d was not created.", story.getId()));
-			redirectAttributes.addFlashAttribute("messageType", "warning");
 			return VISTA_EDICION_review;
 		}
 		

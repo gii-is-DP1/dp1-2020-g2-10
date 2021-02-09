@@ -32,7 +32,7 @@ private String title;
 @Column(columnDefinition = "NUMBER")
 private Integer rating;
 
-@NotEmpty
+
 @Column(columnDefinition = "TEXT")
 private String text;
 

@@ -12,8 +12,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <petclinic:layout pageName="reviews">
-	<jsp:body>         
-            
+	           
         <div class="col-sm-1"></div>  
         <div class="col-sm-10">
     	<h2>Panel for creating a review for ${story.title} </h2><h3>by ${story.author.firstName} ${' '} ${story.author.lastName}</h3>
@@ -44,6 +43,6 @@
                 </div>
             </div>
         </form:form>
-    </jsp:body>
+    
 
 </petclinic:layout>
