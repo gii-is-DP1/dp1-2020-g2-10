@@ -82,13 +82,14 @@ class ReviewServiceTests {
 		        "author"
 		    })
 		@Transactional
-		public void shouldNotInsertReviewIntoDatabaseBecauseTittleIsEmpty() {
+		public void shouldNotInsertReviewIntoDatabaseBecauseRatingIsEmpty() {
 
 			Review review = new Review();
 			review.setTitle("La prueba negativa");
 			review.setText("Buah que pasada, de verdad, la leería hasta que me muriese y un poquito más porque tengo "
 					+ "tendencias suicidas y es muy mala.");
-			
+			Story s1 = storyService.findStoryById(1);
+			review.setStory(s1);
 			Exception exception = assertThrows(ConstraintViolationException.class, () -> {
 
 				this.reviewService.saveReview(review);
