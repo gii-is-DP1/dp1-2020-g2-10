@@ -270,4 +270,25 @@ class StoryServiceTests {
 		// No hay test negativo al ser un listado
 
 	}
+	
+	
+	//Test HU-04 Eliminar un borrador de historia
+	
+	@Test
+	@WithMockUser(value = "author1", authorities = {
+            "author"
+        })
+    @Transactional
+    public void shouldDeleteStoryDraft() throws Exception {
+		
+        this.storyService.deleteStory(AUTHOR1_DRAFT_STORY_ID);
+        Story draftStoryNew = this.storyService.findStoryByStoryId(AUTHOR1_DRAFT_STORY_ID);
+        assertThat(draftStoryNew).isEqualTo(null);
+    }
+
+	//No hay caso negativo negativo al ser un borrado
+
 }
+	
+	
+
