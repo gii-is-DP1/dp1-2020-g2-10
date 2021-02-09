@@ -99,7 +99,7 @@ class ReportServiceTestWithoutMocks {
 		
 
 		// Escenarios negativos:
-				// H5-E1 - No añadir un reporte vacio.
+				// H13-E1 - No añadir un reporte vacio.
 				
 		@Test
 		@Transactional

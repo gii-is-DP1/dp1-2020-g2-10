@@ -72,7 +72,7 @@ class ChapterControllerTests {
             s.setStoryStatus(StoryStatus.PUBLISHED);
 
          Chapter c = new Chapter();
-         c.setId(1);
+         c.setId(TEST_CHAPTER_ID);
          c.setIndex(1);
          c.setTitle("Prueba");
          c.setBody("Otra prueba más para probar la prueba que prueba la funcionalidad a prueba");
@@ -80,7 +80,7 @@ class ChapterControllerTests {
          c.setStory(s);
 
 
-         given(this.chapterService.findChapterById(TEST_CHAPTER_ID)).willReturn(new Chapter());
+         given(this.chapterService.findChapterById(TEST_CHAPTER_ID)).willReturn(c);
          given(this.storyService.findStory(TEST_STORY_ID)).willReturn(s);
     }
 
