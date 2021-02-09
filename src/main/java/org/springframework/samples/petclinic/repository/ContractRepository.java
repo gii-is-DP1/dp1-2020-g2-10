@@ -33,5 +33,8 @@ public interface ContractRepository extends CrudRepository<Contract, Integer>{
 
 	@Query("SELECT contract FROM Contract contract WHERE contract.company.id  =:id")
 	public Collection<Contract> findContractsByCompanyId(@Param("id") int id);
+	
+	
+	
 
 }
