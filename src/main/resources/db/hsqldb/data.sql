@@ -1,34 +1,9 @@
 -- One admin user, named admin1 with passwor 4dm1n and authority admin
 INSERT INTO users(username,password,enabled) VALUES ('admin1','4dm1n',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (1,'admin1','admin');
--- One owner user, named owner1 with passwor 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('owner1','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (2,'owner1','owner');
--- One vet user, named vet1 with passwor v3t
-INSERT INTO users(username,password,enabled) VALUES ('vet1','v3t',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (3,'vet1','veterinarian');
--- Pabcalper, named pabcalper with password 0wn7r
-INSERT INTO users(username,password,enabled) VALUES ('pabcalper','0wn7r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (7,'pabcalper','owner');
--- oscdoraba, named oscdoraba with password oscdoraba
-INSERT INTO users(username,password,enabled) VALUES ('oscdoraba','oscdoraba',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (8,'oscdoraba','owner');
--- felconmar, named felconmar with password 0wn3r
-INSERT INTO users(username,password,enabled) VALUES ('felconmar','0wn3r',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (9,'felconmar','owner');
--- davgangar1, named davgangar1 with password davgangar1
-INSERT INTO users(username,password,enabled) VALUES ('davgangar1','davgangar1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (10,'davgangar1','owner');
--- Pablosky, named pablosky with password pabloEscritor7
-INSERT INTO users(username,password,enabled) VALUES ('pablosky','pabloEscritor7',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (19,'pablosky','autor');
-
--- moderador1, named moderador1 with password moderador1
-INSERT INTO users(username,password,enabled) VALUES ('moderador1','moderador1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (20,'moderador1','moderador');
 -- editorial1, named editorial1 with password editorial1
-INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
-INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editorial');
+-- INSERT INTO users(username,password,enabled) VALUES ('editorial1','editorial1',TRUE);
+-- INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','company');
 
 
 
@@ -38,7 +13,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 -- INSERT INTO vets VALUES (4, 'Rafael', 'Ortega');
 -- INSERT INTO vets VALUES (5, 'Henry', 'Stevens');
 -- INSERT INTO vets VALUES (6, 'Sharon', 'Jenkins');
--- 
+ 
 -- INSERT INTO specialties VALUES (1, 'radiology');
 -- INSERT INTO specialties VALUES (2, 'surgery');
 -- INSERT INTO specialties VALUES (3, 'dentistry');
@@ -54,7 +29,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 -- INSERT INTO types VALUES (3, 'lizard');
 -- INSERT INTO types VALUES (4, 'snake');
 -- INSERT INTO types VALUES (5, 'bird');
--- INSERT INTO types VALUES (6, 'hamster');
+--INSERT INTO types VALUES (6, 'hamster');
 -- 
 -- INSERT INTO owners VALUES (1, 'George', 'Franklin', '110 W. Liberty St.', 'Madison', '6085551023', 'owner1');
 -- INSERT INTO owners VALUES (2, 'Betty', 'Davis', '638 Cardinal Ave.', 'Sun Prairie', '6085551749', 'owner1');
@@ -70,12 +45,11 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 -- INSERT INTO owners VALUES (12, 'Pabcalper', 'Calle', 'Dirección desconocida', 'Sevilla', '6301785873', 'pabcalper');
 -- INSERT INTO owners VALUES (13, 'Felix', 'Conde', 'Reina Mercedes', 'Sevilla', '636123456', 'felconmar');
 -- INSERT INTO owners VALUES (14, 'David', 'Ganan', 'Anonima', 'Sevilla', '656874579', 'davgangar1');
-
 -- INSERT INTO moderators VALUES (15, 'Moderador', 'Moderando Moderaciones', 'moderador1');
--- 
--- INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
-
-
+ 
+--  INSERT INTO companies VALUES (1, 'Editorial Magistral', 'editorial1');
+--
+--
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (1, 'Leo', '2010-09-07', 1, 1);
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (2, 'Basil', '2012-08-06', 6, 2);
 -- INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (3, 'Rosy', '2011-04-17', 2, 3);
@@ -120,7 +94,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 	
 	INSERT INTO authors(dni, first_name, last_name, email, birth_date, url_picture, biography, username) 
 		VALUES ('52874678D','Marco','Medina Sandoval','candidoMedina@mail.com','1988-11-23',
-		'/resources/images/author-pictures/author1.jpg', 'Viajero de historias.','author1');
+		'/resources/images/authors/author1.jpg', 'Viajero de historias.','author1');
 		
 	-- Author2 ----------------------------------------------------------------------
 	INSERT INTO users(username,password,enabled) VALUES ('author2','author2',TRUE);
@@ -128,7 +102,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 	
 	INSERT INTO authors(dni, first_name, last_name, email, birth_date, url_picture, biography, username) 
 		VALUES ('79283637F','Sonia','Arredondo Zaragoza','arredondoZaragoza@mail.com','1975-01-20',
-		'/resources/images/author-pictures/author2.jpg', 'El cine y la novela: Mis dos grandes pasiones.',
+		'/resources/images/authors/author2.jpg', 'El cine y la novela: Mis dos grandes pasiones.',
 		'author2');
 		
 	-- Author3 ----------------------------------------------------------------------
@@ -137,7 +111,32 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 	
 	INSERT INTO authors(dni, first_name, last_name, email, birth_date, url_picture, biography, username) 
 		VALUES ('01014675N','Julio','Pineda Ceja','pinedaCeja@mail.com','1990-07-14',
-		'/resources/images/author-pictures/author3.jpg', null ,'author3');
+		'/resources/images/authors/author3.jpg', null ,'author3');
+		
+	-- Author4 (MENOR DE EDAD: 12/13 años)----------------------------------------------------------------------
+	INSERT INTO users(username,password,enabled) VALUES ('author4','author4',TRUE);
+	INSERT INTO authorities(username, authority) VALUES ('author4','author');
+	
+	INSERT INTO authors(dni, first_name, last_name, email, birth_date, url_picture, biography, username) 
+		VALUES ('12344675M','Tania','Carmona Jimenez','carmonaJimenez@mail.com','2008-02-27',
+		'/resources/images/authors/author4.jpg', null ,'author4');
+		
+	-- Author5 (MENOR DE EDAD: 17 años)----------------------------------------------------------------------
+	INSERT INTO users(username,password,enabled) VALUES ('author5','author5',TRUE);
+	INSERT INTO authorities(username, authority) VALUES ('author5','author');
+	
+	INSERT INTO authors(dni, first_name, last_name, email, birth_date, url_picture, biography, username) 
+		VALUES ('76544675U','Rodolfo','Mendez Pelayo','mendezPelayo@mail.com','2003-12-16',
+		'/resources/images/authors/author5.jpg', null ,'author5');
+		
+	-- Author6 (Baneable)----------------------------------------------------------------------
+	INSERT INTO users(username,password,enabled) VALUES ('author6','author6',TRUE);
+	INSERT INTO authorities(username, authority) VALUES ('author6','author');
+	
+	INSERT INTO authors(dni, first_name, last_name, email, birth_date, url_picture, biography, username) 
+		VALUES ('01234567Q','Slax','Edgy Troll','slax@mail.com','1996-06-06',
+		'/resources/images/authors/author6.jpg', 
+		'Solo quiero sabotear esta web, no me importa incumplir las normas con tal de divertirme. Troll profesional' ,'author6');
 		
 -- 2. Moderators -----------------------------------------------------------------------
 
@@ -147,7 +146,7 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 	
 	INSERT INTO moderators(dni, first_name, last_name, email, birth_date, url_picture, username) 
 		VALUES ('45556952J','Emilio','Sevillano','moderator1@alexandria.com','1992-03-05',
-		'/resources/images/profile-pictures/moderator1.jpg', 'moderator1');
+		'/resources/images/moderators/moderator1.jpg', 'moderator1');
 		
 	-- Moderator2 ----------------------------------------------------------------------
 	INSERT INTO users(username,password,enabled) VALUES ('moderator2','moderator2',TRUE);
@@ -227,40 +226,159 @@ INSERT INTO authorities(id,username,authority) VALUES (21,'editorial1','editoria
 
 -- 5. Reviews -----------------------------------------------------------------------------
 
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 1', 5, 'Comment 1','2020-09-01 11:11',1,1);
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 2', 3, 'Comment 2', '2020-11-10 10:13',1,1);
+	 INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+	 VALUES('Title 3', 4, 'Comment 3', '2018-10-01 01:06',2,3);		
+
 -- 6. Companies y Contracts ---------------------------------------------------------------
 
 
 	-- Company1 ----------------------------------------------------------------------
-	INSERT INTO users(username,password,enabled) VALUES ('company1','company1',TRUE);
+	INSERT INTO users(username,password,enabled) VALUES ('company1','company1',true);
 	INSERT INTO authorities(username, authority) VALUES ('company1','company');
-	
-		-- // TODO: Incluir todos los atributos de Company correctamente, tal como viene en el diagrama UML
+		
+		INSERT INTO companies(cif, name, email, company_type, url_Logo, description, username) 
+		VALUES ('A58818501', 'Bookista','info@bookista.com','PUBLISHER','/resources/images/companies/company1.png', 
+		'Bookista S.A: A book publisher company since 1966.','company1');
 	
 		-- Contracts from Company1 -----------------------------------------------------
 		
-				-- Contract1 with Author1 - Ganadero1 --------------------
+				-- Contract1 with Author1 (EXCLUSIVO - ACEPTADO - EXPIRADO)--------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-08-20 16:30', 'Mecenazgo EXCLUSIVO SEPTIEMBRE 2020',
+						'Por el presente contrato se estipula que Bookista ofrece un mecenazgo a Marco Medina Sandoval. Marco Medina se compromete a NO ACEPTAR PATROCINIOS de otras compañías durante el mes de SEPTIEMBRE 2020.',
+						12000.50, '2020-08-25 18:27', 'ACCEPTED' , '2020-09-01 00:00', '2020-09-30 23:59', true,
+						1,1);
+				
+				-- Contract2 with Author2 (PENDIENTE - EXPIRADO)--------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-08-20 16:30', 'Mecenazgo EXCLUSIVO SEPTIEMBRE 2020',
+						'Bookista ofrece un mecenazgo EXCLUSIVO a Sonia Arredondo Zaragoza, que se compromete a NO ACEPTAR PATROCINIOS de otras compañías durante el mes de SEPTIEMBRE 2020.',
+						12500.50, null, 'PENDING' , '2020-09-01 00:00', '2020-09-30 23:59', true,
+						2,1);
+				
+				-- Contract3 with Author2 ( PENDIENTE )--------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-09-23 08:12', 'Patrocinio Q2 2021',
+						'Bookista ofrece un mecenazgo a Sonia Arredondo Zaragoza sin cláusulas de exclusividad. Bookista se reserva el derecho de retirar el patrocinio en caso de violación a los principios de la empresa por parte del autor.',
+						4300.00, null, 'PENDING' , '2021-03-01 00:00', '2021-06-30 23:59', false,
+						2,1);
+
+				-- Contract4 with Author3 ( PENDIENTE  )--------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-09-23 08:12', 'Patrocinio Q4 2020 hasta Q2 2021',
+						'Bookista ofrece un mecenazgo a Julio Pineda Ceja sin cláusulas de exclusividad. Bookista se reserva el derecho de retirar el patrocinio en caso de violación a los principios de la empresa por parte del autor.',
+						4300.00, null, 'PENDING' , '2020-10-01 00:00', '2021-06-30 23:59', false,
+						3,1);									
+				
+	-- Company2 ----------------------------------------------------------------------
+	INSERT INTO users(username,password,enabled) VALUES ('company2','company2',true);
+	INSERT INTO authorities(username, authority) VALUES ('company2','company');
+	
+		
+		INSERT INTO companies(cif, name, email, company_type, url_Logo, description, username) 
+		VALUES ('F58812345', 'Authorsy','contact@authorsy.org','PUBLISHER','/resources/images/companies/company2.png', 
+		'A cooperative book publisher. Built by authors for authors and readers.','company2');
+	
+		-- Contracts from Company2 -----------------------------------------------------
+		
+				-- Contract5 with Author1 ( PENDIENTE )----------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-11-15 09:28', 'Patrocinio Q2 2021 NO EXCLUSIVO',
+						'Authorsy, por iniciativa propia, ofrece a Marco Medina Sandoval RECONOCER sus méritos creativos de forma monetaria. Si se acepta se deben cumplir los términos y condiciones de los premios, ayudas y patrocinios otorgados por Authorsy en authorsy.org/sponsorships',
+						900.80, null, 'PENDING' ,'2021-03-01 00:00', '2021-06-30 23:59', false,
+						1,2);
+						
+				-- Contract6 with Author2 ( EXCLUSIVO - PENDIENTE )----------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-11-15 09:28', 'Representación de Authorsy Q2 hasta Q4 2021 EXCLUSIVO',
+						'Authorsy SE COMPROMETE CON Sonia Arredondo Zaragoza a PATROCINAR sus creaciones literarias en el período desde octubre 2020 hasta junio del 2021. Sonia Arredondo Zaragoza se compromete, en caso de aceptar el patrocinio, a ser la cara pública de la empresa y se compromete a respetar su visión y misión empresarial.',
+						100320.95, null, 'PENDING' ,'2020-06-01 00:00', '2021-12-31 23:59', true,
+						2,2);
+				
+	-- Company3 ----------------------------------------------------------------------
+	INSERT INTO users(username,password,enabled) VALUES ('company3','company3',true);
+	INSERT INTO authorities(username, authority) VALUES ('company3','company');
+	
+		
+		INSERT INTO companies(cif, name, email, company_type, url_Logo, description, username) 
+		VALUES ('A90812345', 'FILMION','info@filmion.com','PRODUCER','/resources/images/companies/company3.png', 
+		'Indie film producer. Making movies and short series since 2012 from the bottom of our heart.','company3');
+	
+		-- Contracts from Company3 -----------------------------------------------------
+		
+				-- Contract7 with Author1 ( EXCLUSIVO RECHAZADO )--------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-09-15 09:28', 'DIRECTOR CREATIVO ASOCIADO para FILMIN OCT-2020 a JUN-2021',
+						'La parte empleadora FILMIN contrata a Marco Medina Sandoval como DIRECTOR CREATIVO ASOCIADO. La parte contratada se compromete a trabajar solo en proyectos de FILMIN S.A en el periodo de vigencia del contrato y solo aceptando representar a FILMIN y marcas asociadas.',
+						60782.95, '2020-09-15 12:54', 'REJECTED' ,'2020-10-01', '2021-06-30', true,
+						1,3);
+		
+				-- Contract8 with Author3 ( EXCLUSIVO - VIGENTE )--------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-08-19 11:40', 'SCRIPTWRITER DIRECTOR FILMIN SEPTEMBER 2020 to SEPTEMBER 2021',
+						'The employer part FILMIN and the employee Julio Pineda Ceja accept to stablish a work relationship. Salary for the employee part for this period is stated in the contract. General labour legislation in this field is applied.',
+						250600.00, '2020-08-24 08:30', 'ACCEPTED' ,'2020-09-01', '2021-09-30', true,
+						3,3);
+				
+	-- Company4 ----------------------------------------------------------------------
+	INSERT INTO users(username,password,enabled) VALUES ('company4','company4',TRUE);
+	INSERT INTO authorities(username, authority) VALUES ('company4','company');
+	
+		
+		INSERT INTO companies(cif, name, email, company_type, url_Logo, description, username) 
+		VALUES ('A40329876', 'NEWS SECTOR','info@newssector.com','NEWSPAPER','/resources/images/companies/company4.png', 
+		'News and media outlet. Breaking news, quality journalism and literature reviewrs','company4');
+	
+		-- Contracts from Company4 -----------------------------------------------------
+		
+				-- Contract9 with Author1 ( EXCLUSIVO - PENDIENTE ) ----------------------
+						INSERT INTO contracts(offer_date, header, body, remuneration, answer_date, contract_status, start_date, end_date, is_exclusive, 
+						author_id, company_id) 
+						VALUES ('2020-11-05', 'PUBLIC EXCLUSIVE SPONSORSHIP 2021 from NEWS SECTOR',
+						'NEWS SECTOR offers Marco Medina Sandoval to be the public face of the aforementioned company. The sponsorhip that all the work produced in that period by the author will be associated with the NEWS SECTOR trademark. A compensation will be given as stated in this contract.',
+						140420.49, null, 'PENDING' ,'2021-03-01', '2021-12-31', true,
+						1,4);
+						
+				-- Contract10 with Author3 ( EXCLUSIVO - PENDIENTE ) ----------------------
+					INSERT INTO contracts(offer_date, header ,body,remuneration , answer_date, contract_status, start_date,end_date,is_exclusive,
+					author_id,company_id) 
+					VALUES ('2020-12-08 15:00','Oferta de contrato 10','Nos ponemos en contacto con usted porque estamos interesados en contratarle en nuestra editorial',
+					6.89,'2020-12-15', 'PENDING', '2021-03-01 14:00','2021-06-02', true,
+					3,4);
 
 -- 7. Reports -----------------------------------------------------------------------------
 
+-- INSERT INTO reports(id, version, date, report_status, report_type, text, chapter_id) 
+-- VALUES (0, 0, '2021/11/15 10:28', 'DONE', 'OTHER', 'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF', 1);
 
 --Habría que descomentarlo cuando se creen los ejemplos de story, company y algunos más de author
 
--- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
--- VALUES(1,19,3,'Title 1', '5', 'Comment 1','2020-09-01 11:11')
--- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
--- VALUES(2,4,5,'Title 2', '3', 'Comment 2', '2020-11-14 10:13')
--- INSERT INTO reviews(id,author_id,story_id,title,rating,text,publicationDate) 
--- VALUES(2,6,7,'Title 3', '4', 'Comment 3', '2018-10-01 01:06')
---
--- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractStatus,startDate,endDate,isExclusive) 
--- VALUES(1,19,1,'2019-07-05 11:11', 'Header 1','Text 1', '75/2', '2020-09-01 11:11', contractStatus.ACEPTED, '2021-10-01 11:11','2022-10-01 11:11', TRUE)
--- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractStatus,startDate,endDate,isExclusive) 
--- VALUES(2,2,2,'2016-10-13 11:11'. 'Header 2','Text 2', '37/3', '2019-11-07 11:11', contractStatus.REJECTED, '2023-10-01 11:11','2024-10-01 11:11', FALSE)
--- INSERT INTO contract(id,author_id,company_id,offerDate,header,text,remuneration,answerDate,contractStatus,startDate,endDate,isExclusive) 
--- VALUES(3,4,3,'2015-07-09 11:11', 'Header 3','Text 3', '100/2', '2020-06-09 11:11', contractStatus.PENDING, '2021-12-10 11:11','2022-11-01 11:11', TRUE)
---
--- INSERT INTO contributions(id,author_id,story_id,contributionType) VALUES(1,19,2,EDITOR)
--- INSERT INTO contributions(id,author_id,story_id,contributionType) VALUES(2,3,3,COAUTHOR)
--- INSERT INTO contributions(id,author_id,story_id,contributionType) VALUES(3,4,5,CONSULTANT)
+--INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+-- VALUES('Title 1', 5, 'Comment 1','2020-09-01 11:11',1,1)
+-- INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+-- VALUES('Title 2', 3, 'Comment 2', '2020-11-10 10:13',1,1)
+-- INSERT INTO reviews(title,rating,text,publication_date,author_id,story_id) 
+-- VALUES('Title 3', 4, 'Comment 3', '2018-10-01 01:06',2,3)
 
+ --INSERT INTO contracts(offer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
+ --VALUES('2019-07-05 11:11', 'Header 1','Text 1', '75/2', '2020-09-01 11:11', 'ACEPTED', '2021-10-01 12:11','2022-10-01 11:30', TRUE, 1 ,1)
+-- INSERT INTO contracts(ioffer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
+ --VALUES('2016-10-13 11:11'. 'Header 2','Text 2', '37/3', '2019-11-07 11:11', 'REJECTED', '2023-10-01 9:07','2024-10-01 14:41', FALSE , 1, 2)
+ --INSERT INTO contracts(offer_date,header,text,remuneration,answer_date,contractStatus,start_date,end_date,is_exclusive,author_id,company_id) 
+ --VALUES('2015-07-09 11:11', 'Header 3','Text 3', '100/2', '2020-06-09 11:11', 'PENDING', '2021-12-10 11:11','2022-11-01 10:13', TRUE, 2,3)
 
+-- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(EDITOR,1,1)
+-- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(COAUTHOR,2,2)
+-- INSERT INTO contributions(contributionType,author_id,story_id) VALUES(CONSULTANT,3,3)

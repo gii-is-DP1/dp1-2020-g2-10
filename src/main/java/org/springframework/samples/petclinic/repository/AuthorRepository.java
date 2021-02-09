@@ -16,14 +16,16 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.petclinic.model.Moderator;
+import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.model.Author;
-import org.springframework.samples.petclinic.repository.AuthorRepository;
 
 /**
  * Spring Data JPA AutorRepository interface
@@ -40,9 +42,12 @@ public interface AuthorRepository extends Repository<Author, Integer> {
 	@Query("SELECT DISTINCT author FROM Author author WHERE author.lastName LIKE :lastName%")
 	public Collection<Author> findByLastName(@Param("lastName") String lastName);
 
-
+	//@Query("SELECT DISTINCT author FROM Author author WHERE author.user.username = :username")
+	public Optional<Author> findByUserUsername(String username);
 	
 	@Query("SELECT author FROM Author author WHERE author.id =:id")
 	public Author findById(@Param("id") int id);
+
+	
 
 }

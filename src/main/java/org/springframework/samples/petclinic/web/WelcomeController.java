@@ -40,7 +40,7 @@ public class WelcomeController {
 		  person5.setLastName(" Martín");
 		  
 		  person6.setFirstName("Carlos Manuel");
-		  person6.setLastName(" Cabellos");
+		  person6.setLastName(" Cabello");
 		  
 		  persons.add(person1);
 		  persons.add(person2);

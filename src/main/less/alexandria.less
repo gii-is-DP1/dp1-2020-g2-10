@@ -13,7 +13,11 @@
  */
 @icon-font-path:    "../../webjars/bootstrap/fonts/";
 
-@spring-green:      #6db33f;
+
+/*@spring-green:      #6db33f;*/
+@alexandria-brown: #B0814E;
+@alexandria-dark-brown: #774C20;
+
 @spring-dark-green: #5fa134;
 @spring-brown:      #34302D;
 @spring-grey:       #838789;
@@ -21,16 +25,16 @@
 
 @body-bg:                           @spring-light-grey;
 @text-color:                        @spring-brown;
-@link-color:                        @spring-dark-green;
-@link-hover-color:                  @spring-dark-green;
+@link-color:                        @alexandria-dark-brown;
+@link-hover-color:                 	@alexandria-dark-brown;
 
 @navbar-default-link-color:         @spring-light-grey;
 @navbar-default-link-active-color:  @spring-light-grey;
 @navbar-default-link-hover-color:   @spring-light-grey;
-@navbar-default-link-hover-bg:      @spring-green;
+@navbar-default-link-hover-bg:      @alexandria-brown;
 @navbar-default-toggle-icon-bar-bg: @spring-light-grey;
 @navbar-default-toggle-hover-bg:    transparent;
-@navbar-default-link-active-bg:     @spring-green;
+@navbar-default-link-active-bg:     @alexandria-brown;
 
 @border-radius-base:             0;
 @border-radius-large:            0;
@@ -38,7 +42,7 @@
 
 @btn-default-color:              @spring-light-grey;
 @btn-default-bg:                 @spring-brown;
-@btn-default-border:             @spring-green;
+@btn-default-border:             @spring-brown;
 
 @nav-tabs-active-link-hover-color:        @spring-light-grey;
 @nav-tabs-active-link-hover-bg:           @spring-brown;
@@ -46,7 +50,7 @@
 @nav-tabs-border-color:                   @spring-brown;
 
 @pagination-active-bg:                    @spring-brown;
-@pagination-active-border:                @spring-green;
+@pagination-active-border:                @alexandria-brown;
 @table-border-color:                      @spring-brown;
 
 .table > thead > tr > th {
@@ -65,19 +69,14 @@
 
 .btn-default {
   border-width: 2px;
-  transition: border 0.15s;
-  -webkit-transition: border 0.15s;
-  -moz-transition: border 0.15s;
-  -o-transition: border 0.15s;
-  -ms-transition: border 0.15s;
 
   &:hover,
   &:focus,
   &:active,
   &.active,
   .open .dropdown-toggle& {
-    background-color: @spring-brown;
-    border-color: @spring-brown;
+    background-color: @alexandria-brown;
+    border-color: @alexandria-brown;
   }
 }
 
@@ -125,7 +124,7 @@ h1 {
 }
 
 .splash {
-  background: @spring-green;
+  background: @alexandria-brown;
   color: @spring-brown;
   display: none;
 }
@@ -237,3 +236,69 @@ hr {
 @import "typography.less";
 @import "header.less";
 @import "responsive.less";
+
+
+/*************************** Alexandria ******************************/
+
+div .spaced{
+	margin: 20px 0px;
+}
+
+/****CSS adicional para los botones agrupados ****/
+/*https://www.w3schools.com/howto/howto_css_button_group.asp*/
+
+.btn-group button {
+  background-color: @spring-grey;
+  border: 1px solid @spring-grey;
+  color: white; /* White text */
+  padding: 10px 24px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+.btn-group .selected{
+	background-color: @alexandria-dark-brown;
+	pointer-events: none;
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
+/* Clear floats (clearfix hack) */
+.btn-group:after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Add a background color on hover */
+.btn-group button:hover {
+  background-color: @alexandria-brown;
+}
+
+/** Fin: CSS adicional para los botones agrupados**/
+div.center{
+    text-align: center;
+	padding: 15px;
+}
+
+.small-padding{
+	padding: 10px;
+}
+
+.medium-padding{
+	padding: 20px;
+}
+/** css para quitar padding a cols de bootstrap **/
+.row-no-padding {
+  [class*="col-"] {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+}
+
+img.error-illustration{
+	max-width: 100%;
+	max-height: 400px !important;
+}

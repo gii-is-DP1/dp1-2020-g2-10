@@ -2,58 +2,54 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="petclinic" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="alexandria" tagdir="/WEB-INF/tags" %>
 
-<petclinic:layout pageName="stories">
-    <jsp:attribute name="customScript">
-        <script>
-            $(function () {
-                $("#birthDate").datepicker({dateFormat: 'yy/mm/dd'});
-            });
-        </script>
-    </jsp:attribute>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<alexandria:layout pageName="stories">
     <jsp:body>
-        <h2>
+        <h1>
             <c:if test="${story['new']}">New </c:if> Story
-        </h2>
+        </h1>
+        <c:out value="username: ${story.author.user.username}"/>
         <form:form modelAttribute="story"
                     class="form-horizontal">
             <input type="hidden" name="id" value="${story.id}"/>
+            <input type="hidden" name="version" value="${story.version}"/>
+            <input type="hidden" name="authorId" value="${story.author.id}"/>
+            <fmt:formatDate value="${story.updatedDate}" type="date" pattern="yyyy/MM/dd HH:mm" var="parsedUpdatedDate"/>
+            <input type="hidden" name="updatedDate" value="${parsedUpdatedDate}"/>
+            
             <div class="form-group has-feedback">
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">Author</label>
-                    <div class="col-sm-10">
-                        <c:out value="${story.author.firstName} ${story.author.lastName}"/>
-                    </div>
-                </div>
-                <petclinic:inputField label="Title" name="title"/>
-                <petclinic:inputField label="Description" name="description"/>
-                <petclinic:inputField label="Dedication" name="dedication"/>
-<%--                 <petclinic:inputField label="Genre" name="genre"/> --%>
-<%--                 <petclinic:inputField label="StoryStatus" name="storyStatus"/> --%>
-                <form:checkbox label="Adult" path="isAdult"/>
-                <form:select path="genre">
-     				<form:options items="${genres}" />
-				</form:select>
-				<form:select path="storyStatus">
-     				<form:options items="${storyStatus}" />
-				</form:select>
+                <alexandria:inputField label="Title" name="title"/>
+                <alexandria:textareaField label="Description" name="description"/>
+                <alexandria:textareaField label="Dedication" name="dedication"/>
+                <alexandria:inputField label="Cover" name="urlCover"/>
+                <alexandria:checkboxField label="Is the story only for Adults?" name="isAdult"/>
+<%--                 <form:checkbox label="Adult" path="isAdult"/> --%>
+                <alexandria:selectEnumField options="${genres}" label="Genre" name="genre"/>
+<%--                 <form:select path="genre"> --%>
+<%--      				<form:options items="${genres}" /> --%>
+<%-- 				</form:select> --%>
+				<alexandria:selectEnumField options="${storyStatus}" label="Status" name="storyStatus"/>
                 
             </div>
+            
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <c:choose>
                         <c:when test="${story['new']}">
-                            <button class="btn btn-default" type="submit">Add Pet</button>
+                            <button class="btn btn-default" type="submit">Create</button>
                         </c:when>
                         <c:otherwise>
-                            <button class="btn btn-default" type="submit">Update Pet</button>
+                            <button class="btn btn-default" type="submit">Update</button>
                         </c:otherwise>
                     </c:choose>
+                    <button class="btn btn-default" type="reset" onclick="location.href = '/stories/list';">Cancel</button>
                 </div>
             </div>
         </form:form>
         <c:if test="${!story['new']}">
         </c:if>
     </jsp:body>
-</petclinic:layout>
+</alexandria:layout>

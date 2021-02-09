@@ -1,29 +1,35 @@
 package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.EqualsAndHashCode;
+
 @Entity
+@EqualsAndHashCode(callSuper=false)
 @Table(name = "contributions")
 public class Contribution extends BaseEntity {
 
 // Entidades
 
 @NotNull
+@Enumerated(EnumType.STRING)
 private ContributionType contributionType;
 
 // Relaciones
 
 @ManyToOne(optional=false)
-//@JoinColumn(name = "story_id")
-private Story story;
+@JoinColumn(name = "author_id")
+private Author author;
 
 @ManyToOne(optional=false)
-//@JoinColumn(name = "author_id")
-private Author author;
+@JoinColumn(name = "story_id")
+private Story story;
 
 //Getters and setters
 
@@ -47,6 +53,9 @@ public Author getAuthor() {
 	return author;
 }
 
+public void setAuthor(Author author) {
+	this.author = author;
+}
 // Método ToString
 
 @Override

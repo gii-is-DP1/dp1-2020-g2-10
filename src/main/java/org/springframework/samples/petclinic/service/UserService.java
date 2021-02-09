@@ -16,12 +16,22 @@
 package org.springframework.samples.petclinic.service;
 
 
+import java.util.Collection;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.petclinic.model.Authorities;
 import org.springframework.samples.petclinic.model.User;
 import org.springframework.samples.petclinic.repository.UserRepository;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,6 +49,48 @@ public class UserService {
 	@Autowired
 	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
+	}
+	
+	/* Devuelve el usuario logueado */
+	public User getPrincipal() {
+		User res = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if(!(auth instanceof AnonymousAuthenticationToken)) {
+			UserDetails userDetail = (UserDetails) auth.getPrincipal();
+			Optional<User> currentUser = findUser(userDetail.getUsername());
+			
+			if(currentUser.isPresent()) {
+				res = currentUser.get();
+			}
+		}
+		
+		return res;
+	}
+	
+	/* Devuelve el nombre de la autoridad del usuario logueado
+	 * y anonymous en otro caso */
+	public String getPrincipalRole() {
+		String res = "anonymous";
+		
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		
+		Optional<String> role = authentication.getAuthorities().stream()
+			     .map(r -> r.getAuthority()).findAny();
+		
+		if(role.isPresent()) {
+			res = role.get();
+		}
+		return res;
+	}
+	
+	/* Devuelve cierto cuando el usuario está logueado*/
+	public Boolean isAuthenticated() {
+		Boolean res = false;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		
+		res = !(auth instanceof AnonymousAuthenticationToken);
+		
+		return res;
 	}
 
 	@Transactional

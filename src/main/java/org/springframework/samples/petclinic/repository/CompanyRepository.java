@@ -16,15 +16,13 @@
 package org.springframework.samples.petclinic.repository;
 
 import java.util.Collection;
+import java.util.Optional;
 
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.Repository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.samples.petclinic.model.BaseEntity;
-import org.springframework.samples.petclinic.model.Company;
-import org.springframework.samples.petclinic.model.Moderator;
 import org.springframework.samples.petclinic.model.Author;
+import org.springframework.samples.petclinic.model.Company;
 import org.springframework.samples.petclinic.repository.CompanyRepository;
 
 /**
@@ -33,15 +31,15 @@ import org.springframework.samples.petclinic.repository.CompanyRepository;
  * @author Michael Isvy
  * @since 15.1.2013
  */
-public interface CompanyRepository extends Repository<Company, Integer> {
-
-
-	void save(Company editorial) throws DataAccessException;
+public interface CompanyRepository extends CrudRepository<Company, Integer> {
 
 	@Query("SELECT DISTINCT company FROM Company company WHERE company.name LIKE :name%")
 	public Collection<Company> findByName(@Param("name") String name);
+	
+	@Query("SELECT DISTINCT company FROM Company company WHERE company.user.username = :username")
+	public Optional<Company> findByUserUsername(@Param("username") int username);
 
-	@Query("SELECT company FROM Company company WHERE company.id =:id")
-	public Company findById(@Param("id") int id);
-
+	@Query("SELECT DISTINCT company FROM Company company WHERE company.user.username = :username")
+	public Optional<Company> findByUserUsername(@Param("username") String username);
+	
 }

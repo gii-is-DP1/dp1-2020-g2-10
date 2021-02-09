@@ -9,6 +9,10 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -20,10 +24,9 @@ import lombok.EqualsAndHashCode;
 	uniqueConstraints={
 		    @UniqueConstraint(columnNames = {"story_id", "index"})
 	})
-public @Data class Chapter extends BaseEntity{
+public @Data class Chapter extends BaseEntity {
 
-
-	@NotEmpty
+	@NotNull
 	@Positive
 	private Integer index;
 	
@@ -34,11 +37,12 @@ public @Data class Chapter extends BaseEntity{
 	@Column(columnDefinition = "TEXT")
 	private String body;
 	
-	@NotEmpty
+	@NotNull
 	@Column(name = "is_published")
 	private Boolean isPublished;
 	
 	@ManyToOne(optional=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	private Story story;
 	
 }
