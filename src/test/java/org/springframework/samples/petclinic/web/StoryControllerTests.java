@@ -29,6 +29,7 @@ import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.test.context.support.WithMockUser;
 //import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @WebMvcTest(controllers= {StoryController.class, AlexandriaErrorController.class, AlexandriaControllerAdvice.class},
 excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class),
@@ -196,6 +197,22 @@ class StoryControllerTests {
 				.andExpect(status().isOk())
 				.andExpect(view().name("stories/createOrUpdateStoryForm"));
 	}
+	
+	//Test de controlador positivo HU-04-E1
+	
+	
+	@WithMockUser(value = "spring")
+    @Test
+    void testDeleteDraftStory() throws Exception {
+        this.mockMvc.perform(MockMvcRequestBuilders
+        		.get("/stories/{storyId}/delete", TEST_STORY_ID))
+            .andExpect(model().attributeDoesNotExist("story"))
+            .andExpect(view().name("redirect:/stories/list"));
+    }
+	
+	//No hay caso negativo negativo al ser un borrado
+
+
 	
 //	@WithMockUser(value = "spring")
 //	@Test
