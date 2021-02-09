@@ -31,7 +31,7 @@
 <%--                 <form:select path="genre"> --%>
 <%--      				<form:options items="${genres}" /> --%>
 <%-- 				</form:select> --%>
-				<alexandria:selectEnumField options="${storyStatus}" label="Status" name="storyStatus"/>
+				<alexandria:selectEnumField options="${storyStatuses}" label="Status" name="storyStatus"/>
                 
             </div>
             

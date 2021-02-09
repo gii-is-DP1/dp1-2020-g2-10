@@ -69,6 +69,7 @@ public class StoryService {
 			if(oldStory.getStoryStatus().equals(StoryStatus.PUBLISHED)) {
 				throw new PublishedStoryUpdateExeption();
 			}
+			story.setAuthor(authorService.findAuthorById(oldStory.getAuthor().getId()));
 		}else {
 			story.setAuthor(authorService.getPrincipal());
 		}
@@ -86,7 +87,7 @@ public class StoryService {
 		if(reviewStories>=3) {
 			throw new CannotPublishException();
 		}else {
-		storyRepository.save(story);
+			storyRepository.save(story);
 		}
 	}
 	

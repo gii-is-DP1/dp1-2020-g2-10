@@ -110,20 +110,20 @@ public class StoryController {
 		Story story = storyService.findStory(storyId);
 		model.put("story", story);				
 	    model.put("genres", Arrays.asList(Genre.values()));
-//		Lo mismo con storyStatus
-		model.put("storyStatus", getAvailableStoryStatus());
+		model.put("storyStatuses", getAvailableStoryStatus());
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 	}
 	
 	@PostMapping(value = "/{storyId}/edit")
 	public String processEditCreationForm(@PathVariable int storyId, @Valid Story story, BindingResult result, ModelMap model,
 			@RequestParam(value = "version", required=false) Integer version, RedirectAttributes redirectAttributes) throws UnauthorizedStoryUpdateException{		
+
 		if (result.hasErrors()) {
 			model.put("story", story);
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
-			Story storyToUpdate = storyService.findStoryById(story.getId());
+			Story storyToUpdate = storyService.findStoryById(storyId);
 			if(storyToUpdate.getVersion()!=version) {
 				model.put("message","Concurrent modification of story! Try again!");
 				model.put("messageType","warning");
@@ -131,13 +131,17 @@ public class StoryController {
 				}
 			try { //Intentamos capturar la excepcion de la Regla de Negocio 2
 				storyService.saveStory(story);
+				
+				redirectAttributes.addFlashAttribute("message", String.format("The story with storyId=%d has been successfully updated by %s", storyId, storyToUpdate.getAuthor().getUser().getUsername()));
+				redirectAttributes.addFlashAttribute("messageType", "success");
 			} catch (CannotPublishException ex) {
 				result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
 				return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 			} catch (PublishedStoryUpdateExeption e) {
 				redirectAttributes.addFlashAttribute("message", String.format("The story with storyId=%d is PUBLISHED, cannot and cannot be updated.", storyId, storyToUpdate.getAuthor().getUser().getUsername()));
 				redirectAttributes.addFlashAttribute("messageType", "danger");
-			}return "redirect:/stories/list";
+			}
+			return "redirect:/stories/list";
 
 		}
 	}
