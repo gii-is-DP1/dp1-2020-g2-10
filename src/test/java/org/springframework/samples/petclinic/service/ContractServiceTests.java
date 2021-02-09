@@ -53,6 +53,42 @@ class ContractServiceTests {
 	protected AuthorService authorService;
 
 	//Tests HU11
+		@Test
+		@Transactional
+		@WithMockUser(value = "author1", authorities = {
+		        "author"
+		    })
+		void shouldFindContractsAuthor() {
+			
+			Collection<Contract> contracts = this.contractService.findContractsByAuthorId();
+			assertThat(contracts.size()).isEqualTo(4);
+			//FECHAS
+			//OFERTA
+			//Usando el tipo Date fallaba puesto que las fechas se inicializan en la BD como TimeStamp
+			//Date offerDate = new Date(120, 7, 20, 16, 30, 0);
+			Timestamp offerDate = new Timestamp(120, 7, 20, 16, 30, 0, 0); 
+			//RESPUESTA
+			Timestamp answerDate = new Timestamp(120, 7, 25, 18, 27, 0, 0); 
+			//INICIO
+			Timestamp startDate = new Timestamp(120, 8, 1, 0, 0, 0, 0); 
+			//FIN
+			Timestamp endDate = new Timestamp(120, 8, 30, 23, 59, 0, 0); 
+
+			Contract contract = EntityUtils.getById(contracts, Contract.class, 1);
+			assertThat(contract.getHeader()).isEqualTo("Mecenazgo EXCLUSIVO SEPTIEMBRE 2020");
+			assertThat(contract.getBody()).isEqualTo("Por el presente contrato se estipula que Bookista ofrece"
+					+ " un mecenazgo a Marco Medina Sandoval. Marco Medina se compromete a"
+					+ " NO ACEPTAR PATROCINIOS de otras compañías durante el mes de SEPTIEMBRE 2020.");
+			assertThat(contract.getOfferDate()).isEqualTo(offerDate);
+			assertThat(contract.getStartDate()).isEqualTo(startDate);
+			assertThat(contract.getEndDate()).isEqualTo(endDate);
+			assertThat(contract.getAnswerDate()).isEqualTo(answerDate);
+			assertThat(contract.getRemuneration()).isEqualTo(12000.5);
+			assertThat(contract.getIsExclusive()).isEqualTo(true);
+			assertThat(contract.getContractStatus()).isEqualTo(ContractStatus.ACCEPTED);
+		}
+		
+	//Tests HU11
 	@Test
 	@Transactional
 	@WithMockUser(value = "company1", authorities = {
