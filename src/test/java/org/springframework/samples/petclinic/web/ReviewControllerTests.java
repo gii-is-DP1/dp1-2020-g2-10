@@ -107,7 +107,7 @@ class ReviewControllerTests {
 							.param("publicationDate", "2020/10/10 10:10")
 							.param("story.id", "1"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/stories/{storyId}"));
+				.andExpect(view().name("redirect:/stories/{storyId}/show"));
 	}
 
 	@WithMockUser(value = "spring")

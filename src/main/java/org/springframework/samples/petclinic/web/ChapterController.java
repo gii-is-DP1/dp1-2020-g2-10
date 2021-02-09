@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.samples.petclinic.model.Chapter;
 import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
@@ -118,7 +119,12 @@ public class ChapterController {
 		else { 
 			
 			chapter.setStory(story);
+			try {
 			this.chapterService.saveChapter(chapter);
+			} catch(DataIntegrityViolationException ex) {
+				result.rejectValue("index","coincide" ,"You must define unique index");
+				return  VISTA_EDICION_chapter;
+			}
 			modelMap.addAttribute("messageSuccess", "¡El capítulo se ha añadido con éxito!");
 			return "redirect:/stories/{storyId}/chapters";
 		
@@ -170,8 +176,13 @@ public class ChapterController {
 				else {
 					chapter.setId(chapterId);
 					chapter.setStory(story);
+					try {
+						this.chapterService.saveChapter(chapter);
+						} catch(DataIntegrityViolationException ex) {
+							result.rejectValue("index","coincide" ,"You must define unique index");
+							return  VISTA_EDICION_chapter;
+						}
 					
-					this.chapterService.saveChapter(chapter);
 					return "redirect:/stories/{storyId}/chapters/{chapterId}";
 				}
 			}
