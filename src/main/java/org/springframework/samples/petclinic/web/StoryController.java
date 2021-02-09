@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,14 @@ import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.StoryService;
 import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
+import org.springframework.samples.petclinic.service.exceptions.story.PublishedStoryUpdateExeption;
+import org.springframework.samples.petclinic.service.exceptions.story.UnauthorizedStoryUpdateException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,20 +81,14 @@ public class StoryController {
 
 		Story story = storyService.createStory();
 		model.put("story", story);		
-		
-//		Aqui la idea es meterle al modelo los generos.
-//		Tambien se puede hacer como dijiste, poniendo los generos en el jsp
-//		realmente no veo el problema, lo malo es que habria que escribirlos otra vez y que habria que indicar
-//		el valor enumerado al que se refiere cada opcion.
-//		
+
 	    model.put("genres", Arrays.asList(Genre.values()));
-//		Lo mismo con storyStatus
 		model.put("storyStatus", getAvailableStoryStatus());
 		return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 	}
 	
 	@PostMapping(value = "/new")
-	public String processCreationForm(Author author, @Valid Story story, BindingResult result, ModelMap model) throws CannotPublishException {		
+	public String processCreationForm(Author author, @Valid Story story, BindingResult result, ModelMap model, RedirectAttributes redirectAttributes){		
 		if (result.hasErrors()) {
 			model.put("story", story);
 			System.out.println(result);
@@ -100,6 +101,12 @@ public class StoryController {
 			catch (CannotPublishException ex){
 				result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
 				return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+			} catch (UnauthorizedStoryUpdateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (PublishedStoryUpdateExeption e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}	return "redirect:/stories/list";
 		}
 	}
@@ -117,10 +124,9 @@ public class StoryController {
 	
 	@PostMapping(value = "/{storyId}/edit")
 	public String processEditCreationForm(@PathVariable int storyId, @Valid Story story, BindingResult result, ModelMap model,
-			@RequestParam(value = "version", required=false) Integer version) throws CannotPublishException {		
+			@RequestParam(value = "version", required=false) Integer version, RedirectAttributes redirectAttributes) throws UnauthorizedStoryUpdateException{		
 		if (result.hasErrors()) {
 			model.put("story", story);
-			System.out.println(result);
 			return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
 		}
 		else {
@@ -135,6 +141,9 @@ public class StoryController {
 			} catch (CannotPublishException ex) {
 				result.rejectValue("storyStatus","banned" ,"You have 3 stories in review");
 				return VIEWS_STORIES_CREATE_OR_UPDATE_FORM;
+			} catch (PublishedStoryUpdateExeption e) {
+				redirectAttributes.addFlashAttribute("message", String.format("The story with storyId=%d is PUBLISHED, cannot and cannot be updated.", storyId, storyToUpdate.getAuthor().getUser().getUsername()));
+				redirectAttributes.addFlashAttribute("messageType", "danger");
 			}return "redirect:/stories/list";
 
 		}
@@ -154,6 +163,18 @@ public class StoryController {
 		res.add(StoryStatus.PUBLISHED);
 		
 		return res;
+	}
+	
+	@ExceptionHandler(UnauthorizedStoryUpdateException.class)
+	public String accessDeniedExceptionHandler(HttpServletRequest request,  Exception ex, Model model) {
+        request.setAttribute("javax.servlet.error.request_uri", request.getPathInfo());
+        request.setAttribute("javax.servlet.error.status_code", 403);
+        request.setAttribute("exeption", ex);
+        
+        
+        model.addAttribute("messageType", "danger");
+        model.addAttribute("message", ex.getMessage());
+        return "errors/error403";
 	}
 	
 	

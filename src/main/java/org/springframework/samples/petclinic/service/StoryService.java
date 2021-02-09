@@ -5,7 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
 import java.util.Date;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.petclinic.model.Author;
@@ -13,6 +12,8 @@ import org.springframework.samples.petclinic.model.Story;
 import org.springframework.samples.petclinic.model.StoryStatus;
 import org.springframework.samples.petclinic.repository.StoryRepository;
 import org.springframework.samples.petclinic.service.exceptions.CannotPublishException;
+import org.springframework.samples.petclinic.service.exceptions.story.PublishedStoryUpdateExeption;
+import org.springframework.samples.petclinic.service.exceptions.story.UnauthorizedStoryUpdateException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,6 +41,7 @@ public class StoryService {
 	}
 
 	@Transactional(readOnly = true)	
+	// DRAFT stories should only be shown to the corresponding author
 	public Collection<Story> findStories() throws DataAccessException {
 		return storyRepository.findStory(StoryStatus.PUBLISHED, StoryStatus.DRAFT);
 	}	
@@ -52,16 +54,24 @@ public class StoryService {
 		return this.storyRepository.countReviewStories(review, authorId);
 	}
 	
-	@Transactional(rollbackFor = CannotPublishException.class)
-	public void saveStory(Story story) throws CannotPublishException{
+	@Transactional(rollbackFor = {CannotPublishException.class, UnauthorizedStoryUpdateException.class})
+	public void saveStory(Story story) throws CannotPublishException, UnauthorizedStoryUpdateException, PublishedStoryUpdateExeption{
 		Story oldStory = null;
 		
 		if(story.getId()!=null) {
 			oldStory = findStoryById(story.getId());
+			if(oldStory.getAuthor().getId() != authorService.getPrincipal().getId()) {
+				throw new UnauthorizedStoryUpdateException(
+						String.format("The story with storyId=%d can only by edited by %s.", 
+								oldStory.getId(), oldStory.getAuthor().getUser().getUsername()));
+			}
+			if(oldStory.getStoryStatus().equals(StoryStatus.PUBLISHED)) {
+				throw new PublishedStoryUpdateExeption();
+			}
+		}else {
+			story.setAuthor(authorService.getPrincipal());
 		}
-		
-		story.setAuthor(authorService.getPrincipal());
-		story.setUpdatedDate(new Date());
+		story.setUpdatedDate(new Date());	
 		
 		if(story.getStoryStatus().equals(StoryStatus.PUBLISHED) 
 				&& (oldStory == null || oldStory.getStoryStatus().equals(StoryStatus.DRAFT)) ) {
@@ -75,7 +85,7 @@ public class StoryService {
 		if(reviewStories>=3) {
 			throw new CannotPublishException();
 		}else {
-		storyRepository.save(story);		
+		storyRepository.save(story);
 		}
 	}
 	

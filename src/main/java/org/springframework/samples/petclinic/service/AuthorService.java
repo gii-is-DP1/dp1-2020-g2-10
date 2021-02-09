@@ -63,6 +63,11 @@ public class AuthorService {
 		return authorRepository.findByLastName(lastName);
 	}
 	
+	@Transactional(readOnly = true)
+	public Optional<Author> findByUserUsername(String username){
+		return authorRepository.findByUserUsername(username);
+	}
+	
 	/* Devuelve el actor autenticado y null en otro caso*/
 	@Transactional(readOnly = true)
 	public Author getPrincipal(){

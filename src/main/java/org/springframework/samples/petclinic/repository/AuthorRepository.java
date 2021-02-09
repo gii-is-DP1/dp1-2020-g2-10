@@ -42,8 +42,8 @@ public interface AuthorRepository extends Repository<Author, Integer> {
 	@Query("SELECT DISTINCT author FROM Author author WHERE author.lastName LIKE :lastName%")
 	public Collection<Author> findByLastName(@Param("lastName") String lastName);
 
-	@Query("SELECT DISTINCT author FROM Author author WHERE author.user.username = :username")
-	public Optional<Author> findByUserUsername(@Param("username") String username);
+	//@Query("SELECT DISTINCT author FROM Author author WHERE author.user.username = :username")
+	public Optional<Author> findByUserUsername(String username);
 	
 	@Query("SELECT author FROM Author author WHERE author.id =:id")
 	public Author findById(@Param("id") int id);

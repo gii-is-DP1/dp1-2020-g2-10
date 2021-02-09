@@ -3,12 +3,17 @@ package org.springframework.samples.petclinic.configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController;
 import org.springframework.boot.web.servlet.error.ErrorController;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.http.ResponseEntity;
 import org.springframework.samples.petclinic.web.AlexandriaErrorController;
 import org.springframework.validation.BindException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
+import java.nio.file.AccessDeniedException;
+
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -17,11 +22,13 @@ import javax.servlet.http.HttpServletRequest;
  * It's not ideal, but at least we can use classic MockMvc tests for testing error response + document it.
  */
 @ControllerAdvice
+@Order(value = Ordered.LOWEST_PRECEDENCE)
 public class ExceptionHandlerConfiguration 
 {
 	@Autowired
 	private AlexandriaErrorController alexandriaErrorController;
     // add any exceptions/validations/binding problems
+
 
    @ExceptionHandler(Exception.class)
    public String defaultErrorHandler(HttpServletRequest request,  Exception ex)  {
