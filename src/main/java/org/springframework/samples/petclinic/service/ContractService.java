@@ -117,6 +117,15 @@ public class ContractService {
 		Collection<Contract> contratos = contractRepository.findContractsByCompanyId(principalCompany.getId());
 		return contratos;
 	}	
+	
+	
+		@Transactional(readOnly = true)	//LIST
+		public Collection<Contract> findContractsByAuthorId() throws DataAccessException {
+			//Buscamos los contratos segun la id de la company logeada
+			Author principalAuthor = this.authorService.getPrincipal();
+			Collection<Contract> contratos = contractRepository.findContractsByAuthorId(principalAuthor.getId());
+			return contratos;
+		}	
 
 	public Contract findContractById(Integer contractId) throws DataAccessException {
 		System.out.println("contractService.findContractById(): " + contractId);
