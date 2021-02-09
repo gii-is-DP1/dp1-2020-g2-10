@@ -16,6 +16,7 @@ import org.springframework.samples.petclinic.model.ContractStatus;
 import org.springframework.samples.petclinic.service.AuthorService;
 import org.springframework.samples.petclinic.service.CompanyService;
 import org.springframework.samples.petclinic.service.ContractService;
+import org.springframework.samples.petclinic.service.exceptions.contract.ExclusivityContractConflict;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/contracts")
@@ -130,12 +132,9 @@ public class ContractController {
 				model.addAttribute("endDateIsBeforeStartDate", false);
 			}
 			
-			System.out.println(result);
 			return VIEWS_CONTRACT_CREATE_FORM;
 		}
 		else {
-			System.out.println(contract);
-			System.out.println("=================ID del Autor======================:" +contract.getAuthor().getId());
 			contract.setCompany(companyService.getPrincipal());
 			
 			try {
@@ -156,16 +155,27 @@ public class ContractController {
 	
 	// H10: Aceptar o rechazar contratos recibidos (Autor)
 	@GetMapping(value = { "/{contractId}/accept" })
-	public String acceptContract(@PathVariable("contractId") int contractId, ModelMap modelMap) throws DataAccessException {
+	public String acceptContract(@PathVariable("contractId") int contractId, ModelMap modelMap,  RedirectAttributes redirectAttributes) throws DataAccessException {
 		
-		contractService.answerContract(contractId, ContractStatus.ACCEPTED);
+		try {
+			contractService.answerContract(contractId, ContractStatus.ACCEPTED);
+		} catch (ExclusivityContractConflict e) {
+		redirectAttributes.addFlashAttribute("message", e.getMessage());
+		redirectAttributes.addFlashAttribute("messageType", "danger");
+		return "redirect:/contracts/list";
+		}
+		redirectAttributes.addFlashAttribute("message", String.format("The Contract "
+				+ "contractId=%d has been accepted", contractId));
+		redirectAttributes.addFlashAttribute("messageType", "success");
 		return "redirect:/contracts/list";
 	}
 	
 	@GetMapping(value = { "/{contractId}/reject" })
-	public String rejectContract(@PathVariable("contractId") int contractId, ModelMap modelMap) throws DataAccessException  {
-		
-		contractService.answerContract(contractId, ContractStatus.REJECTED);
+	public String rejectContract(@PathVariable("contractId") int contractId, ModelMap modelMap, RedirectAttributes redirectAttributes) throws DataAccessException, ExclusivityContractConflict  {
+		redirectAttributes.addFlashAttribute("message", String.format("The Contract "
+				+ "contractId=%d has been rejected", contractId));
+		redirectAttributes.addFlashAttribute("messageType", "success");
+			contractService.answerContract(contractId, ContractStatus.REJECTED);
 		return "redirect:/contracts/list";
 	}
 	
@@ -180,13 +190,7 @@ public class ContractController {
 	
 	@GetMapping(value = { "/{contractId}/show" })
 	public String showContract(@PathVariable("contractId") int contractId, Map<String, Object> model) {
-		System.out.println("===================showContract===================");
-		System.out.println("======================================");
-		System.out.println("======================================");
-		System.out.println("======================================");
-		System.out.println("contractId: " + contractId);
 		Contract contract = contractService.findContractById(contractId);
-		System.out.println(contract);
 		model.put("contract", contract);
 		return VIEW_SHOW_CONTRACTS;
 	}

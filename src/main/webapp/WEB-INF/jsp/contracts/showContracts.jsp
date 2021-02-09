@@ -23,8 +23,6 @@
 				<th style="width: 150px;">End Date</th>
 				<th style="width: 150px;">Exclusive</th>
 				<th style="width: 150px;">Contract Status</th>
-				
-
 			</tr>
 		</thead>
 		<tbody>

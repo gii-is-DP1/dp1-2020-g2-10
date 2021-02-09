@@ -26,7 +26,7 @@ public interface ContractRepository extends CrudRepository<Contract, Integer>{
 	 * - (Opcional) date: Se devolveran contratos vigentes en dicha fecha
 	 * - (Opcional) isExclusive: Se devuelven los contratos exclusivos o no, dependiendo del parámetro
 	 * */
-	@Query("SELECT DISTINCT contract FROM Contract contract WHERE contract.contractStatus LIKE 'ACCEPTED' AND contract.author.id = :authorId AND (:queryStartDate is null OR :queryStartDate BETWEEN contract.startDate AND contract.endDate) AND (:queryEndDate is null OR :queryEndDate BETWEEN contract.startDate AND contract.endDate) AND (:isExclusive is null OR contract.isExclusive = :isExclusive)")
+	@Query("SELECT DISTINCT contract FROM Contract contract WHERE (contract.contractStatus = 'ACCEPTED') AND (contract.author.id = :authorId) AND ((:queryStartDate is null OR :queryStartDate BETWEEN contract.startDate AND contract.endDate) OR (:queryEndDate is null OR :queryEndDate BETWEEN contract.startDate AND contract.endDate)) AND (:isExclusive is null OR contract.isExclusive = :isExclusive)")
 	public Collection<Contract> findAcceptedByAuthorAndDateAndExclusivity(@Param("authorId") int authorId, @Param("queryStartDate") Date queryStartDate, @Param("queryEndDate") Date queryEndDate,
 			@Param("isExclusive") Boolean isExclusive);
 
