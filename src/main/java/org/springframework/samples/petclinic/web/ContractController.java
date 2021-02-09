@@ -135,11 +135,19 @@ public class ContractController {
 		}
 		else {
 			System.out.println(contract);
-			contract.setAuthor(authorService.findAuthorById(contract.getAuthor().getId()));
 			System.out.println("=================ID del Autor======================:" +contract.getAuthor().getId());
 			contract.setCompany(companyService.getPrincipal());
-			contractService.saveContract(contract);
-		
+			
+			try {
+				contract.setAuthor(authorService.findAuthorById(contract.getAuthor().getId()));
+				contractService.saveContract(contract);
+
+			}catch (DataAccessException ex) {
+				result.rejectValue("author.id","notExist" ,"You have to put an author that exists");
+				return VIEWS_CONTRACT_CREATE_FORM;
+			}
+			
+	
 			model.addAttribute("messageSuccess", "¡El contrato se ha enviado correctamente!");
 			return "redirect:/contracts/list";
 
