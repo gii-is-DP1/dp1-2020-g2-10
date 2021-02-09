@@ -107,31 +107,6 @@ class ReportServiceTests {
 
 		
 	}
-	
-		
-		
-		
-		// H13-E1 - Añadir reporte vacío.
-		
-		
-	@Test
-	@Transactional
-	public void shouldInsertReportEmpty()throws DataAccessException, ReportLimitException {
-		
-		Chapter c = chapterService.findChapterById(1);
-		
-		Report report = new Report();
-		
-	
-		Integer storyId = 1;
-		when(reportRepository.save(report)).thenReturn(report);
-		this.reportService.saveReport(report, storyId);
-		assertThat(report.getId()).isNull();
-		assertThat(report.getReportType()).isNull();
-		verify(reportRepository).save(report);					
-					
-		
-	}
 			
 
 			

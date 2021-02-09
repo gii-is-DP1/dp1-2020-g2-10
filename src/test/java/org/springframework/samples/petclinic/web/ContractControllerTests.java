@@ -130,9 +130,9 @@ public class ContractControllerTests {
 		given(this.contractService.findContractsByCompanyId()).willReturn(contratosMismaCompany);
 		given(this.contractService.findContractById(TEST_CONTRACT_ID)).willReturn(contrato1);
 		given(this.companyService.findCompanyById(TEST_COMPANY_ID)).willReturn(opCom);
-		given(this.companyService.getPrincipal()).willReturn(new Company());
+		given(this.companyService.getPrincipal()).willReturn(comp);
 		given(this.authorService.findAuthorById(TEST_AUTHOR_ID)).willReturn(autor1);
-		given(this.contractService.createContract()).willReturn(new Contract());
+		given(this.contractService.createContract()).willReturn(contrato1);
 
 
 	}

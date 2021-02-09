@@ -31,7 +31,7 @@
 	 		 <spring:url value="/stories/{storyId}/reviews/new" var="reviewStoryUrl">
              	<spring:param name="storyId" value="${story.id}"/>
              </spring:url>
-             <a href="${fn:escapeXml(reviewStoryUrl)}">  Review story</a>
+             <a href="${fn:escapeXml(reviewStoryUrl)}" class="btn btn-default">Review story</a>
              <!--
              <button onclick="${fn:escapeXml(reviewStoryUrl)}">Review story</button>
              -->

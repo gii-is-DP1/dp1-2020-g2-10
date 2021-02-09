@@ -1,44 +1,32 @@
-
-
-
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ attribute name="name" required="true" rtexprvalue="true"
-              description="Name of corresponding property in bean object" %>
+	description="Name of corresponding property in bean object"%>
 <%@ attribute name="label" required="true" rtexprvalue="true"
-              description="Label appears in red color if input is considered as invalid after submission" %>
+	description="Label appears in red color if input is considered as invalid after submission"%>
 
-
-
-<div class="container d-flex justify-content-center mt-100">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-body text-center"> <span class="myratings"></span>
-                    <h4 class="mt-1">Rate us</h4>
-                    <fieldset class="rating"> 
-                    	<input type="radio" id="star5" name="rating" value="5" />
-                    		<label class="full" for="star5" title="Awesome - 5 stars"></label> 
-                    	<input type="radio" id="star4half" name="rating" value="4.5" />
-                    		<label class="half" for="star4half" title="Pretty good - 4.5 stars"></label>
-                    	<input type="radio" id="star4" name="rating" value="4" />
-                    		<label class="full" for="star4" title="Pretty good - 4 stars"></label> 
-                    	<input type="radio" id="star3half" name="rating" value="3.5" />
-                    		<label class="half" for="star3half" title="Meh - 3.5 stars"></label> 
-                    	<input type="radio" id="star3" name="rating" value="3" />
-                    		<label class="full" for="star3" title="Meh - 3 stars"></label> 
-                    	<input type="radio" id="star2half" name="rating" value="2.5" />
-                    		<label class="half" for="star2half" title="Kinda bad - 2.5 stars"></label> 
-                    	<input type="radio" id="star2" name="rating" value="2" />
-                    		<label class="full" for="star2" title="Kinda bad - 2 stars"></label> 
-                    	<input type="radio" id="star1half" name="rating" value="1.5" />
-                    		<label class="half" for="star1half" title="Meh - 1.5 stars"></label> 
-                    	<input type="radio" id="star1" name="rating" value="1" />
-                    		<label class="full" for="star1" title="Sucks big time - 1 star"></label> 
-                    	<input type="radio" id="starhalf" name="rating" value="0.5" />
-                    		<label class="half" for="starhalf" title="Sucks big time - 0.5 stars"></label> 
-                    	<input type="radio" class="reset-option" name="rating" value="reset" /> 
-                    	</fieldset>
-                </div>
-            </div>
-        </div>
+ 
+<spring:bind path="${name}">
+<c:set var="cssGroup" value="form-group ${status.error ? 'has-error' : '' }"/>
+    <c:set var="valid" value="${not status.error and not empty status.actualValue}"/>
+     <div class="${cssGroup}">
+	<label class="col-sm-2 control-label">${label}</label>
+		<div class="stars col-sm-2">
+				<form:radiobutton path="${name}" class="star star-5" id="star-5" name="star" value="5" /> <label class="star star-5" for="star-5"></label> 
+				<form:radiobutton path="${name}" class="star star-4" id="star-4" name="star" value="4" /> <label class="star star-4" for="star-4"></label> 
+				<form:radiobutton path="${name}" class="star star-3" id="star-3" name="star" value="3" /> <label class="star star-3" for="star-3"></label> 
+				<form:radiobutton path="${name}" class="star star-2" id="star-2" name="star" value="2" /> <label class="star star-2" for="star-2"></label> 
+				<form:radiobutton path="${name}" class="star star-1" id="star-1" name="star" value="1" /> <label class="star star-1" for="star-1"></label>
+		<c:if test="${valid}">
+                <span class="glyphicon glyphicon-ok form-control-feedback" aria-hidden="true"></span>
+        </c:if>
+        <c:if test="${status.error}">
+                <span class="glyphicon glyphicon-remove form-control-feedback" aria-hidden="true"></span>
+                <span class="help-inline">${status.errorMessage}</span>
+        </c:if>
+		</div>
+	<div class="col-sm-8">
     </div>
-</div>
+	</div>
+</spring:bind>
